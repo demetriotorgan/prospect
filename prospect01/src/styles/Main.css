@@ -1,0 +1,25 @@
+.main-dashboard{
+    margin-left: 50px;
+    padding: 20px;
+    margin-top: 20px;
+    padding-right: 30px;
+    
+}
+
+.container{
+    border: 1px solid var(--line-clr);
+    border-radius: 1em;
+    margin-bottom: 20px;
+    padding: min(3em, 15%);
+    h2, p {margin-top: 1em;}
+}
+
+@media(max-width: 768px){
+    .container{
+    border: 1px solid var(--line-clr);
+    border-radius: 1em;
+    margin-bottom: 20px;
+    padding: min(1em, 5%);
+    h2, p {margin-top: 1em;}
+}
+}

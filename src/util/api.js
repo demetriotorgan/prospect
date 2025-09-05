@@ -1,7 +1,7 @@
 import axios from 'axios'
 
 const api = axios.create({
-    baseURL: 'http://localhost:5000',
+    baseURL: 'https://api-prospect01.vercel.app',
 });
 
 // Adiciona o token em todas as requisições

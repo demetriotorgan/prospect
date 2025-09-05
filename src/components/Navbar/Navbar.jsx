@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { IconCidade, IconCidades, IconDashboard, IconEmpresas, IconEstado, IconNichos, IconProspec, IconSair, IconToggle } from '../../util/Icones'
 import { useAuth } from '../../context/authContext';
 import { Link, useNavigate } from 'react-router';
@@ -12,7 +12,7 @@ const Navbar = () => {
 
 
     const handleToggle = ()=>{
-        setIsClosed(!isClosed);
+        setIsClosed((prev) =>!prev);
     }
 
     const handleSair = ()=>{
@@ -21,6 +21,29 @@ const Navbar = () => {
             navigate('/');
          }
     };
+
+    useEffect(()=>{
+    const handleClickOutside = (event) => {
+    const sidebar = document.getElementById('sidebar');
+    const toggleBtn = document.getElementById('toggle-btn');
+
+    // se o menu está aberto e o clique foi fora do sidebar e do botão de toggle → fecha
+    if (
+      isClosed &&
+      sidebar &&
+      !sidebar.contains(event.target) &&
+      toggleBtn &&
+      !toggleBtn.contains(event.target)
+    ) {
+      setIsClosed(false);
+    }
+  };
+
+  document.addEventListener('click', handleClickOutside);
+  return () => {
+    document.removeEventListener('click', handleClickOutside);
+  };      
+},[isClosed]);  
 
   return (
     <>

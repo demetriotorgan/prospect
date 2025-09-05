@@ -32,12 +32,13 @@
     }
 }
 
-#sidebar ul li.active a{
+#sidebar ul li.active > a{
     color: var(--accent-clr);
-    svg{
+}
+#sidebar ul li.active > a svg{
         fill: var(--accent-clr);
     }
-}
+
 
 #sidebar a, #sidebar .dropdown-btn, #sidebar .logo{
     border-radius: .5em;
@@ -78,6 +79,23 @@
   z-index: 1100; /* acima da sidebar */
 }
 
+/* ----Active no Desktop----- */
+@media (min-width: 769px) {
+  #sidebar ul li:hover > a {
+    color: var(--accent-clr);
+  }
+  #sidebar ul li:hover > a svg {
+    fill: var(--accent-clr);
+  }
+  .link-sair:hover {
+    color: var(--accent-clr);
+  }
+  #sidebar .link-sair:hover svg {
+    fill: var(--accent-clr);
+  }
+
+}
+
 
 
 /* ----------------- */
@@ -115,3 +133,22 @@
     z-index: 1100;
   }
 }
+
+
+/* -------------- */
+.link-sair {
+  border-radius: .5em;
+  padding: .85em;
+  text-decoration: none;
+  color: var(--text-clr);
+  display: flex;
+  align-items: center;
+  gap: 1em;
+  cursor: pointer;
+}
+
+.link-sair svg {
+  flex-shrink: 0;
+  fill: var(--text-clr);
+}
+

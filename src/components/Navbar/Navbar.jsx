@@ -1,12 +1,25 @@
 import React, { useState } from 'react'
-import { IconCidades, IconDashboard, IconEmpresas, IconNichos, IconToggle } from '../../util/Icones'
+import { IconCidade, IconCidades, IconDashboard, IconEmpresas, IconEstado, IconNichos, IconProspec, IconSair, IconToggle } from '../../util/Icones'
+import { useAuth } from '../../context/authContext';
+import { Link, useNavigate } from 'react-router';
 
 const Navbar = () => {
         const [isClosed, setIsClosed] = useState(false);
 
+        const {logOut} = useAuth();
+        const navigate = useNavigate();
+
+
     const handleToggle = ()=>{
         setIsClosed(!isClosed);
     }
+
+    const handleSair = ()=>{
+         if (window.confirm("Tem certeza que deseja sair?")) {
+            logOut();
+            navigate('/');
+         }
+    };
 
   return (
     <>
@@ -24,34 +37,46 @@ const Navbar = () => {
                 </button>
             </li>
             <li className="active">
-                <a href="index.html">
+                <Link to='/dashboard'>
                     <IconDashboard/>
                     <span>Dashboard</span>
-                </a>
+                </Link>
             </li>
             <li>
-                <a href="dashboard.html">
-                    <IconNichos/>
+                <Link to='/tela-prospec'>
+                    <IconProspec/>
                     <span>Prospectar</span>
-                </a>
+                </Link>
             </li>          
             <li>
-                <a href="dashboard.html">
+                <Link to='/nichos'>
                     <IconNichos/>
                     <span>Nichos</span>
-                </a>
+                </Link>
             </li>                      
             <li>
-                <a href="Estados.html">
-                    <IconCidades/>
+                <Link to='/cidades'>
+                    <IconCidade/>
                     <span>Cidades</span>
-                </a>
+                </Link>
             </li>
             <li>
-                <a href="profile.html">
+                <Link to='/estados'>
+                    <IconEstado/>
+                    <span>Estados</span>
+                </Link>
+            </li>
+            <li>
+                <Link to='/empresas'>
                     <IconEmpresas/>
                     <span>Empresas</span>
-                </a>
+                </Link>
+            </li>
+            <li>                   
+                <span onClick={handleSair} className='link-sair'>
+                <IconSair />
+                <span>Sair</span>    
+                </span>                
             </li>
         </ul>
     </nav>

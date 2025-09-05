@@ -2,6 +2,7 @@ import React, { useState } from 'react'
 import { IconCidade, IconCidades, IconDashboard, IconEmpresas, IconEstado, IconNichos, IconProspec, IconSair, IconToggle } from '../../util/Icones'
 import { useAuth } from '../../context/authContext';
 import { Link, useNavigate } from 'react-router';
+import logo from '../../assets/logo.png'
 
 const Navbar = () => {
         const [isClosed, setIsClosed] = useState(false);
@@ -27,7 +28,7 @@ const Navbar = () => {
     <nav id="sidebar" className={isClosed ? "open" : "close"}>
         <ul>
             <li>
-                <span className="logo">Torgan Soluções</span>
+                <span className="logo"><img src={logo} alt="" /></span>
                 <button 
                 id="toggle-btn"
                 onClick={handleToggle}

@@ -3,13 +3,16 @@ import '../styles/TelaLogin.css'
 import { IconErro } from '../util/Icones';
 import loading from '../assets/loading.gif'
 import useLogin from '../hooks/useLogin';
-import { Link } from 'react-router';
+import { useNavigate } from 'react-router';
+import logo from '../assets/logo.png'
+
 
 const TelaLogin = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
 
   const {handleLogin, erro, carregando, setErro} = useLogin();
+  const navigate = useNavigate();
   
   const handleSubmit  = async(e)=>{
     e.preventDefault();
@@ -20,10 +23,17 @@ const TelaLogin = () => {
     setErro('');    
   }
 
+  const handleCadastrar = ()=>{
+    navigate('/cadastrar-usuario');
+  }
+
   return (    
   <div className="tela-login">
   <form onSubmit={handleSubmit}>
+    <div className='login-topo'>
+    <img src={logo} />
     <h2>Login</h2>
+    </div>
     <div className="campo">
       <label htmlFor="usuario">Usuário</label>
       <input 
@@ -56,7 +66,7 @@ const TelaLogin = () => {
 
     <div className="botao-enviar">
         <button type="submit">{carregando ? <img src={loading} alt="" className='imagem-loading' /> : 'Entrar'}</button>
-        <p><Link to ='/cadastrar-usuario'>Novo usuário</Link></p>
+        <button type='button' onClick={handleCadastrar} className='button-cadastro'>Cadastrar Usuário</button>        
     </div>
   </form>
   </div>

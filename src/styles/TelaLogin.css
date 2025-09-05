@@ -83,14 +83,29 @@ button[type="submit"]:hover {
   vertical-align: middle;
 }
 
-.botao-enviar a{
-  text-decoration: none;
-  color: var(--secondary-text-clr);    
-  cursor: pointer;
+
+.button-cadastro{
+  width: 100%;
+  margin-top: 15px;
+  padding: 5px;
+  border-radius: 10px;  
+  background-color: transparent;
+  border: 1px solid var(--secondary-text-clr);
+  color: var(--text-clr);
+  cursor: pointer;  
 }
 
-.botao-enviar p{
-  margin-top: 20px;
-  border: 1px solid var(--secondary-text-clr);
-  border-radius: 10px;  
+.button-cadastro:hover {
+  border-color: #666; /* ajuste a cor da borda no hover aqui */
+  background-color: transparent; /* mantém o fundo transparente */
+}
+
+.login-topo{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.login-topo img{  
+  width: 30%;
 }

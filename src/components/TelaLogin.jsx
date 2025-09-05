@@ -1,12 +1,9 @@
 import React, { useState } from 'react'
 import '../styles/TelaLogin.css'
-import { useAuth } from '../context/authContext';
-import { useNavigate } from 'react-router';
-import axios from 'axios';
-import api from '../util/api'
 import { IconErro } from '../util/Icones';
 import loading from '../assets/loading.gif'
 import useLogin from '../hooks/useLogin';
+import { Link } from 'react-router';
 
 const TelaLogin = () => {
   const [email, setEmail] = useState('');
@@ -59,6 +56,7 @@ const TelaLogin = () => {
 
     <div className="botao-enviar">
         <button type="submit">{carregando ? <img src={loading} alt="" className='imagem-loading' /> : 'Entrar'}</button>
+        <p><Link to ='/cadastrar-usuario'>Novo usuário</Link></p>
     </div>
   </form>
   </div>

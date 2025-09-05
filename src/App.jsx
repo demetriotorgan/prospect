@@ -10,6 +10,7 @@ import Estados from './components/Estados'
 import Nichos from './components/Nichos'
 import TelaProspec from './components/TelaProspec'
 import ProtectedLayout from './components/ProtectedLayout'
+import CadastrarUsuario from './components/CadastrarUsuario'
 
 function App() {
 
@@ -19,6 +20,7 @@ function App() {
         <BrowserRouter>
           <Routes>
             <Route path='/' element={<TelaLogin/>}/>
+            <Route path='/cadastrar-usuario' element={<CadastrarUsuario />}/>
             {/* Rotas Protegidas */}
             <Route  
               element={

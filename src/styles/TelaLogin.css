@@ -62,7 +62,7 @@ button[type="submit"]:hover {
 
 .botao-enviar {
   text-align: center;
-  margin-top: 20px;
+  margin-top: 20px;  
 }
 
 /* -------Erro--------- */
@@ -81,4 +81,16 @@ button[type="submit"]:hover {
   height: 20px;
   margin-right: 10px;
   vertical-align: middle;
+}
+
+.botao-enviar a{
+  text-decoration: none;
+  color: var(--secondary-text-clr);    
+  cursor: pointer;
+}
+
+.botao-enviar p{
+  margin-top: 20px;
+  border: 1px solid var(--secondary-text-clr);
+  border-radius: 10px;  
 }

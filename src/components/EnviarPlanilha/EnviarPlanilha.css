@@ -1,0 +1,109 @@
+.envio-planilha {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 1em;
+  padding-left: 4em;
+}
+
+.campos-envio-container {
+  border: 1px solid var(--line-clr);
+  border-radius: 1em;
+  padding: 0.5em;
+  margin-bottom: 2em;
+  margin-right: 1em;
+  
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+.campos-envio-container h2 {
+  margin-top: 1em;
+  margin-bottom: 1em;
+}
+
+button {
+  background-color: var(--accent-clr);  
+  margin-top: 10px;
+  color: #fff;
+  border: none;
+  padding: 0.8em;
+  border-radius: 0.5em;
+  cursor: pointer;
+}
+
+button:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.painel-envio {
+  margin-top: 1em;
+  padding: 1em;
+  border: 1px solid var(--line-clr);
+  border-radius: 1em;
+}
+
+/* ---------- */
+.nicho-card {
+  background: #f9f9f9;
+  border: 1px solid #ddd;
+  border-radius: 10px;
+  padding: 15px;
+  margin-bottom: 20px;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.08);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.nicho-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(0,0,0,0.12);
+}
+
+.nicho-card h4 {
+  margin-bottom: 10px;
+  font-size: 1.2rem;
+  color: #333;
+  font-weight: 600;
+  border-left: 5px solid var(--accent-clr);
+  padding-left: 10px;
+}
+
+.nicho-card ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.nicho-card li {
+  padding: 6px 0;
+  border-bottom: 1px solid #eee;
+  font-size: 0.95rem;
+  color: #555;
+}
+
+.nicho-card li:last-child {
+  border-bottom: none;
+}
+
+.nicho-card select {
+  width: 100%;
+  margin: 8px 0;
+  padding: 6px;
+  border-radius: 6px;
+  border: 1px solid #ccc;
+}
+
+.nicho-card .btn-enviar {
+  background-color: var(--accent-clr);
+  color: #fff;
+  border: none;
+  border-radius: 6px;
+  padding: 8px 12px;
+  margin-bottom: 10px;
+  cursor: pointer;
+  transition: background 0.2s ease;
+}
+
+.nicho-card .btn-enviar:hover {
+  background-color: #0056b3;
+}

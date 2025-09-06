@@ -1,11 +1,12 @@
 import React, { useEffect, useState } from 'react'
-import { IconCidade, IconCidades, IconDashboard, IconEmpresas, IconEstado, IconNichos, IconProspec, IconSair, IconToggle } from '../../util/Icones'
+import { IconCidade, IconCidades, IconDashboard, IconEmpresas, IconEstado, IconNichos, IconProspec, IconSair, IconTable, IconToggle } from '../../util/Icones'
 import { useAuth } from '../../context/authContext';
 import { Link, useNavigate } from 'react-router';
 import logo from '../../assets/logo.png'
 
 const Navbar = () => {
         const [isClosed, setIsClosed] = useState(false);
+        const {user} = useAuth();
 
         const {logOut} = useAuth();
         const navigate = useNavigate();
@@ -52,6 +53,7 @@ const Navbar = () => {
         <ul>
             <li>
                 <span className="logo"><img src={logo} alt="" /></span>
+                {user ? <p>{user.email}</p> : ""} 
                 <button 
                 id="toggle-btn"
                 onClick={handleToggle}
@@ -94,6 +96,12 @@ const Navbar = () => {
                 <Link to='/empresas'>
                     <IconEmpresas/>
                     <span>Empresas</span>
+                </Link>
+            </li>
+            <li>
+                <Link to='/enviar-planilha'>
+                    <IconTable />
+                    <span>Enviador Dados</span>
                 </Link>
             </li>
             <li>                   

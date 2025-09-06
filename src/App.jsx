@@ -11,6 +11,7 @@ import Nichos from './components/Nichos'
 import TelaProspec from './components/TelaProspec'
 import ProtectedLayout from './components/ProtectedLayout'
 import CadastrarUsuario from './components/CadastrarUsuario'
+import EnviarPlanilha from './components/EnviarPlanilha/EnviarPlanilha'
 
 function App() {
 
@@ -37,6 +38,7 @@ function App() {
               <Route path='/nichos' element={<Nichos />}/>
               <Route path='/tela-prospec' element={<TelaProspec />}/>
               <Route path='/dashboard' element={<Dashboard />}/>
+              <Route path='/enviar-planilha' element={<EnviarPlanilha/>}/>
             </Route>
           </Routes>          
         </BrowserRouter>      

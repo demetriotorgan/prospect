@@ -94,7 +94,7 @@ button:disabled {
 }
 
 .nicho-card .btn-enviar {
-  background-color: var(--accent-clr);
+  background-color: var(--accent-clr);  
   color: #fff;
   border: none;
   border-radius: 6px;
@@ -102,8 +102,19 @@ button:disabled {
   margin-bottom: 10px;
   cursor: pointer;
   transition: background 0.2s ease;
+  width: 100px; /* definir um tamanho fixo para o botão */
+  text-align: center; /* centralizar o conteúdo */
+  display: flex; /* usar flexbox para centralizar a imagem */
+  justify-content: center; /* centralizar horizontalmente */
+  align-items: center; /* centralizar verticalmente */
+
 }
 
 .nicho-card .btn-enviar:hover {
   background-color: #0056b3;
+}
+
+.salvar-lista{
+  width: 20px; /* ajuste o tamanho da imagem */
+  height: 20px; /* ajuste o tamanho da imagem */
 }

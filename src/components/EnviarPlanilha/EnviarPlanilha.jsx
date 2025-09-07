@@ -1,8 +1,9 @@
 import React, { useEffect, useState } from 'react'
 import * as XLSX from 'xlsx'
-import axios from 'axios'
 import './EnviarPlanilha.css'
 import useCarregarNichos from '../../hooks/useCarregarNichos'
+import api from '../../util/api'
+import loading from '../../assets/loading.gif'
 
 const EnviarPlanilha = () => {
     const [data, setData] = useState([]);
@@ -11,6 +12,7 @@ const EnviarPlanilha = () => {
     const [nichos, setNichos] = useState({});
     const [nichoSelecionado, setNichoSelecionado] = useState({});
     const {nichoOptions} = useCarregarNichos();
+    const [salvando, setSalvando] = useState(false);
 
     //Atualizar escolha do usuario
     const handleSelecionarNicho = (tipo, valor)=>{
@@ -22,6 +24,7 @@ const EnviarPlanilha = () => {
 
     //Enviar as empresas de um card específico
     const handleEnviarNicho = async(tipo)=>{
+        setSalvando(true);
         const nichoGeral = nichoSelecionado[tipo];
         if(!nichoGeral){
             alert('Selecione um nicho antes de enviar');
@@ -30,13 +33,41 @@ const EnviarPlanilha = () => {
 
         const empresas = nichos[tipo].map(emp=>({
             ...emp,
-            tipo:nichoGeral
+            tipo:nichoGeral,
+            statusAtual: emp.statusAtual || "não-prospectado"
         }));
 
         try {
-            //await api.post('/salvar-dados', empresas);
-            console.log(empresas);
-            alert(`Dados de ${tipo} enviados com sucesso`);
+           const response = await api.post('/salvar-lista-empresas', empresas);
+            // console.log(empresas);
+            const resultados = response.data.resultados;
+
+            //Separa empresas já cadastradas
+            const jaCadastradas = resultados
+            .filter(item => item.status === 'Já esta cadastrada')
+            .map(item =>item.nome);
+
+            //Separa empresas cadastradas
+            const cadastradasComSucesso = resultados
+            .filter(item => item.status === 'Cadastrado com sucesso')
+            .map(item => item.nome);
+
+            //Exibi resultados
+            if(jaCadastradas.length >0){
+              alert(`Empresas já cadastradas: \n${jaCadastradas.join("\n")}`);
+            }
+
+            if(cadastradasComSucesso.length >0){
+              alert(`Empresas cadastradas com sucesso: \n${cadastradasComSucesso.join("\n")}`);
+            }
+
+            //remove o card enviado
+            setNichos(prev =>{
+              const novo = {...prev};
+              delete novo[tipo];
+              return novo;
+            })
+            setSalvando(false);
         } catch (error) {
             alert("Erro ao enivar dados");
         }
@@ -124,21 +155,21 @@ const EnviarPlanilha = () => {
     <button 
       className="btn-enviar"
       onClick={() => handleEnviarNicho(tipo)}>
-      Enviar
+      {salvando ? <img src={loading} className='salvar-lista' /> : 'Enviar' }
     </button>
-                    <ul>
-                    {empresas.map((empresa, index)=>(
-                        <li key={index}>
-                            {empresa.nome} - {empresa.cidade}/{empresa.estado}
-                        </li>
-                    ))}
-                </ul>
-            </div>
-        ))}
-        </>
-      )}
-    </div>
-  </div>
+      <ul>
+        {empresas.map((empresa, index)=>(
+          <li key={index}>
+          {empresa.nome} - {empresa.cidade}/{empresa.estado}
+          </li>
+            ))}
+      </ul>
+      </div>
+    ))}
+  </>
+)}
+</div>
+</div>
   )
 }
 

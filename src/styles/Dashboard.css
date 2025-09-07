@@ -155,3 +155,12 @@
   fill: var(--text-clr);
 }
 
+.informacoes-user{
+  border-top: 1px solid var(--line-clr);
+  padding: 10px;
+  color: var(--accent-clr);
+}
+
+ #sidebar.close .informacoes-user{
+  display: none;
+ }

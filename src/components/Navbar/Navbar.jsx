@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { IconCidade, IconCidades, IconDashboard, IconEmpresas, IconEstado, IconNichos, IconProspec, IconSair, IconTable, IconToggle } from '../../util/Icones'
+import { IconCidade, IconCidades, IconDashboard, IconEmpresas, IconEstado, IconNichos, IconProspec, IconSair, IconTable, IconToggle, IconUser } from '../../util/Icones'
 import { useAuth } from '../../context/authContext';
 import { Link, useNavigate } from 'react-router';
 import logo from '../../assets/logo.png'
@@ -52,8 +52,7 @@ const Navbar = () => {
     <nav id="sidebar" className={isClosed ? "open" : "close"}>
         <ul>
             <li>
-                <span className="logo"><img src={logo} alt="" /></span>
-                {user ? <p>{user.email}</p> : ""} 
+                <span className="logo"><img src={logo} alt="" /></span>                
                 <button 
                 id="toggle-btn"
                 onClick={handleToggle}
@@ -109,6 +108,14 @@ const Navbar = () => {
                 <IconSair />
                 <span>Sair</span>    
                 </span>                
+            </li>
+            <li>                
+                {user ? 
+                <div className='informacoes-user'>
+                <p><IconUser/> {user.email}</p> 
+                <small>{user._id}</small>
+                </div>                
+                : ""} 
             </li>
         </ul>
     </nav>

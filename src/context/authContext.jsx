@@ -19,7 +19,7 @@ export function AuthProvider({children}){
 
     useEffect(()=>{
         if(token){
-            api.get('/listar-usuarios',{
+            api.get('/me',{
                 headers:{
                      Authorization: `Bearer ${token}`,
                 },

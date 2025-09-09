@@ -1,17 +1,17 @@
 import React, { useEffect, useState } from 'react'
-import * as XLSX from 'xlsx'
 import './EnviarPlanilha.css'
 import useCarregarNichos from '../../hooks/useCarregarNichos'
-import api from '../../util/api'
 import loading from '../../assets/loading.gif'
 import  useTransformarPlanilha  from '../../hooks/useTransformarPlanilha'
 import useEnviarEmpresa from '../../hooks/useEnviarEmpresa'
 import useSelecionarNicho from '../../hooks/useSelecionarNicho'
+import useVerificarEmpresas from '../../hooks/useVerificarEmpresas'
 
 const EnviarPlanilha = () => {        
 
     //hooks
-    const {dataTransformada, nichos,setNichos, processando, error, transformarArquivo} = useTransformarPlanilha();
+    const {existentes, verificarEmpresas, isEmpresaExistente} = useVerificarEmpresas();
+    const {dataTransformada, nichos,setNichos, processando, error, transformarArquivo} = useTransformarPlanilha(verificarEmpresas);
     const {nichoOptions} = useCarregarNichos();
     const {salvando, enviarEmpresas} = useEnviarEmpresa();
     const {nichoSelecionado, handleSelecionarNicho} = useSelecionarNicho();
@@ -62,6 +62,9 @@ const EnviarPlanilha = () => {
         {empresas.map((empresa, index)=>(
           <li key={index}>
           {empresa.nome} - {empresa.cidade}/{empresa.estado}
+          {isEmpresaExistente(empresa.telefone) && (
+            <span style={{ color: "green", marginLeft: "8px" }}>✔️</span>
+          )}
           </li>
             ))}
       </ul>

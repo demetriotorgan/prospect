@@ -3,7 +3,7 @@ import * as XLSX from "xlsx";
 import { padronizarTexto } from "../util/textUtil";
 import { agruparPorNicho } from "../util/agrupamento";
 
-const useTransformarPlanilha = () => {
+const useTransformarPlanilha = (verificarEmpresas) => {
   const [dataTransformada, setDataTransformada] = useState([]);
   const [nichos, setNichos] = useState({});
   const [error, setError] = useState(null);
@@ -52,6 +52,12 @@ const useTransformarPlanilha = () => {
         // Agrupar empresas por tipo de nicho
         const agrupado = agruparPorNicho(transformado);
         setNichos(agrupado);
+
+        //Chama verificaçao de empresas ja existentes
+        if(verificarEmpresas){
+          verificarEmpresas(transformado);
+        }
+
         setProcessando(false);
         
       } catch (error) {

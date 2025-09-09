@@ -4,122 +4,23 @@ import './EnviarPlanilha.css'
 import useCarregarNichos from '../../hooks/useCarregarNichos'
 import api from '../../util/api'
 import loading from '../../assets/loading.gif'
+import  useTransformarPlanilha  from '../../hooks/useTransformarPlanilha'
+import useEnviarEmpresa from '../../hooks/useEnviarEmpresa'
+import useSelecionarNicho from '../../hooks/useSelecionarNicho'
 
-const EnviarPlanilha = () => {
-    const [data, setData] = useState([]);
-    const [dataTransformada, setDataTransformada] = useState([]);
-    const [processando, setProcessando] = useState(false);
-    const [nichos, setNichos] = useState({});
-    const [nichoSelecionado, setNichoSelecionado] = useState({});
+const EnviarPlanilha = () => {        
+
+    //hooks
+    const {dataTransformada, nichos,setNichos, processando, error, transformarArquivo} = useTransformarPlanilha();
     const {nichoOptions} = useCarregarNichos();
-    const [salvando, setSalvando] = useState(false);
-
-    //Atualizar escolha do usuario
-    const handleSelecionarNicho = (tipo, valor)=>{
-        setNichoSelecionado(prev =>({
-            ...prev,
-            [tipo]:valor
-        }));
-    };
-
-    //Enviar as empresas de um card específico
-    const handleEnviarNicho = async(tipo)=>{
-        setSalvando(true);
-        const nichoGeral = nichoSelecionado[tipo];
-        if(!nichoGeral){
-            alert('Selecione um nicho antes de enviar');
-            return;
-        }
-
-        const empresas = nichos[tipo].map(emp=>({
-            ...emp,
-            tipo:nichoGeral,
-            statusAtual: emp.statusAtual || "não-prospectado"
-        }));
-
-        try {
-           const response = await api.post('/salvar-lista-empresas', empresas);
-            // console.log(empresas);
-            const resultados = response.data.resultados;
-
-            //Separa empresas já cadastradas
-            const jaCadastradas = resultados
-            .filter(item => item.status === 'Já esta cadastrada')
-            .map(item =>item.nome);
-
-            //Separa empresas cadastradas
-            const cadastradasComSucesso = resultados
-            .filter(item => item.status === 'Cadastrado com sucesso')
-            .map(item => item.nome);
-
-            //Exibi resultados
-            if(jaCadastradas.length >0){
-              alert(`Empresas já cadastradas: \n${jaCadastradas.join("\n")}`);
-            }
-
-            if(cadastradasComSucesso.length >0){
-              alert(`Empresas cadastradas com sucesso: \n${cadastradasComSucesso.join("\n")}`);
-            }
-
-            //remove o card enviado
-            setNichos(prev =>{
-              const novo = {...prev};
-              delete novo[tipo];
-              return novo;
-            })
-            setSalvando(false);
-        } catch (error) {
-            alert("Erro ao enivar dados");
-        }
-    }
-
-    //Funçao para padronizar cidades e estados
-    const padronizarTexto = (texto) =>{
-        if(!texto) return '';
-        return texto.charAt(0).toUpperCase() + texto.slice(1).toLowerCase();
-    };
-
-
+    const {salvando, enviarEmpresas} = useEnviarEmpresa();
+    const {nichoSelecionado, handleSelecionarNicho} = useSelecionarNicho();
+    
     const handleExtract = (e)=>{
-    setProcessando(true);
-    const file = e.target.files[0];
-    const reader = new FileReader();
-
-     reader.onload = (e) => {
-      const data = e.target.result;
-      const workbook = XLSX.read(data, { type: 'binary' });
-      const sheetName = workbook.SheetNames[0];
-      const sheet = workbook.Sheets[sheetName];
-      const jsonData = XLSX.utils.sheet_to_json(sheet);
-      setData(jsonData);
-
-      //Transformação (T do ETL)
-      const transformado = jsonData
-      .filter(item => item.Telefone && item.Telefone.trim() !== "")
-      .map(item => ({
-        nome:item["nome do estabelecimento"] || "",
-        tipo: item["tipo"] || "",
-        endereco:item["endereço"] || "",
-        telefone: item["Telefone"] || "",
-        site:item["SITE"] || "",
-        cidade: padronizarTexto(item["cidade"] || ""),
-        estado:padronizarTexto(item["estado"] || "")
-      }));
-      setDataTransformada(transformado);
-
-      //Agrupando por Nicho
-      const agrupado = transformado.reduce((acc, empresa)=>{
-        const tipo = empresa.tipo || "Não informado";
-        if(!acc[tipo]){
-            acc[tipo] = [];
-        }
-        acc[tipo].push(empresa);
-        return acc;
-      },{});
-      setNichos(agrupado);
-      setProcessando(false);
-    };    
-    reader.readAsArrayBuffer(file);    
+     const file = e.target.files[0];
+     if(file){
+      transformarArquivo(file);
+     }
 };
 
   return (
@@ -154,7 +55,7 @@ const EnviarPlanilha = () => {
     {/* Botão para enviar */}
     <button 
       className="btn-enviar"
-      onClick={() => handleEnviarNicho(tipo)}>
+      onClick={() => enviarEmpresas(tipo, empresas, nichoSelecionado, setNichos)}>
       {salvando ? <img src={loading} className='salvar-lista' /> : 'Enviar' }
     </button>
       <ul>

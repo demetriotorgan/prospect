@@ -20,7 +20,7 @@ const useFiltrarEmpresas = (empresas) => {
     }
   }, [empresas, nichoSelecionado]); // 🔥 reagir também quando "empresas" mudar
 
-  return { empresasFiltradas, handleNichoSelecionado };
+  return { empresasFiltradas, handleNichoSelecionado, nichoSelecionado };
 };
 
 export default useFiltrarEmpresas;

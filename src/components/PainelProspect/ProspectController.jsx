@@ -1,106 +1,26 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import './ProspectController.css'
-import api from '../../util/api';
 import { useAuth } from '../../context/authContext';
+import  {useProspeccao}  from '../../hooks/useProspeccao';
+import { useProspectUI } from '../../hooks/useProspectUI';
 
-const ProspectController = ({empresas,onAtualizarEmpresa}) => {
-  const [currentIndex, setCurrentIndex] = useState(0);
-  const [nota, setNota] = useState(0);
-  const [resultado, setResultado] = useState('');
-  const [prioridade, setPrioridade] = useState('');
-  const [observacao, setObservacao] = useState('');
-  const [dataReuniao, setDataReuniao] = useState('');
-  const [tempoGasto, setTempoGasto] = useState(0);
-  const [loading, setLoading] = useState(false);
-  const [erro, setErro]= useState(null);
-
+const ProspectController = ({empresas,onAtualizarEmpresa,setOnProspect,setShowProspectController}) => {  
+  
   //hooks
   const {user} = useAuth();
-  const empresaAtual = empresas[currentIndex];
 
-  const resetForm = ()=>{
-    setNota(0);
-    setResultado('')
-    setPrioridade('');
-    setObservacao('');
-    setDataReuniao('');
-  };
+  const {currentIndex, setCurrentIndex, empresaAtual, handleFecharProspec } = useProspectUI({ empresas, setOnProspect, setShowProspectController });
 
-  const handleSalvarProspeccao = async()=>{
-    const empresaAtual = empresas[currentIndex];
-
-    const payload = {
-      empresaId: empresaAtual._id,
-      usuarioId: user._id,
-      indicador: resultado,
-      observacao: observacao || "",
-      tempoGasto: Number(tempoGasto) || 0,
-      criadoEm: new Date(),
-      interesse:nota || 0,
-      retornoAgendado:  resultado === "ligou-agendou-reuniao" ? dataReuniao : null,
-      funil:prioridade || "topo",
-    }
-
-    try {
-      setLoading(true);
-      const {data} = await api.post('/salvar-prospec', payload);      
-      console.log('Prospecçãoa cadastrada com sucesso', data);
-      
-      // Atualiza status da empresa no estado global
-      onAtualizarEmpresa(empresaAtual._id, resultado);
-
-      alert(
-    ` ✅ Prospecção salva com sucesso!
-      Empresa: ${empresaAtual.nome}
-      Resultado: ${payload.indicador}
-      Prioridade: ${payload.funil}
-      Interesse: ${payload.interesse}
-      Observação: ${payload.observacao || "Nenhuma"}
-      ${payload.retornoAgendado ? `Reunião agendada para: ${payload.retornoAgendado}` : "Sem Agendamento"}`
-      );
-
-      // Reposicionar a tela no elemento h3
-    const elementoH3 = document.getElementById('empresa-prospec');
-    elementoH3.scrollIntoView({ behavior: 'smooth', block: 'start' });
-
-      //Avançar para proxima prospec
-      if(currentIndex < empresas.length -1){
-        setCurrentIndex((prev)=>prev +1);
-        resetForm();        
-      }else{
-        alert("✅ Todas as empresas foram prospectadas!");
-      }
-    } catch (error) {
-       console.error("Erro ao salvar:", error);
-        setErro("Erro ao salvar prospecção. Tente novamente.");
-    }finally{
-       setLoading(false);
-    }
-  };
+  const {nota, resultado,prioridade,observacao,dataReuniao,tempoGasto,loading,erro,setObservacao, setDataReuniao, setPrioridade, handleNota, handleResultado, handleSalvarProspeccao} = useProspeccao({empresas, currentIndex, setCurrentIndex, user, onAtualizarEmpresa});  
 
 if(!empresaAtual) return <p>Nenhuma empresa para prospectar</p>
-
-
-  //-----------------------------------------------
-  const handleNota = (notaSelecionada) => {
-    setNota(notaSelecionada);
-  };
-
-  const handleResultado = (e) => {
-    setResultado(e.target.value);
-    if(e.target.value === 'ligou-agendou-reuniao'){
-      setPrioridade('meio');
-    }else if(e.target.value === 'ligou-sem-interesse'){
-       setPrioridade('fundo');
-    } else{
-      setPrioridade('');
-    }
-  };
 
   return (
     <div className='prospect-controller'>
       <h3 id='empresa-prospec'>Prospectando: {empresaAtual.nome}</h3>
         <p>Prospectados: {currentIndex}</p>
+        <p>⏱ Tempo gasto nesta prospecção: {Math.floor(tempoGasto / 60)}m {tempoGasto % 60}s</p>
+
       <div className='info-basicas'>
         <h4>Informações Básicas</h4>
         <p><strong>Empresa ID:</strong> {empresaAtual._id}</p>
@@ -172,6 +92,7 @@ if(!empresaAtual) return <p>Nenhuma empresa para prospectar</p>
     <button onClick={handleSalvarProspeccao} disabled={loading}>
       {loading ? "Salvando..." : "Salvar e próxima"}
     </button>
+    <button onClick={handleFecharProspec} className='botao-fechar'>Fechar</button>
       {erro && <p style={{color: 'red'}}>{erro}</p>}
       </div>
   </div>

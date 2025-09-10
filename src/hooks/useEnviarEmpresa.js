@@ -18,7 +18,7 @@ const useEnviarEmpresa = ()=>{
     const empresasPreparadas = empresas.map((emp) => ({
       ...emp,
       tipo: nichoGeral,
-      statusAtual: emp.statusAtual || "não-prospectado",
+      statusAtual: emp.statusAtual || "nao-prospectado",
     }));
 
         try {

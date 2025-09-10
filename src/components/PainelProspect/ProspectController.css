@@ -200,12 +200,32 @@ input[type="date"]::-webkit-calendar-picker-indicator {
 }
 
 #empresa-prospec {
-  background-color: #ea6363; /* Cor de fundo */
-  padding: 10px; /* Espaçamento interno */
-  border-radius: 5px; /* Borda arredondada */
-  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); /* Sombra */
-  font-weight: bold; /* Negrito */
-  font-size: 18px; /* Tamanho da fonte */
-  color: #333; /* Cor do texto */
-  text-align: center; /* Alinhamento do texto */
+  padding: 10px;
+  border-radius: 5px;
+  font-weight: bold;
+  font-size: 18px;
+  text-align: center;
+  animation: pulsar 2s infinite;
+}
+
+@keyframes pulsar {
+  0% {
+    background-color: #ea6363; /* Vermelho */
+    box-shadow: 0 0 10px rgba(234, 99, 99, 0.5);
+    color: #333;
+  }
+  50% {
+    background-color: #ffff00; /* Amarelo */
+    box-shadow: 0 0 10px rgba(255, 255, 0, 0.5);
+    color: #333;
+  }
+  100% {
+    background-color: #ea6363; /* Vermelho */
+    box-shadow: 0 0 10px rgba(234, 99, 99, 0.5);
+    color: #333;
+  }
+}
+
+.botao-fechar{
+  background-color: #f20808;
 }

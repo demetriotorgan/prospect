@@ -12,7 +12,7 @@ const TelaProspec = () => {
   // hooks
   const { nichoOptions } = useCarregarNichos();
   const {empresas: empresasOriginais, carregando, erro} = useCarregarEmpresas();
-  const {empresasFiltradas, handleNichoSelecionado} = useFiltrarEmpresas(empresas);  
+  const {empresasFiltradas, handleNichoSelecionado,nichoSelecionado} = useFiltrarEmpresas(empresas);  
 
   useEffect(() => {
   setEmpresas(empresasOriginais);
@@ -39,6 +39,7 @@ const atualizarEmpresa = (empresaId, novoStatus) => {
       empresasFiltradas={empresasFiltradas}
       resumo={resumo}      
       atualizarEmpresa={atualizarEmpresa}
+      nichoSelecionado={nichoSelecionado}
     />     
     </>
   )

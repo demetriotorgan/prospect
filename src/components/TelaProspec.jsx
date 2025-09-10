@@ -7,11 +7,24 @@ import resumoStatus from '../util/resumoStatus';
 import InfoProspec from './PainelProspect/InfoProspect';
 
 const TelaProspec = () => {       
+  const [empresas, setEmpresas] = useState('');
 
   // hooks
   const { nichoOptions } = useCarregarNichos();
-  const {empresas, carregando, erro} = useCarregarEmpresas();
+  const {empresas: empresasOriginais, carregando, erro} = useCarregarEmpresas();
   const {empresasFiltradas, handleNichoSelecionado} = useFiltrarEmpresas(empresas);  
+
+  useEffect(() => {
+  setEmpresas(empresasOriginais);
+}, [empresasOriginais]);
+
+const atualizarEmpresa = (empresaId, novoStatus) => {
+  setEmpresas((prev) =>
+    prev.map((emp) =>
+      emp._id === empresaId ? { ...emp, statusAtual: novoStatus } : emp
+    )
+  );
+};
   
   //Criar um resumo dos status
   const resumo = resumoStatus(empresasFiltradas); 
@@ -25,6 +38,7 @@ const TelaProspec = () => {
       erro={erro}
       empresasFiltradas={empresasFiltradas}
       resumo={resumo}      
+      atualizarEmpresa={atualizarEmpresa}
     />     
     </>
   )

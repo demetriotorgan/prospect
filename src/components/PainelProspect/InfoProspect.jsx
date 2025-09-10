@@ -1,7 +1,8 @@
 import { useState } from 'react';
 import ProspectController from '../PainelProspect/ProspectController'
 
-const InfoProspec = ({nichoOptions,handleNichoSelecionado,carregando,erro,empresasFiltradas,resumo}) => {  
+const InfoProspec = ({nichoOptions,handleNichoSelecionado,carregando,erro,empresasFiltradas,resumo,atualizarEmpresa}) => {  
+
   const [showProspectController, setShowProspectController] = useState(false);
 
   const handleIniciarProspeccao = () => {
@@ -36,7 +37,12 @@ return(
         </div>
         <button onClick={handleIniciarProspeccao}>Inciar Prospeção🚀</button>
       </div>  
-      {showProspectController && <ProspectController />}    
+      {showProspectController && 
+      <ProspectController
+      empresas={empresasFiltradas.filter(emp=> emp.statusAtual === 'não-prospectado')}
+      onAtualizarEmpresa={atualizarEmpresa}
+      />
+      }    
  </div>
 );
 };

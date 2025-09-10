@@ -198,3 +198,14 @@ input[type="date"]::-webkit-calendar-picker-indicator {
   color: var(--accent-clr);
   font-weight: bold;
 }
+
+#empresa-prospec {
+  background-color: #ea6363; /* Cor de fundo */
+  padding: 10px; /* Espaçamento interno */
+  border-radius: 5px; /* Borda arredondada */
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); /* Sombra */
+  font-weight: bold; /* Negrito */
+  font-size: 18px; /* Tamanho da fonte */
+  color: #333; /* Cor do texto */
+  text-align: center; /* Alinhamento do texto */
+}

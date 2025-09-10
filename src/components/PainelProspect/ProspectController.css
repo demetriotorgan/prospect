@@ -1,0 +1,200 @@
+.prospect-controller {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  width: 100%;
+  max-width: 600px;
+  margin: 20px auto;
+  padding: 24px;
+  background-color: var(--base-clr);
+  border-radius: 12px;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+  color: var(--text-clr);
+}
+
+/* Card genérico */
+.info-basicas,
+.info-empresa,
+.info-telefone {
+  background-color: var(--hover-clr);
+  border: 1px solid var(--line-clr);
+  border-radius: 10px;
+  padding: 16px 20px;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+/* Cabeçalhos internos */
+.info-basicas h4,
+.info-empresa h4,
+.info-telefone h4 {
+  margin-bottom: 10px;
+  font-size: 16px;
+  font-weight: 600;
+  color: var(--accent-clr);
+  border-bottom: 1px solid var(--line-clr);
+  padding-bottom: 4px;
+}
+
+/* Estilo para os parágrafos */
+.info-basicas p,
+.info-empresa p,
+.info-telefone p {
+  font-size: 14px;
+  margin: 2px 0;
+  line-height: 1.4;
+}
+
+/* Telefone com destaque */
+.info-telefone {
+  background-color: var(--base-clr);
+  border: 2px solid var(--accent-clr);
+  text-align: center;
+  padding: 24px;
+}
+
+.info-telefone h4 {
+  font-size: 18px;
+  color: var(--accent-clr);
+}
+
+.info-telefone p {
+  font-size: 20px;
+  font-weight: bold;
+  color: var(--text-clr);
+}
+
+.avaliar-prospec {
+  background-color: var(--hover-clr);
+  padding: 20px;
+  margin-top: 20px;
+  border: 1px solid var(--line-clr);
+  border-radius: 10px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+  text-align: center;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.avaliar-prospec:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+}
+
+.avaliar-prospec h4 {
+  margin-bottom: 15px;
+  color: var(--accent-clr);
+  font-size: 1.2rem;
+  font-weight: bold;
+}
+
+.avaliar-prospec .nota-buttons {
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+  flex-wrap: wrap;
+  margin-bottom: 15px;
+}
+
+.avaliar-prospec .nota-button {
+  background-color: var(--base-clr);
+  color: var(--text-clr);
+  border: 1px solid var(--line-clr);
+  border-radius: 8px;
+  padding: 10px 15px;
+  cursor: pointer;
+  font-size: 1rem;
+  transition: all 0.2s ease-in-out;
+}
+
+.avaliar-prospec .nota-button:hover {
+  background-color: var(--accent-clr);
+  color: #fff;
+}
+
+.avaliar-prospec .nota-button.selected {
+  background-color: #04bb20;
+  color: #fff;
+  border: none;
+  font-weight: bold;
+}
+
+.avaliar-prospec p {
+  margin-top: 10px;
+  font-size: 0.95rem;
+  color: var(--secondary-text-clr);
+}
+
+.resultados-prospec {
+  background-color: var(--hover-clr);
+  padding: 20px;
+  margin-top: 20px;
+  border: 1px solid var(--line-clr);
+  border-radius: 10px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  width: 100%;
+}
+
+.resultados-prospec select,
+.resultados-prospec input[type="text"] {
+  width: 100%;
+  padding: 10px 12px;
+  border: 1px solid var(--line-clr);
+  border-radius: 8px;
+  background-color: var(--base-clr);
+  color: var(--text-clr);
+  font-size: 0.95rem;
+  transition: all 0.2s ease-in-out;
+}
+
+input[type="date"] {
+  width: 100%;
+  padding: 10px 12px;
+  border: 1px solid var(--line-clr);
+  border-radius: 8px;
+  background-color: var(--base-clr);
+  color: var(--text-clr);
+  font-size: 0.95rem;
+  transition: all 0.2s ease-in-out;
+}
+
+input[type="date"]:focus {
+  outline: none;
+  border-color: var(--accent-clr);
+  box-shadow: 0 0 5px rgba(0, 0, 0, 0.25);
+}
+
+input[type="date"]::-webkit-calendar-picker-indicator {
+  filter: invert(1);
+}
+
+
+.resultados-prospec select:focus,
+.resultados-prospec input[type="text"]:focus {
+  outline: none;
+  border-color: var(--accent-clr);
+  box-shadow: 0 0 5px rgba(0, 0, 0, 0.25);
+}
+
+.resultados-prospec label {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  font-size: 0.9rem;
+  font-weight: 500;
+  color: var(--secondary-text-clr);
+}
+
+.resultados-prospec label input {
+  margin-top: 5px;
+}
+
+.resultados-prospec h4 {
+  margin-top: 10px;
+  color: var(--accent-clr);
+  font-weight: bold;
+}

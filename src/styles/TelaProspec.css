@@ -1,0 +1,113 @@
+
+
+.painel-prospec {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: center;
+  min-height: 100vh;
+  padding: 2rem 1rem;
+  background-color: var(--base-clr);  
+}
+
+.painel-nichos {
+  background-color: var(--hover-clr);
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  width: 500px;
+}
+
+.painel-nichos select {
+  width: 100%;
+  padding: 10px;
+  margin-bottom: 20px;
+  border: 1px solid var(--line-clr);
+  border-radius: 5px;
+  background-color: var(--hover-clr);
+  color: var(--text-clr);
+}
+
+.nicho-info {
+  background-color: var(--base-clr);
+  padding: 20px;
+  border: 1px solid var(--line-clr);
+  border-radius: 5px;
+  color: var(--text-clr);
+}
+
+.nicho-info p {
+  margin-bottom: 10px;
+  color: var(--secondary-text-clr);
+}
+
+.empresas-filtradas {
+  margin-top: 20px;
+}
+
+.empresas-filtradas div {
+  background-color: var(--hover-clr);
+  padding: 20px;
+  border: 1px solid var(--line-clr);
+  border-radius: 5px;
+  margin-bottom: 20px;
+  color: var(--text-clr);
+}
+
+.empresas-filtradas div h2 {
+  color: var(--accent-clr);
+}
+
+.divisoria-prioridade {
+  border: none;
+  height: 2px;
+  background-color: var(--accent-clr);
+  margin-bottom: 10px;
+}
+
+.divisoria-atencao {
+  border: none;
+  height: 2px;
+  background-color: #ff9900; /* cor laranja para atenção */
+  margin-bottom: 10px;
+}
+
+.divisoria-nao-prioritario {
+  border: none;
+  height: 2px;
+  background-color: var(--line-clr);
+  margin-bottom: 10px;
+}
+
+.nicho-info h3 {
+  margin-top: 20px;
+  margin-bottom: 5px;
+  color: var(--text-clr);
+}
+
+/* RESPONSIVIDADE */
+@media (max-width: 768px) {
+  .painel-prospec {
+    align-items: flex-start;
+    padding: 10px;
+    margin-left: 3.2em;
+  }
+
+  .painel-nichos {
+    padding: 15px;
+    width: 100%;
+  }
+
+  .nicho-info {
+    padding: 12px;
+  }
+
+  .nicho-info p {
+    font-size: 0.85rem;
+  }
+
+  button {
+    padding: 12px;
+    font-size: 0.9rem;
+  }
+}

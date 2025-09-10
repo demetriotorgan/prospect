@@ -3,3 +3,16 @@
   grid-template-columns: auto 1fr;
   min-height: 100vh;
 }
+
+.app-no-grid {
+  display: flex; /* ou até block */
+  min-height: 100vh;
+}
+
+.painel-prospec {
+  flex: 1; /* ocupa todo o espaço restante */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: var(--base-clr);
+}

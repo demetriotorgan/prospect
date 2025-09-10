@@ -35,11 +35,23 @@ function App() {
               <Route path='/cidades' element={<Cidades />}/>
               <Route path='/empresas' element={<Empresas />}/>
               <Route path='/estados' element={<Estados />}/>
-              <Route path='/nichos' element={<Nichos />}/>
-              <Route path='/tela-prospec' element={<TelaProspec />}/>
+              <Route path='/nichos' element={<Nichos />}/>              
               <Route path='/dashboard' element={<Dashboard />}/>
               <Route path='/enviar-planilha' element={<EnviarPlanilha/>}/>
             </Route>
+            {/* Aqui vai sem grid */}
+            <Route  
+              element={
+                <ProtectedRoute>
+                  <div className="app-no-grid">
+                    <ProtectedLayout />
+                  </div>
+                </ProtectedRoute>
+              }
+            >
+              <Route path='/tela-prospec' element={<TelaProspec />}/>
+            </Route>
+
           </Routes>          
         </BrowserRouter>      
       </AuthProvider>    

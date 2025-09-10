@@ -83,12 +83,14 @@ if(!empresaAtual) return <p>Nenhuma empresa para prospectar</p>
   </div>
       {nota && <p>Nota selecionada: {nota}</p>}
       </div>
-
+    <label>
+    Funi de vendas:
     <select value={prioridade} onChange={(e)=>setPrioridade(e.target.value)} >      
       <option value="topo">Topo</option>
       <option value="meio">Meio</option>
       <option value="fundo">Fundo</option>
     </select>
+    </label>
     <button onClick={handleSalvarProspeccao} disabled={loading}>
       {loading ? "Salvando..." : "Salvar e próxima"}
     </button>

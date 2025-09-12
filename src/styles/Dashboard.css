@@ -159,8 +159,50 @@
   border-top: 1px solid var(--line-clr);
   padding: 10px;
   color: var(--accent-clr);
+  display: flex;
+  flex-direction: column;  
+  justify-content: left; 
 }
 
- #sidebar.close .informacoes-user{
+.informacoes-user p{
+  margin: 5px;
+}
+
+ #sidebar.close .info-usuario{
   display: none;
  }
+
+ /* ----------- */
+ /* Bloco que contém todas as infos do usuário */
+#sidebar .info-usuario {
+  border-top: 1px solid var(--line-clr);
+  margin-top: 10px;
+  padding-top: 10px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+/* Cada linha de informação */
+#sidebar .info-item, 
+#sidebar .user-item {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 0.9rem;
+  color: var(--text-clr);
+}
+
+#sidebar .user-item {
+  flex-direction: row;
+}
+
+#sidebar .user-item p {
+  margin: 0;
+  font-weight: 500;
+}
+
+#sidebar .user-item small {
+  font-size: 0.75rem;
+  opacity: 0.7;
+}

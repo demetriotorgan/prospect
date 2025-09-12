@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState } from 'react';
 import api from '../util/api';
 import { montarPayload, formatarMensagem } from '../util/prospecUtils';
+import { useAuth } from '../context/authContext';
 
 export function useProspeccao({ empresas, currentIndex, setCurrentIndex, user, onAtualizarEmpresa }) {
   const [nota, setNota] = useState(0);
@@ -57,8 +58,28 @@ if (empresas[currentIndex]) {
 
     try {
       setLoading(true);
-      const { data } = await api.post('/salvar-prospec', payload);
-
+        // 1. salvar prospecção principal
+        try {
+            await api.post('/salvar-prospec', payload);      
+        } catch (error) {
+            console.error('❌ Erro ao salvar prospecção:', err);
+            setErro('Erro ao salvar dados da prospecção.');
+            return; // se não salvar a prospecção, não faz sentido continuar
+        }
+      
+      // 2. salvar tempo de prospecção
+      try {
+      await api.post('/tempo-prospec', {
+        userID: user._id,
+        tempoProspec: tempoGasto
+      });  
+      } catch (err) {
+         console.error('⚠️ Erro ao salvar tempo de prospecção:', err);
+      // aqui não retorno, pq pode ser interessante a prospecção ficar salva mesmo sem o tempo
+      setErro('Tempo não foi registrado, mas a prospecção foi salva.');
+      }
+      
+      // 3. atualizar interface
       onAtualizarEmpresa(empresaAtual._id, resultado);
       alert(formatarMensagem(payload, empresaAtual));
       

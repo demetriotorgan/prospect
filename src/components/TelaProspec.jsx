@@ -10,7 +10,7 @@ const TelaProspec = () => {
   const [empresas, setEmpresas] = useState('');
 
   // hooks
-  const { nichoOptions } = useCarregarNichos();
+  const { nichoOptions,erroNicho } = useCarregarNichos();
   const {empresas: empresasOriginais, carregando, erro} = useCarregarEmpresas();
   const {empresasFiltradas, handleNichoSelecionado,nichoSelecionado} = useFiltrarEmpresas(empresas);  
 
@@ -33,6 +33,7 @@ const atualizarEmpresa = (empresaId, novoStatus) => {
     <>
     <InfoProspec
     nichoOptions={nichoOptions}
+    erroNicho={erroNicho}
       handleNichoSelecionado={handleNichoSelecionado}
       carregando={carregando}
       erro={erro}

@@ -4,16 +4,26 @@ import { useAuth } from '../../context/authContext';
 import  {useProspeccao}  from '../../hooks/useProspeccao';
 import { useProspectUI } from '../../hooks/useProspectUI';
 
-const ProspectController = ({empresas,onAtualizarEmpresa,setOnProspect,setShowProspectController}) => {  
+const ProspectController = ({empresas,onAtualizarEmpresa,setOnProspect,setShowProspectController}) => {    
   
   //hooks
   const {user} = useAuth();
-
   const {currentIndex, setCurrentIndex, empresaAtual, handleFecharProspec } = useProspectUI({ empresas, setOnProspect, setShowProspectController });
 
-  const {nota, resultado,prioridade,observacao,dataReuniao,tempoGasto,loading,erro,setObservacao, setDataReuniao, setPrioridade, handleNota, handleResultado, handleSalvarProspeccao} = useProspeccao({empresas, currentIndex, setCurrentIndex, user, onAtualizarEmpresa});  
+  const {nota, resultado,prioridade,observacao,dataReuniao,tempoGasto,loading,erro,setObservacao, setDataReuniao, setPrioridade, handleNota, handleResultado, handleSalvarProspeccao,erros} = useProspeccao({empresas, currentIndex, setCurrentIndex, user, onAtualizarEmpresa,setShowProspectController});  
 
-if(!empresaAtual) return <p>Nenhuma empresa para prospectar</p>
+if (!empresaAtual) {
+  return (
+    <div className="modal-overlay">
+      <div className="modal-content">
+        <h2>Nenhuma empresa para prospectar</h2>
+        <p>Por favor, verifique se há empresas cadastradas ou se a lista de empresas está vazia.</p>
+        <button className="modal-button" onClick={() => window.history.back()}>Voltar</button>
+      </div>
+    </div>
+  );
+}
+
 
   return (
     <div className='prospect-controller'>
@@ -51,13 +61,19 @@ if(!empresaAtual) return <p>Nenhuma empresa para prospectar</p>
           <option value="ligou-agendou-reuniao">Agendou reunião</option>
           <option value="ligou-nao-respondeu">Não atendeu</option>
         </select>
+        {erros.resultado && <p className="erro-msg">{erros.resultado}</p>}
 
         {resultado === 'ligou-agendou-reuniao' && 
-        (<input 
+        (
+          <>
+        <input 
         type='date'
         value={dataReuniao}
         onChange={(e) => setDataReuniao(e.target.value)}
-        />)}       
+        />       
+        {erros.dataReuniao && <p className="erro-msg">{erros.observacao}</p>}
+        </> 
+        )}       
 
         <label>
           Observação: 
@@ -66,6 +82,7 @@ if(!empresaAtual) return <p>Nenhuma empresa para prospectar</p>
         onChange={(e)=> setObservacao(e.target.value)}
         placeholder='Digite aqui sua observação...' />
         </label>
+        {erros.observacao && <p className="erro-msg">{erros.observacao}</p>}
 
       <div className='avaliar-prospec'>
       <h4>Avalie o interesse:</h4>
@@ -79,10 +96,11 @@ if(!empresaAtual) return <p>Nenhuma empresa para prospectar</p>
       >
         {notaAtual}
       </button>
-    ))}
+    ))}     
   </div>
-      {nota && <p>Nota selecionada: {nota}</p>}
+      {nota && <p>Nota selecionada: {nota}</p>}      
       </div>
+      {erros.nota && <p className="erro-msg">{erros.nota}</p>}
     <label>
     Funi de vendas:
     <select value={prioridade} onChange={(e)=>setPrioridade(e.target.value)} >      

@@ -3,7 +3,7 @@ import api from '../util/api';
 import { montarPayload, formatarMensagem } from '../util/prospecUtils';
 import { useAuth } from '../context/authContext';
 
-export function useProspeccao({ empresas, currentIndex, setCurrentIndex, user, onAtualizarEmpresa }) {
+export function useProspeccao({ empresas, currentIndex, setCurrentIndex, user, onAtualizarEmpresa,setShowProspectController }) {
   const [nota, setNota] = useState(0);
   const [resultado, setResultado] = useState('');
   const [prioridade, setPrioridade] = useState('');
@@ -11,10 +11,34 @@ export function useProspeccao({ empresas, currentIndex, setCurrentIndex, user, o
   const [dataReuniao, setDataReuniao] = useState('');
   const [tempoGasto, setTempoGasto] = useState(0);
   const [loading, setLoading] = useState(false);
-  const [erro, setErro] = useState(null);
+  
+  // 🔎 objeto de erros por campo
+  const [erros, setErros] = useState({
+    resultado: null,
+    observacao: null,
+    nota: null,
+    dataReuniao:null,
+    geral:null,
+  });
 
   //---Cronometro
   const intervalRef = useRef(null);
+
+  // Sincroniza resultado e prioridade com a empresa atual
+  useEffect(() => {
+    const empresaAtual = empresas[currentIndex];
+    if (empresaAtual) {
+      setResultado(empresaAtual.statusAtual || '');
+      if (empresaAtual.statusAtual === 'ligou-agendou-reuniao') setPrioridade('meio');
+      else if (empresaAtual.statusAtual === 'ligou-sem-interesse') setPrioridade('fundo');
+      else setPrioridade('');
+      setNota(0);
+      setObservacao('');
+      setDataReuniao('');
+      setTempoGasto(0);
+      setErros({ resultado: null, observacao: null, nota: null, dataReuniao:null, geral:null });
+    }
+  }, [currentIndex, empresas]);
 
   //incia cronometro
   useEffect(()=>{
@@ -34,6 +58,7 @@ if (empresas[currentIndex]) {
     setPrioridade('');
     setObservacao('');
     setDataReuniao('');
+    setErros({ resultado: null, observacao: null, nota: null });
   };
 
   const handleNota = (notaSelecionada) => setNota(notaSelecionada);
@@ -42,59 +67,63 @@ if (empresas[currentIndex]) {
     const valor = e.target.value;
     setResultado(valor);
     if (valor === 'ligou-agendou-reuniao') setPrioridade('meio');
-    else if (valor === 'ligou-sem-interesse') setPrioridade('fundo');
+    else if (valor === 'ligou-sem-interesse') setPrioridade('topo');
     else setPrioridade('');
   };
 
   const handleSalvarProspeccao = async () => {
     const empresaAtual = empresas[currentIndex];
-    if (!resultado) {
-      alert('Por favor, selecione um resultado');
+
+    // validações
+    const novosErros = {
+      resultado: !resultado ? "Selecione um resultado." : null,
+      observacao: !observacao.trim() ? "A observação não pode estar vazia." : null,
+      nota: !nota ? "Selecione uma nota de interesse (1 a 5)." : null,
+       dataReuniao: (resultado === 'ligou-agendou-reuniao' && !dataReuniao.trim()) 
+        ? "Informe a data da reunião agendada." 
+        : null,
+      geral: null,
+    };
+
+    setErros(novosErros);
+
+     // se existir erro, não continua
+    if (Object.values(novosErros).some((msg) => msg !== null)) {
       return;
     }
-    setErro('');
-
+    
     const payload = montarPayload({ empresa: empresaAtual, user, resultado, observacao, tempoGasto, nota, dataReuniao, prioridade });
 
     try {
       setLoading(true);
-        // 1. salvar prospecção principal
-        try {
-            await api.post('/salvar-prospec', payload);      
-        } catch (error) {
-            console.error('❌ Erro ao salvar prospecção:', err);
-            setErro('Erro ao salvar dados da prospecção.');
-            return; // se não salvar a prospecção, não faz sentido continuar
-        }
-      
-      // 2. salvar tempo de prospecção
+
+      await api.post("/salvar-prospec", payload);
+
       try {
-      await api.post('/tempo-prospec', {
-        userID: user._id,
-        tempoProspec: tempoGasto
-      });  
+        await api.post("/tempo-prospec", {
+          userID: user._id,
+          tempoProspec: tempoGasto,
+        });
       } catch (err) {
-         console.error('⚠️ Erro ao salvar tempo de prospecção:', err);
-      // aqui não retorno, pq pode ser interessante a prospecção ficar salva mesmo sem o tempo
-      setErro('Tempo não foi registrado, mas a prospecção foi salva.');
+        console.error("⚠️ Erro ao salvar tempo:", err);
       }
-      
-      // 3. atualizar interface
+
       onAtualizarEmpresa(empresaAtual._id, resultado);
       alert(formatarMensagem(payload, empresaAtual));
-      
-      clearInterval(intervalRef.current); //para o cronometro ao salvar
+
+      clearInterval(intervalRef.current);
 
       if (currentIndex < empresas.length - 1) {
         setCurrentIndex((prev) => prev + 1);
         resetForm();
       } else {
-        alert('✅ Todas as empresas foram prospectadas!');
+        alert("✅ Todas as empresas foram prospectadas!");
         setTempoGasto(0);
+        setShowProspectController(false);
       }
     } catch (error) {
-      console.error('Erro ao salvar:', error);
-      setErro('Erro ao salvar prospecção. Tente novamente.');
+      console.error("Erro ao salvar:", error);
+      setErros((prev) => ({ ...prev, geral: "Erro ao salvar prospecção. Tente novamente." }));
     } finally {
       setLoading(false);
     }
@@ -108,7 +137,7 @@ if (empresas[currentIndex]) {
     dataReuniao,
     tempoGasto,
     loading,
-    erro,
+    erros,
     setObservacao,
     setDataReuniao,
     setPrioridade,

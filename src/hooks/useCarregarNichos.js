@@ -4,6 +4,7 @@ import api from '../util/api';
 
 const useCarregarNichos = ()=>{
     const [nichoOptions, setNichoOptions] = useState([]);
+    const [erroNicho, setErroNicho] = useState('');
 
     useEffect(()=>{
         api.get('/listar-nichos')
@@ -11,11 +12,11 @@ const useCarregarNichos = ()=>{
             setNichoOptions(response.data);
         })
         .catch(error => {
-            alert('Erro ao carregar nichos');
+            setErroNicho('Erro ao carregar nichos');
         });
     },[]);
     
-    return {nichoOptions}
+    return {nichoOptions, erroNicho}
 };
 
 export default useCarregarNichos;

@@ -3,7 +3,7 @@ export function montarPayload({ empresa, user, resultado, observacao, tempoGasto
     empresaId: empresa?._id || null,
     usuarioId: user?._id || null,
     indicador: resultado || "nao-prospectado",
-    observacao: observacao || "",
+    observacao: observacao?.trim() || "",
     tempoGasto: tempoGasto || 0,
     interesse: nota || 0,
     retornoAgendado: dataReuniao || null,

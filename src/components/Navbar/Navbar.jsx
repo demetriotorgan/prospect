@@ -5,7 +5,7 @@ import { Link } from 'react-router';
 import logo from '../../assets/logo.png'
 import useDadosProspec from '../../hooks/useDadosProspec';
 import useSidebar from '../../hooks/useSideBar';
-import useLogout from '../../hooks/useLogOut';
+import useLogout from '../../hooks/useLogout';
 
 const Navbar = () => {       
 

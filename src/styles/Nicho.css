@@ -69,9 +69,23 @@
     justify-self: center !important;
     align-self: start !important;
     width: 95%;       /* ocupar mais espaço na tela pequena */
-    max-width: 290px;  /* remover limite fixo */
+    max-width: 290px;  
   }
    .app-grid {
     display: block !important; /* ou flex */
   }
+}
+
+.onLoading{
+  width: 20px; /* ajuste o tamanho da imagem */
+  height: 20px; /* ajuste o tamanho da imagem */
+  margin: 0 auto; /* centraliza a imagem horizontalmente */
+  display: block; /* necessário para o margin: 0 auto funcionar */
+}
+
+.nicho-form button {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 10px 20px; /* ajuste o padding para o tamanho desejado */
 }

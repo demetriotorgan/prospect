@@ -1,0 +1,77 @@
+
+.nicho-form {
+  background: var(--base-clr);
+  padding: 2rem;
+  border: 1px solid var(--line-clr);
+  border-radius: 1rem;
+  width: 90%;
+  max-width: 600px;
+
+   /* centralizar horizontalmente */
+  margin: 4rem auto 0 auto; /* << adiciona espaço no topo */
+  
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.4);
+
+  /* 👇 impede que ele estique na vertical */
+  height: auto;
+  align-self: flex-start;
+}
+
+.nicho-form label {
+  font-size: 1.2rem;
+  color: var(--text-clr);
+}
+
+.nicho-form input {
+  padding: 0.8rem 1rem;
+  border-radius: 0.5rem;
+  border: 1px solid var(--line-clr);
+  background: var(--hover-clr);
+  color: var(--text-clr);
+  font-size: 1rem;
+  transition: all 0.3s ease;
+}
+
+.nicho-form input:focus {
+  border-color: var(--accent-clr);
+  outline: none;
+  box-shadow: 0 0 8px var(--accent-clr);
+}
+
+.nicho-form button {
+  padding: 0.9rem;
+  border: none;
+  border-radius: 0.5rem;
+  background: var(--accent-clr);
+  color: #fff;
+  font-weight: bold;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.nicho-form button:hover {
+  background: #03a31d;
+  transform: scale(1.05);
+}
+
+
+@media (max-width: 768px) {
+  .nicho-form {
+    padding: 1rem;
+    margin: 1rem auto;
+    margin-left: 4rem;    
+    grid-column: unset !important;
+    grid-row: unset !important;
+    justify-self: center !important;
+    align-self: start !important;
+    width: 95%;       /* ocupar mais espaço na tela pequena */
+    max-width: 290px;  /* remover limite fixo */
+  }
+   .app-grid {
+    display: block !important; /* ou flex */
+  }
+}

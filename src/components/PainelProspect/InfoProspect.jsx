@@ -31,8 +31,7 @@ const handleProspectarPrioridadeAtencao = (empresas) =>{
   setAprospectar(filtradas);      // atualiza lista de empresas
   setShowProspectController(true); // abre o ProspectController
 }
-
-  console.log(aProspectar);
+  // console.log(aProspectar);
 
 return(  
  <div className='painel-prospec'>

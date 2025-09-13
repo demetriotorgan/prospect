@@ -18,7 +18,7 @@ export function AuthProvider({children}){
     };
 
     useEffect(()=>{
-        if(token){
+        if (!token) return; // não faz nada se não tiver token        
             api.get('/me',{
                 headers:{
                      Authorization: `Bearer ${token}`,
@@ -26,12 +26,12 @@ export function AuthProvider({children}){
             })
             .then(response =>{
                 setUser(response.data);
-                console.log('Usario: ', response.data);
+                // console.log('Usario: ', response.data);
             })
             .catch(error =>{
                 console.error(error);
             });
-        }
+        
     },[token]);
 
     return(

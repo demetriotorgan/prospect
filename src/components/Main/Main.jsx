@@ -1,12 +1,30 @@
-import React from 'react'
+import React, { useMemo } from 'react'
 import '../../styles/Main.css'
+import useCarregarEmpresas from '../../hooks/useCarregarEmpresas'
+import CardMetricas from './CardMetricas'
+import {calcularMetricas} from '../../util/metricas'
 
 const Main = () => {
+
+//hook's
+const {empresas, carregando, erro} = useCarregarEmpresas();
+
+//Memoriza as métricas para não recalcular toda renderização
+const metricas = useMemo(()=> calcularMetricas(empresas), [empresas]);
+
   return (
     <div className='main-dashboard'>
         <div className="container">
             <h2>Nichos</h2>
-            <p>Lorem ipsum dolor sit, amet consectetur adipisicing elit. Ad tempora earum impedit libero qui explicabo assumenda dolorum repellendus obcaecati, sapiente architecto numquam dolores alias magnam et quidem quas laborum dicta.</p>            
+            <div className='nichos'>
+            <CardMetricas titulo="Mecanica" metricas={metricas}/>
+            <div className='card'><h3>Card 2</h3></div>
+            <div className='card'><h3>Card 3</h3></div>
+            <div className='card'><h3>Card 4</h3></div>
+            </div>    
+            <div className='informacoes-gerais'>
+              <h3>Card 5 - Infos gerais</h3>
+            </div>
         </div>
         <div className="container">
             <h2>Cidades</h2>

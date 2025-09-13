@@ -1,0 +1,85 @@
+.porcentagem-barra {
+  width: 100%;
+  height: 20px;
+  background-color: var(--base-clr);
+  border-radius: 5px;
+  overflow: hidden;  
+}
+
+.porcentagem-barra .barra {
+  height: 100%;
+  background-color: #ecebec;
+  transition: width 0.5s;
+}
+
+.porcentagem-texto {
+  margin-top: 10px;
+  font-size: 16px;
+  font-weight: bold;
+}
+
+/* ----Cards------- */
+/* ----Classe Card (usa a mesma lógica da metrica-principal) ----- */
+.card.verde {
+  border-top: 4px solid #4caf50;
+  box-shadow: rgb(153, 248, 0) 0px 5px 15px;
+}
+
+.card.laranja {
+  border-top: 4px solid #ff9800;
+  box-shadow: rgb(248, 161, 0) 0px 5px 15px;
+}
+
+.card.cinza {
+  border-top: 4px solid #9e9e9e;
+  box-shadow: rgb(205, 205, 204) 0px 5px 15px;
+}
+
+/* ----Prioridade Alta-------- */
+.barra-porcentagem-prioridade-alta .porcentagem-barra {
+  height: 10px;
+}
+
+.barra-porcentagem-prioridade-alta .barra {
+  height: 100%;
+  background-color: var(--accent-clr);
+}
+
+/* ----Prioridade Atenção-------- */
+.barra-porcentagem-prioridade-atencao .porcentagem-barra {
+  height: 10px;
+}
+
+.barra-porcentagem-prioridade-atencao .barra {
+  height: 100%;
+  background-color: #fa8405;
+}
+
+/* ----Prioridade baixa-------- */
+.barra-porcentagem-prioridade-baixa .porcentagem-barra {
+  height: 10px;
+}
+
+.barra-porcentagem-prioridade-baixa .barra {
+  height: 100%;
+  background-color: var(--text-clr);
+}
+
+/* ----Classe Principal----- */
+.metrica-principal.verde  .barra{
+  height: 100%;
+  background-color: var(--accent-clr);
+  transition: width 0.5s;
+}
+
+.metrica-principal.laranja .barra{
+  height: 100%;
+  background-color: #fa8405;
+  transition: width 0.5s;
+}
+
+.metrica-principal.cinza .barra{
+  height: 100%;
+  background-color: #ecebec;
+  transition: width 0.5s;
+}

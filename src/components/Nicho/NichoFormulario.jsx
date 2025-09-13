@@ -1,5 +1,4 @@
 import React, { useState } from 'react'
-import "../../styles/Nicho.css";
 import loading from '../../assets/loading.gif'
 
 const NichoFormulario = ({onSave,onLoading,onError,onSuccess}) => {

@@ -1,91 +1,128 @@
+.nicho-wrapper {
+  grid-column: 2 / 3; /* garante que fique na coluna principal do app-grid */
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center; /* centraliza horizontalmente form e tabela */
+  padding: 2rem 0; /* apenas espaçamento interno */
+  box-sizing: border-box;
+}
 
-.nicho-form {
-  background: var(--base-clr);
-  padding: 2rem;
-  border: 1px solid var(--line-clr);
-  border-radius: 1rem;
+/* FORMULÁRIO */
+.nicho-wrapper .nicho-form {
   width: 90%;
   max-width: 600px;
-
-   /* centralizar horizontalmente */
-  margin: 4rem auto 0 auto; /* << adiciona espaço no topo */
-  
   display: flex;
   flex-direction: column;
   gap: 1rem;
-  box-shadow: 0 4px 10px rgba(0,0,0,0.4);
-
-  /* 👇 impede que ele estique na vertical */
-  height: auto;
-  align-self: flex-start;
-}
-
-.nicho-form label {
-  font-size: 1.2rem;
-  color: var(--text-clr);
-}
-
-.nicho-form input {
-  padding: 0.8rem 1rem;
-  border-radius: 0.5rem;
+  padding: 2rem;
+  background: var(--base-clr);
+  border-radius: 1rem;
   border: 1px solid var(--line-clr);
-  background: var(--hover-clr);
-  color: var(--text-clr);
-  font-size: 1rem;
-  transition: all 0.3s ease;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.4);
 }
 
-.nicho-form input:focus {
-  border-color: var(--accent-clr);
-  outline: none;
-  box-shadow: 0 0 8px var(--accent-clr);
+.nicho-wrapper .nicho-form input {
+  width: 100%;                 /* ocupa toda a largura do form */
+  padding: 0.8rem 1rem;        /* vertical e horizontal mais confortável */
+  font-size: 1rem;             /* texto legível */
+  border: 1px solid var(--line-clr);   /* borda discreta */
+  border-radius: 0.5rem;       /* cantos arredondados */
+  background: var(--hover-clr);        /* fundo leve */
+  color: var(--text-clr);      /* cor do texto */
+  box-sizing: border-box;      /* inclui padding na largura total */
+  transition: all 0.3s ease;   /* animação suave para foco */
 }
 
-.nicho-form button {
-  padding: 0.9rem;
-  border: none;
-  border-radius: 0.5rem;
+.nicho-wrapper .nicho-form input:focus {
+  border-color: var(--accent-clr);      /* destaque ao focar */
+  outline: none;                        /* remove outline padrão */
+  box-shadow: 0 0 8px var(--accent-clr); /* glow sutil */
+}
+
+.nicho-wrapper .nicho-form button {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 0.9rem 1.2rem;
   background: var(--accent-clr);
   color: #fff;
+  border: none;
+  border-radius: 0.5rem;
   font-weight: bold;
-  font-size: 1rem;
   cursor: pointer;
   transition: all 0.3s ease;
 }
 
-.nicho-form button:hover {
+.nicho-wrapper .nicho-form button:hover {
   background: #03a31d;
   transform: scale(1.05);
 }
 
+/* TABELA */
+.nicho-wrapper .nichos-cadastrados {
+  width: 90%;
+  max-width: 600px;
+  margin-top: 2rem;
+  padding: 2rem;
+  background: var(--base-clr);
+  border-radius: 1rem;
+  border: 1px solid var(--line-clr);
+  box-shadow: 0 4px 10px rgba(0,0,0,0.3);
+}
 
+.nichos-cadastrados h2 {
+  text-align: center;
+  color: var(--text-clr);
+  margin-bottom: 1rem;
+  font-size: 1.5rem;
+}
+
+.nichos-cadastrados table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.nichos-cadastrados th,
+.nichos-cadastrados td {
+  padding: 0.8rem 1rem;
+  text-align: left;
+  border-bottom: 1px solid var(--line-clr);
+  color: var(--text-clr);
+}
+
+.nichos-cadastrados th {
+  background: var(--hover-clr);
+  font-weight: bold;
+}
+
+.nichos-cadastrados tr:hover {
+  background: var(--hover-clr);
+}
+
+.nichos-cadastrados button {
+  padding: 0.5rem 1rem;
+  background: var(--accent-clr);
+  color: #fff;
+  border: none;
+  border-radius: 0.5rem;
+  font-weight: bold;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.nichos-cadastrados button:hover {
+  background: #03a31d;
+  transform: scale(1.05);
+}
+
+/* RESPONSIVO */
 @media (max-width: 768px) {
-  .nicho-form {
+  .nicho-wrapper .nicho-form,
+  .nicho-wrapper .nichos-cadastrados {
+    width: 95%;
+    max-width: 270px;
+    margin-left: 4em;
     padding: 1rem;
-    margin: 1rem auto;
-    margin-left: 4rem;    
-    grid-column: unset !important;
-    grid-row: unset !important;
-    justify-self: center !important;
-    align-self: start !important;
-    width: 95%;       /* ocupar mais espaço na tela pequena */
-    max-width: 290px;  
   }
-   .app-grid {
-    display: block !important; /* ou flex */
-  }
-}
-
-.onLoading{
-  width: 20px; /* ajuste o tamanho da imagem */
-  height: 20px; /* ajuste o tamanho da imagem */
-  margin: 0 auto; /* centraliza a imagem horizontalmente */
-  display: block; /* necessário para o margin: 0 auto funcionar */
-}
-
-.nicho-form button {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  padding: 10px 20px; /* ajuste o padding para o tamanho desejado */
 }

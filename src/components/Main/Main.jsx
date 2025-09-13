@@ -19,7 +19,8 @@ const metricas = useMemo(()=> calcularMetricas(empresas), [empresas]);
             <div className='nichos'>
             <CardMetricas titulo="Mecanica" metricas={metricas}/>
             <div className='card'><h3>Card 2</h3></div>
-            <div className='card'><h3>Card 3</h3></div>            
+            <div className='card'><h3>Card 3</h3></div>
+            <div className='card'><h3>Card 4</h3></div>
             </div>    
             <div className='informacoes-gerais'>
               <h3>Card 5 - Infos gerais</h3>

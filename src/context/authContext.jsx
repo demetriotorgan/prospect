@@ -31,8 +31,10 @@ export function AuthProvider({children}){
             })
             .catch(error =>{
                 console.error(error);
-            });
-        
+                if(error.response && error.response.status === 401){
+                    logOut();
+                }
+            });        
     },[token]);
 
     return(

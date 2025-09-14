@@ -6,7 +6,7 @@ const useSalvarNicho = () => {
   const [error, setError] = useState(null);
   const [success, setSuccess] = useState(false);
 
-  const salvarNicho = useCallback(async (nicho) => {
+  const salvarNicho = useCallback(async (nicho, onSucessCallBack) => {
     try {
       setLoading(true);
       const payload = { tipo: nicho };
@@ -14,6 +14,11 @@ const useSalvarNicho = () => {
       setSuccess(true);
       setLoading(false);
       alert('Nicho cadastrado com sucesso!');
+      
+      if(onSucessCallBack){
+        onSucessCallBack(response.data);
+      }
+
       // console.log(response);
     } catch (error) {
       setError(error);

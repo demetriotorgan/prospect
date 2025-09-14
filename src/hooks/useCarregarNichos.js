@@ -16,7 +16,7 @@ const useCarregarNichos = ()=>{
         });
     },[]);
     
-    return {nichoOptions, erroNicho}
+    return {nichoOptions, erroNicho, setNichoOptions}
 };
 
 export default useCarregarNichos;

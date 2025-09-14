@@ -62,7 +62,7 @@
 /* TABELA */
 .nicho-wrapper .nichos-cadastrados {
   width: 90%;
-  max-width: 600px;
+  max-width: 400px;
   margin-top: 2rem;
   padding: 2rem;
   background: var(--base-clr);
@@ -86,7 +86,7 @@
 .nichos-cadastrados th,
 .nichos-cadastrados td {
   padding: 0.8rem 1rem;
-  text-align: left;
+  text-align: center;
   border-bottom: 1px solid var(--line-clr);
   color: var(--text-clr);
 }
@@ -115,6 +115,22 @@
   background: #03a31d;
   transform: scale(1.05);
 }
+.excluir{
+  text-align: center;
+}
+.loading-excluir{
+  width: 30px; 
+  height: 30px; 
+  margin: 0; 
+  padding: 0;   
+}
+
+.onLoading{
+  width: 20px; 
+  height: 20px; 
+  margin: 0; 
+  padding: 0;   
+}
 
 /* RESPONSIVO */
 @media (max-width: 768px) {
@@ -126,3 +142,4 @@
     padding: 1rem;
   }
 }
+

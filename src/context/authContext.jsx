@@ -6,6 +6,7 @@ const AuthContext = createContext();
 export function AuthProvider({children}){
     const [token, setToken] = useState(localStorage.getItem('token') || null);
     const [user, setUser] = useState(null);
+    const [loadingUser, setLoadingUser] = useState(true);
 
     const login = (token)=>{
         localStorage.setItem('token', token);
@@ -18,27 +19,33 @@ export function AuthProvider({children}){
     };
 
     useEffect(()=>{
-        if (!token) return; // não faz nada se não tiver token        
-        
-            api.get('/me',{
-                headers:{
-                     Authorization: `Bearer ${token}`,
-                },
-            })
-            .then(response =>{
+        const fetchUser = async () => {
+            if (!token) {
+                setLoadingUser(false); // não tem token, não precisa esperar nada
+                return;
+            }
+
+            try {
+                const response = await api.get('/me', {
+                    headers: {
+                        Authorization: `Bearer ${token}`,
+                    },
+                });
                 setUser(response.data);
-                // console.log('Usario: ', response.data);
-            })
-            .catch(error =>{
+            } catch (error) {
                 console.error(error);
-                if(error.response && error.response.status === 401){
+                if (error.response && error.response.status === 401) {
                     logOut();
                 }
-            });        
+            } finally {
+                setLoadingUser(false);
+            }
+        };        
+        fetchUser();
     },[token]);
 
     return(
-        <AuthContext.Provider value={{token, user, login, logOut}}>
+        <AuthContext.Provider value={{token, user, login, logOut, loadingUser}}>
             {children}
         </AuthContext.Provider>
     );

@@ -3,24 +3,32 @@ import '../../styles/Main.css'
 import useCarregarEmpresas from '../../hooks/useCarregarEmpresas'
 import CardMetricas from './CardMetricas'
 import {calcularMetricas} from '../../util/metricas'
+import useEmpresasPorNicho from '../../hooks/useEmpresasPorNicho'
+import useCarregarNichos from '../../hooks/useCarregarNichos'
+import { melhoresNichos } from '../../util/melhoresNichos'
 
 const Main = () => {
 
 //hook's
+const {nichoOptions} = useCarregarNichos();
 const {empresas, carregando, erro} = useCarregarEmpresas();
+const {empresasPorNicho} = useEmpresasPorNicho({nichoOptions});
 
 //Memoriza as métricas para não recalcular toda renderização
 const metricas = useMemo(()=> calcularMetricas(empresas), [empresas]);
+
+// Top 4 nichos
+  const topNichos = useMemo(() => melhoresNichos(empresasPorNicho, 4), [empresasPorNicho]);
+
 
   return (
     <div className='main-dashboard'>
         <div className="container">
             <h2>Nichos</h2>
             <div className='nichos'>
-            <CardMetricas titulo="Mecanica" metricas={metricas}/>
-            <div className='card'><h3>Card 2</h3></div>
-            <div className='card'><h3>Card 3</h3></div>
-            <div className='card'><h3>Card 4</h3></div>
+              {topNichos.map((item, index)=>(
+                <CardMetricas key={index} titulo={item.titulo} metricas={item.metricas}/>
+              ))}           
             </div>    
             <div className='informacoes-gerais'>
               <h3>Card 5 - Infos gerais</h3>

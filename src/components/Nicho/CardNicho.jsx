@@ -1,9 +1,33 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import { calcularMetricas } from '../../util/metricas'
+import api from '../../util/api';
+import moment from 'moment';
 
 const CardNicho = ({nicho, empresas}) => {
+  const [ultimoRegistro, setUltimoRegistro] = useState('');
+  const [semAtualizacoes, setSemAtualizacoes] = useState('');
   const metrica = calcularMetricas(empresas);
 
+  const bucarUltimoRegistro = async()=>{
+      try {
+        const response = await api.get(`ultimo-registro/${nicho}`);
+        const registro = response.data;
+        const dataFormatada = moment(registro).format('DD/MM/YYYY');
+        setUltimoRegistro(dataFormatada);
+      } catch (error) {
+        if (error.response && error.response.status === 404) {
+          setSemAtualizacoes('Sem atualizações');
+          setUltimoRegistro(''); // Limpa o valor de ultimoRegistro
+        } else {
+          setSemAtualizacoes('Erro ao buscar último registro');
+        }
+      }
+  };
+
+   useEffect(() => {
+    bucarUltimoRegistro();
+  }, [nicho]);
+  
   return (
     <div className="card-nicho">
   {/* <!-- 1. Cabeçalho --> */}
@@ -38,7 +62,7 @@ const CardNicho = ({nicho, empresas}) => {
 
   {/* <!-- 4. Rodapé --> */}
   <div className="card-nicho-footer">
-    Última atualização: 
+    Última atualização: {ultimoRegistro ? ultimoRegistro : semAtualizacoes}
   </div>
 </div>  
   )

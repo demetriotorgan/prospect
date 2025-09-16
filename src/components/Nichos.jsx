@@ -5,6 +5,7 @@ import useSalvarNicho from "../hooks/useSalvarNicho";
 import useCarregarNichos from "../hooks/useCarregarNichos";
 import TabelaNichos from "./Nicho/TabelaNichos";
 import loadingTabela from '../assets/loading.gif'
+import CardNicho from "./Nicho/CardNicho";
 
 const NichoForm = () => {
   const {salvarNicho, loading, error, success} = useSalvarNicho();
@@ -19,12 +20,14 @@ const NichoForm = () => {
   return (
     <>
     <div className="nicho-wrapper">
+  <div className="cadastrar-nicho">
   <NichoFormulario 
     onSave={handleSavarNicho}
     onLoading={loading}
     onError={error}
     onSuccess={success}
   />
+  </div>
   <div className="nichos-cadastrados">
   {carregandoNicho ? (
     <img src={loadingTabela} className="loading-tabela" />
@@ -36,8 +39,17 @@ const NichoForm = () => {
   ) : (
     <p>Nenhum nicho cadastrado.</p>
   )}
+  </div>
+  <div className="painel-nichos">   
+      <CardNicho />
+      <CardNicho />
+      <CardNicho />
+      <CardNicho />
+      <CardNicho />
+  </div>
 </div>
-</div>
+
+  
     </>
   );
 };

@@ -3,19 +3,21 @@ export function montarPayload({ empresa, user, resultado, observacao, tempoGasto
     empresaId: empresa?._id || null,
     usuarioId: user?._id || null,
     indicador: resultado || "nao-prospectado",
+    nicho: empresa.tipo,
     observacao: observacao?.trim() || "",
     tempoGasto: tempoGasto || 0,
     interesse: nota || 0,
-    retornoAgendado: dataReuniao || null,
-    funil: prioridade || "topo",
-    criadoEm: new Date().toISOString(),
-    atualizadoEm: new Date().toISOString(),
+    retornoAgendado: dataReuniao ? new Date(dataReuniao).toISOString() : null,
+    funil: prioridade || "topo",   
   };
+  
 }
 
-export const formatarMensagem = (payload, empresa) => (
+
+export const formatarMensagem = (payload, empresa) => (  
   ` ✅ Prospecção salva com sucesso!
   Empresa: ${empresa.nome}
+  Nicho: ${empresa.tipo}
   Resultado: ${payload.indicador}
   Prioridade: ${payload.funil}
   Interesse: ${payload.interesse}

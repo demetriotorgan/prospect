@@ -6,10 +6,19 @@ import useCarregarNichos from "../hooks/useCarregarNichos";
 import TabelaNichos from "./Nicho/TabelaNichos";
 import loadingTabela from '../assets/loading.gif'
 import CardNicho from "./Nicho/CardNicho";
+import useCarregarEmpresas from "../hooks/useCarregarEmpresas";
+import useEmpresasPorNicho from "../hooks/useEmpresasPorNicho";
 
 const NichoForm = () => {
+  
+  //hook;s
   const {salvarNicho, loading, error, success} = useSalvarNicho();
   const {nichoOptions, erroNicho, setNichoOptions, carregandoNicho} = useCarregarNichos();
+  const {empresasPorNicho} = useEmpresasPorNicho({nichoOptions});  
+  
+  useEffect(() => {
+  console.log("Empresas por tipo atualizado:", empresasPorNicho);
+}, [empresasPorNicho]);  
 
   const handleSavarNicho = (nicho)=>{
     salvarNicho(nicho, (novoNicho)=>{
@@ -19,7 +28,7 @@ const NichoForm = () => {
 
   return (
     <>
-    <div className="nicho-wrapper">
+<div className="nicho-wrapper">  
   <div className="cadastrar-nicho">
   <NichoFormulario 
     onSave={handleSavarNicho}
@@ -28,6 +37,7 @@ const NichoForm = () => {
     onSuccess={success}
   />
   </div>
+  
   <div className="nichos-cadastrados">
   {carregandoNicho ? (
     <img src={loadingTabela} className="loading-tabela" />
@@ -40,13 +50,16 @@ const NichoForm = () => {
     <p>Nenhum nicho cadastrado.</p>
   )}
   </div>
-  <div className="painel-nichos">   
-      <CardNicho />
-      <CardNicho />
-      <CardNicho />
-      <CardNicho />
-      <CardNicho />
-  </div>
+  
+  <div className="painel-nichos">
+  {Object.entries(empresasPorNicho).map(([tipo, listaEmpresas]) => (
+    <CardNicho 
+      key={tipo} 
+      nicho={tipo}            // passa o nome do nicho (ex: "Farmacia")
+      empresas={listaEmpresas} // passa as empresas desse nicho
+    />
+  ))}
+</div>
 </div>
 
   

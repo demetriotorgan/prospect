@@ -2,6 +2,7 @@ import { useEffect, useRef, useState } from 'react';
 import api from '../util/api';
 import { montarPayload, formatarMensagem } from '../util/prospecUtils';
 import { useAuth } from '../context/authContext';
+import axios from 'axios';
 
 export function useProspeccao({ empresas, currentIndex, setCurrentIndex, user, onAtualizarEmpresa,setShowProspectController }) {
   const [nota, setNota] = useState(0);
@@ -67,7 +68,7 @@ if (empresas[currentIndex]) {
     const valor = e.target.value;
     setResultado(valor);
     if (valor === 'ligou-agendou-reuniao') setPrioridade('meio');
-    else if (valor === 'ligou-sem-interesse') setPrioridade('topo');
+    else if (valor === 'ligou-sem-interesse') setPrioridade('fundo');
     else setPrioridade('');
   };
 
@@ -94,10 +95,13 @@ if (empresas[currentIndex]) {
     
     const payload = montarPayload({ empresa: empresaAtual, user, resultado, observacao, tempoGasto, nota, dataReuniao, prioridade });
 
+    // 🔎 Log para debug
+// console.log("📦 Payload enviado para API:", payload);
+// console.log("➡️ Empresa atual:", empresaAtual);
+
     try {
       setLoading(true);
-
-      await api.post("/salvar-prospec", payload);
+      await api.post("/salvar-prospec", payload);     
 
       try {
         await api.post("/tempo-prospec", {

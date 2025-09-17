@@ -1,0 +1,118 @@
+.painel-cidades{
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    border: 3px solid #fff;
+    margin: 1em;
+}
+
+.selecionar-cidade{
+    /* border: 1px solid #fff; */
+    display: flex;    
+    justify-content: center;   
+}
+
+.selecionar-cidade select {
+  width: 40%;
+  margin-bottom: 1em;
+  padding: 10px;  
+  border: 1px solid var(--line-clr);
+  border-radius: 5px;
+  background-color: var(--hover-clr);
+  color: var(--text-clr);
+}
+
+/* Hover / Focus */
+.selecionar-cidade select:hover {
+  border-color: var(--accent-clr);
+  background-color: var(--hover-clr);
+}
+
+.selecionar-cidade select:focus {
+  border-color: var(--accent-clr);
+  box-shadow: 0 0 0 2px rgba(4, 187, 32, 0.3);
+}
+
+/* Seta customizada */
+.selecionar-cidade::after {
+  content: "▾";
+  position: absolute;
+  right: 1em;
+  top: 50%;
+  transform: translateY(-50%);
+  color: var(--secondary-text-clr);
+  pointer-events: none;
+  transition: color 0.25s ease;
+}
+
+.selecionar-cidade:hover::after {
+  color: var(--accent-clr);
+}
+
+/* Opções internas */
+.selecionar-cidade select option {
+  background-color: var(--base-clr);
+  color: var(--text-clr);
+}
+
+.painel-cards-cidades{
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.painel-cards-cidades .card-cidade{
+    border: 1px solid #fff;
+    margin: 10px;    
+}
+
+.card-cidade {
+  background: var(--base-clr);
+  border: 1px solid var(--line-clr);
+  border-radius: 1rem;
+  padding: 1.5rem;
+  margin: 1rem 0;
+  color: var(--text-clr);
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+  transition: transform 0.25s ease, box-shadow 0.25s ease;
+}
+
+/* Efeito ao passar o mouse */
+.card-cidade:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 6px 20px rgba(4, 187, 32, 0.25);
+  border-color: var(--accent-clr);
+}
+
+/* Título */
+.card-cidade h3 {
+  font-size: 1.2rem;
+  margin-bottom: 1rem;
+  color: var(--accent-clr);
+  border-bottom: 1px solid var(--line-clr);
+  padding-bottom: 0.5rem;
+}
+
+/* Texto */
+.card-cidade p {
+  margin: 0.4rem 0;
+  font-size: 0.95rem;
+  color: var(--secondary-text-clr);
+}
+
+/* Destaque para números */
+.card-cidade p span {
+  color: var(--text-clr);
+  font-weight: bold;
+}
+
+/* ------------MEIDA---------- */
+@media (max-width: 768px) {
+    .painel-cidades .selecionar-cidade select{
+        width: 60%;
+    }
+
+    .painel-cidades .painel-cards-cidades{
+        justify-content: center;
+    }
+}
+

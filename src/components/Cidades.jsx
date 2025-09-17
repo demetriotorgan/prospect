@@ -1,72 +1,55 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import '../styles/Cidades.css'
+import useCarregarEmpresas from '../hooks/useCarregarEmpresas';
+import useCarregarCidades from '../hooks/useCarregarCidades';
+import CardCidade from './Cidades/CardCidade';
+import SelecionarCidades from './Cidades/SelecionarCidades';
+import useNichoPorCidades from '../hooks/useNichosPorCidades';
+import CardMetricaPorCidade from './Cidades/CardMetricaPorCidade';
+import GraficoCidadesProspectadas from './Cidades/GraficoCidadesProspectadas';
 
 const Cidades = () => {
-  return (
+  const [cidadeSelecionada, setCidadeSelecionada] = useState('');    
+  
+  //hook's   
+  const {empresas, carregando} = useCarregarEmpresas();   
+  const {listaCidades} = useCarregarCidades({empresas});
+  const {nichosFiltradosPorCidade,totalEmpresas,totalNichos, prospectados, agendamentos} = useNichoPorCidades({empresas, cidadeSelecionada});
+
+  console.log(nichosFiltradosPorCidade);
+   return (
     <div className='painel-cidades'>
-      <div className='selecionar-cidade'>        
-        <select>
-          <option>Cidades</option>
-          <option>Nova Londrina</option>
-          <option>Maringá</option>
-          <option>Paranavaí</option>
-        </select>        
+      <SelecionarCidades 
+      listaCidades={listaCidades}
+      setCidadeSelecionada={setCidadeSelecionada}
+      />
+      <div className='painel-cards-cidades'>          
+        {Object.entries(nichosFiltradosPorCidade).map(([nicho, empresas], index)=>(
+          <CardCidade key={index} nicho={nicho} empresas={empresas} />
+        ))}                                      
       </div>
-      <div className='painel-cards-cidades'>
-          <div className='card-cidade'>
-            <h3>Nicho: Mecânica</h3>
-            <p>Empresas Cadastradas: <span>25</span></p>
-            <p>Empresas Prospectadas: <span>18</span></p>
-            <p>Não prospectadas: <span>7</span></p>
-            <p>Agendamentos: <span>10</span></p>
-            <p>Indefinidos: <span>5</span></p>
-            <p>Sem Interesse: <span>3</span></p>
-          </div>          
-          <div className='card-cidade'>
-            <h3>Nicho: Mecânica</h3>
-            <p>Empresas Cadastradas: <span>25</span></p>
-            <p>Empresas Prospectadas: <span>18</span></p>
-            <p>Não prospectadas: <span>7</span></p>
-            <p>Agendamentos: <span>10</span></p>
-            <p>Indefinidos: <span>5</span></p>
-            <p>Sem Interesse: <span>3</span></p>
-          </div>          
-          <div className='card-cidade'>
-            <h3>Nicho: Mecânica</h3>
-            <p>Empresas Cadastradas: <span>25</span></p>
-            <p>Empresas Prospectadas: <span>18</span></p>
-            <p>Não prospectadas: <span>7</span></p>
-            <p>Agendamentos: <span>10</span></p>
-            <p>Indefinidos: <span>5</span></p>
-            <p>Sem Interesse: <span>3</span></p>
-          </div>          
-          <div className='card-cidade'>
-            <h3>Nicho: Mecânica</h3>
-            <p>Empresas Cadastradas: <span>25</span></p>
-            <p>Empresas Prospectadas: <span>18</span></p>
-            <p>Não prospectadas: <span>7</span></p>
-            <p>Agendamentos: <span>10</span></p>
-            <p>Indefinidos: <span>5</span></p>
-            <p>Sem Interesse: <span>3</span></p>
-          </div>          
-          <div className='card-cidade'>
-            <h3>Nicho: Mecânica</h3>
-            <p>Empresas Cadastradas: <span>25</span></p>
-            <p>Empresas Prospectadas: <span>18</span></p>
-            <p>Não prospectadas: <span>7</span></p>
-            <p>Agendamentos: <span>10</span></p>
-            <p>Indefinidos: <span>5</span></p>
-            <p>Sem Interesse: <span>3</span></p>
-          </div>          
-          <div className='card-cidade'>
-            <h3>Nicho: Mecânica</h3>
-            <p>Empresas Cadastradas: <span>25</span></p>
-            <p>Empresas Prospectadas: <span>18</span></p>
-            <p>Não prospectadas: <span>7</span></p>
-            <p>Agendamentos: <span>10</span></p>
-            <p>Indefinidos: <span>5</span></p>
-            <p>Sem Interesse: <span>3</span></p>
-          </div>          
+      <div className='metricas-por-cidades'>
+        <CardMetricaPorCidade
+          totalEmpresas={totalEmpresas}
+          totalNichos={totalNichos}
+          prospectados={prospectados}
+          agendamentos={agendamentos}
+          cidadeSelecionada={cidadeSelecionada}      
+        />
+        <div className='grafico-cidades'>
+          <h3>Total Emp. x Total Prospec</h3>          
+          <GraficoCidadesProspectadas 
+          valor1={totalEmpresas}
+          valor2={prospectados}
+          />          
+        </div>
+        <div className='grafico-cidades'>
+          <h3>Total Emp. x Total Agend.</h3>          
+          <GraficoCidadesProspectadas 
+          valor1={totalEmpresas}          
+          valor2={agendamentos}          
+          />          
+        </div>
       </div>
     </div>
   )

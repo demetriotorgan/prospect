@@ -1,8 +1,7 @@
 .painel-cidades{
     display: flex;
     flex-direction: column;
-    width: 100%;
-    border: 3px solid #fff;
+    width: 100%;    
     margin: 1em;
 }
 
@@ -58,6 +57,8 @@
 .painel-cards-cidades{
     display: flex;
     flex-wrap: wrap;
+    justify-content: flex-start;
+    margin: 0rem 5rem;
 }
 
 .painel-cards-cidades .card-cidade{
@@ -105,14 +106,109 @@
   font-weight: bold;
 }
 
+/* -------Metricas--------- */
+.metricas-por-cidades{
+  display: flex;
+  justify-content: center;  
+  border-top: 1px solid var(--line-clr)
+}
+
+.metricas-por-cidades .card-metricas-cidade{
+  /* border: 1px solid #fff;   */
+  margin: 10px;
+}
+
+.card-metricas-cidade{   
+  background: var(--base-clr);
+  border: 1px solid var(--line-clr);
+  border-radius: 1rem;
+  padding: 1.5rem;
+  margin: 3rem 2rem;
+  color: var(--text-clr);
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+  transition: transform 0.25s ease, box-shadow 0.25s ease;
+}
+
+.card-metricas-cidades:hover{
+  transform: translateY(-5px);
+  box-shadow: 0 6px 20px rgba(4, 187, 32, 0.25);
+  border-color: var(--accent-clr);
+}
+
+/* Título */
+.card-metricas-cidade h3 {
+  font-size: 1.2rem;
+  margin-bottom: 1rem;
+  color: var(--accent-clr);
+  border-bottom: 1px solid var(--line-clr);
+  padding-bottom: 0.5rem;
+}
+
+/* Texto */
+.card-metricas-cidade p {
+  margin: 0.4rem 0;
+  font-size: 0.95rem;
+  color: var(--secondary-text-clr);
+}
+
+.pulsating {
+  animation: pulse 1s infinite;
+}
+
+@keyframes pulse {
+  0% {
+    color: yellow;
+  }
+  50% {
+    color: red;
+  }
+  100% {
+    color: yellow;
+  }
+}
+
+/* --------Graficos--------- */
+.metricas-por-cidades .grafico-cidades{
+  margin: 10px;
+}
+.grafico-cidades{
+  width: 20%;  
+  border: 1px solid #fff;  
+  background: var(--base-clr);
+  border: 1px solid var(--line-clr);
+  border-radius: 1rem;
+  padding: 1rem;
+  margin: 3rem 2rem;  
+  color: var(--text-clr);
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+  transition: transform 0.25s ease, box-shadow 0.25s ease;
+}
+
+
 /* ------------MEIDA---------- */
 @media (max-width: 768px) {
+    
     .painel-cidades .selecionar-cidade select{
         width: 60%;
     }
 
-    .painel-cidades .painel-cards-cidades{
+    .painel-cidades .painel-cards-cidades{      
         justify-content: center;
+        margin: 0rem 3rem;
+    }
+
+    .metricas-por-cidades{
+      display: flex;       
+      flex-direction: column;
+      margin-left: 3rem;
+      
+    }
+    .metricas-por-cidades .card-metricas-cidade{
+      margin-right: 2rem;
+    }
+    .metricas-por-cidades .grafico-cidades{
+     width: 300px;
+     
     }
 }
 

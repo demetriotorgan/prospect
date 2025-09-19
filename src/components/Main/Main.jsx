@@ -68,7 +68,14 @@ const metricas = useMemo(()=> calcularMetricas(empresas), [empresas]);
                 top3NichosComSite={metricas.top3NichosComSite}
                 />
 
-                <CardInfoGeralProspec />
+                <CardInfoGeralProspec 
+                totalEmpresas={metricas.totalEmpresas}
+                naoProspectadas={metricas.naoProspec}
+                semResposta={metricas.semResposta}
+                indefinidos={metricas.indefinidos}
+                semInteresse={metricas.semInteresse}
+                agendamentos={metricas.agendamentos}
+                />
 
               </div>
             </div>

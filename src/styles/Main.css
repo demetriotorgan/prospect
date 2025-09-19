@@ -70,7 +70,7 @@
 /* ------CARDS--------- */
 .card-info {  
   width: 100%;
-  max-width: 300px;
+  max-width: 400px;
   background: var(--base-clr);
   border-radius: 16px;
   padding: 1.5rem;

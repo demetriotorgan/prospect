@@ -139,12 +139,13 @@
 @media(max-width: 768px){
     .main-dashboard{
     margin-left: 4em;
+    padding: 0;
     }
     .container{
     border: 1px solid var(--line-clr);
     border-radius: 1em;
     margin-bottom: 20px;
-    padding: min(1em, 5%);
+    padding: 0;
     h2, p {margin-top: 1em;}
 }
 .card{
@@ -157,5 +158,14 @@
     display: flex;
     flex-direction: column;
     justify-content: flex-start;    
-}}
+}
+.container .informacoes-gerais{
+    padding: 10px;
+    margin: 10px;
+}
+.container .informacoes-gerais .painel-infos-gerais .card-info{
+    width: 250px;
+    padding: 10px;
+}
+}
 

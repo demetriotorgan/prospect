@@ -2,8 +2,7 @@
     margin-left: 1em;
     padding: 10px;
     margin-top: 1em;
-    padding-right: 30px;
-    
+    padding-right: 30px;    
 }
 
 .container{    
@@ -35,18 +34,107 @@
     flex-direction: column;    
 }
 
-.informacoes-gerais{
-    background-color: var(--line-clr);
-    padding: 1em;
-    border-radius: 0.5em;
-}
-
 .nichos .card .metricas-prioridade{
     margin: 5px;
     padding: 0.5em;
     border: 1px solid #fff;
     border-radius: 10px;
 }
+
+
+/* ---------Info Gerais----------- */
+
+.informacoes-gerais{
+    background-color: var(--line-clr);
+    padding: 1em;
+    border-radius: 0.5em;
+}
+
+.container .informacoes-gerais{
+    display: flex;
+    flex-direction: column;
+}   
+
+.container .informacoes-gerais .painel-infos-gerais{
+    display: flex;  
+    justify-content: center;          
+    flex-wrap: wrap;
+}
+
+.container .informacoes-gerais .painel-infos-gerais .card-info{
+    border: 1px solid var(--line-clr);    
+    margin: 10px;    
+    border-radius: 10px;    
+}
+
+/* ------CARDS--------- */
+.card-info {    
+  width: 400px;
+  background: var(--base-clr);
+  border-radius: 16px;
+  padding: 1.5rem;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.35);
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: flex-start;
+  
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.card-info:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 6px 16px rgba(0,0,0,0.45);
+  background: var(--hover-clr);
+}
+
+.card-info h2 {
+  font-size: 1.2rem;
+  font-weight: 600;
+  color: var(--accent-clr);
+  margin: 0;
+}
+
+.card-info p {
+  font-size: 0.95rem;
+  color: var(--text-clr);
+  margin: 0.2rem 0;
+}
+
+.card-info p span {
+  color: var(--accent-clr);
+  font-weight: 500;
+}
+
+.card-info small {
+  font-size: 0.8rem;
+  color: var(--secondary-text-clr);
+}
+
+/* área do gráfico */
+.grafico-info-gerais {
+  width: 100%;
+  height: 220px; /* altura fixa para consistência */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid var(--line-clr);
+  border-radius: 12px;
+  background: var(--base-clr);
+}
+
+.grafico-info-gerais canvas,
+.grafico-info-gerais svg {
+  width: 100% !important;
+  height: 100% !important;
+  object-fit: contain;
+}
+
+.card-info ul li{
+ list-style: none;
+}
+
+/* --------MEDIA------- */
 
 @media(max-width: 768px){
     .main-dashboard{
@@ -69,7 +157,5 @@
     display: flex;
     flex-direction: column;
     justify-content: flex-start;    
-}
-
-}
+}}
 

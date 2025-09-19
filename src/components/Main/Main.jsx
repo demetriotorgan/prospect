@@ -6,6 +6,13 @@ import {calcularMetricas} from '../../util/metricas'
 import useEmpresasPorNicho from '../../hooks/useEmpresasPorNicho'
 import useCarregarNichos from '../../hooks/useCarregarNichos'
 import { melhoresNichos } from '../../util/melhoresNichos'
+import { IconFire, IconOlho } from '../../util/Icones'
+import CardInfoGeral from './CardInfoGeral'
+import CardInfoGeralCidades from './CardInfoGeralCidades'
+import CardInfoGeralNichos from './CardInfoGeralNichos'
+import CardInfoGeralEstado from './CardInfoGeralEstado'
+import CardInfoGeralSites from './CardInfoGeralSites'
+import CardInfoGeralProspec from './CardInfoGeralProspec'
 
 const Main = () => {
 
@@ -24,14 +31,43 @@ const metricas = useMemo(()=> calcularMetricas(empresas), [empresas]);
   return (
     <div className='main-dashboard'>
         <div className="container">
-            <h2>Nichos</h2>
+            <h2>Top + Nichos <IconFire/></h2>
+            <small>Aqui estão os quatro nichos mais aquecidos até o momento</small>
             <div className='nichos'>
               {topNichos.map((item, index)=>(
                 <CardMetricas key={index} titulo={item.titulo} metricas={item.metricas}/>
               ))}           
             </div>    
             <div className='informacoes-gerais'>
-              <h3>Card 5 - Infos gerais</h3>
+              <h3>Infos gerais <IconOlho /></h3>
+              <small>Aqui você encontra todas as informações mais importates das empresas cadastradas</small>
+              <div className='painel-infos-gerais'>
+                <CardInfoGeral
+                  titulo="Agendamentos x Retorno"
+                  labels={["Reuniões Agendadas", "Pedidos de Retorno"]}
+                  valores={[metricas.agendamentos, metricas.retorno]}
+                  total={metricas.totalEmpresas}
+                />
+                <CardInfoGeralCidades
+                  cidades={metricas.cidadesMaiorConcentracao} // top 3 cidades
+                  total={metricas.totalEmpresas}
+                />
+                <CardInfoGeralNichos
+                totalDeNichos={metricas.totalDeNichos}
+                top3Nichos={metricas.top3Nichos}
+                contagemPorTipo={metricas.contagemPorTipo}
+                />
+                <CardInfoGeralEstado
+                totalEstados={metricas.totalDeEstados}
+                top3Estados={metricas.top3Estados}
+                porcentagemPorEstado={metricas.porcentagemPorEstado}
+                />
+
+                <CardInfoGeralSites />
+
+                <CardInfoGeralProspec />
+
+              </div>
             </div>
         </div>
         <div className="container">

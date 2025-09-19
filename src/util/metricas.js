@@ -128,6 +128,42 @@ const porcentagemPorEstado = top3Estados.map(({ estado, total }) => ({
     };
   })();
 
+const getTop3NichosComSite = (empresas) => {
+  // 1. Filtrar apenas empresas que têm site preenchido
+  const empresasComSite = empresas.filter(
+    (emp) => emp.site && emp.site.trim() !== ""
+  );
+
+  // 2. Contar empresas com site por tipo/nicho
+  const contagem = empresasComSite.reduce((acc, empresa) => {
+    const tipo = empresa.tipo?.trim() || "Indefinido";
+    acc[tipo] = (acc[tipo] || 0) + 1;
+    return acc;
+  }, {});
+
+  // 3. Transformar em array [{ tipo, total }]
+  let arrayNichos = Object.entries(contagem).map(([tipo, total]) => ({
+    tipo,
+    total,
+  }));
+
+  // 4. Ordenar decrescente
+  arrayNichos = arrayNichos.sort((a, b) => b.total - a.total);
+
+  // 5. Garantir 3 resultados (mesmo que zeros)
+  while (arrayNichos.length < 3) {
+    arrayNichos.push({
+      tipo: `Nicho ${arrayNichos.length + 1}`,
+      total: 0,
+    });
+  }
+
+  // 6. Retornar somente os 3 primeiros
+  return arrayNichos.slice(0, 3);
+};
+
+ const top3NichosComSite = getTop3NichosComSite(empresas);
+
   return {
     totalEmpresas,
     totalProspectadas,
@@ -150,6 +186,7 @@ const porcentagemPorEstado = top3Estados.map(({ estado, total }) => ({
     totalDeEstados,
     top3Estados,
     porcentagemPorEstado,
-    presencaOnline
+    presencaOnline,
+     top3NichosComSite,
   };
 };

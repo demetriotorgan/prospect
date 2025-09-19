@@ -68,8 +68,9 @@
 }
 
 /* ------CARDS--------- */
-.card-info {    
-  width: 300px;
+.card-info {  
+  width: 100%;
+  max-width: 300px;
   background: var(--base-clr);
   border-radius: 16px;
   padding: 1.5rem;
@@ -77,8 +78,7 @@
   display: flex;
   flex-direction: column;
   justify-content: flex-start;
-  align-items: flex-start;
-  
+  align-items: flex-start;  
   transition: transform 0.2s ease, box-shadow 0.2s ease;
 }
 
@@ -141,6 +141,10 @@
     margin-left: 4em;
     padding: 0;
     }
+
+    .main-dashboard .container .nichos{
+        margin-right: 10px;
+    }
     .container{
     border: 1px solid var(--line-clr);
     border-radius: 1em;
@@ -164,7 +168,8 @@
     margin: 10px;
 }
 .container .informacoes-gerais .painel-infos-gerais .card-info{
-    width: 250px;
+    width: 100%;
+    max-width: 250px;
     padding: 10px;
 }
 }

@@ -25,3 +25,7 @@ body{
     background-color: var(--base-clr);
     color: var(--text-clr);    
 }
+
+html, body {
+  overflow-x: hidden;
+}

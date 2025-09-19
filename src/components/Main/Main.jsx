@@ -63,7 +63,9 @@ const metricas = useMemo(()=> calcularMetricas(empresas), [empresas]);
                 porcentagemPorEstado={metricas.porcentagemPorEstado}
                 />
 
-                <CardInfoGeralSites />
+                <CardInfoGeralSites
+                presencaOnline={metricas.presencaOnline}
+                />
 
                 <CardInfoGeralProspec />
 

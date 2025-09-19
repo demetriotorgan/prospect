@@ -111,7 +111,22 @@ const porcentagemPorEstado = top3Estados.map(({ estado, total }) => ({
   porcentagem: (total / totalEmpresas) * 100,
 }));
 
-console.log(porcentagemPorEstado)
+// --- Métricas de empresas com site ---
+  const presencaOnline = (() => {
+    const totalEmpresas = empresas.length;
+    const comSite = empresas.filter(
+      (emp) => emp.site && emp.site.trim() !== ""
+    ).length;
+
+    const percentual = totalEmpresas > 0
+      ? ((comSite / totalEmpresas) * 100).toFixed(1)
+      : 0;
+
+    return {
+      comSite,
+      percentual,
+    };
+  })();
 
   return {
     totalEmpresas,
@@ -134,6 +149,7 @@ console.log(porcentagemPorEstado)
     top3Nichos,
     totalDeEstados,
     top3Estados,
-    porcentagemPorEstado
+    porcentagemPorEstado,
+    presencaOnline
   };
 };

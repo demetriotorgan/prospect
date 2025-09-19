@@ -155,8 +155,7 @@
 .card{
     flex: 1 230px;
     height: auto;   
-    background-color: var(--line-clr);
-    padding: 0.5em;
+    background-color: var(--line-clr);    
     border-radius: .5em;    
     align-content: center;
     display: flex;
@@ -164,13 +163,14 @@
     justify-content: flex-start;    
 }
 .container .informacoes-gerais{
-    padding: 10px;
+    padding: 5px;
     margin: 10px;
 }
 .container .informacoes-gerais .painel-infos-gerais .card-info{
     width: 100%;
-    max-width: 250px;
-    padding: 10px;
+    max-width: 300px;
+    padding: 5px;
+    margin: 0;
 }
 }
 

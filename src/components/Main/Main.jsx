@@ -13,6 +13,7 @@ import CardInfoGeralNichos from './CardInfoGeralNichos'
 import CardInfoGeralEstado from './CardInfoGeralEstado'
 import CardInfoGeralSites from './CardInfoGeralSites'
 import CardInfoGeralProspec from './CardInfoGeralProspec'
+import loading from '../../assets/loading.gif'
 
 const Main = () => {
 
@@ -34,9 +35,11 @@ const metricas = useMemo(()=> calcularMetricas(empresas), [empresas]);
             <h2>Top + Nichos <IconFire/></h2>
             <small>Aqui estão os quatro nichos mais aquecidos até o momento</small>
             <div className='nichos'>
-              {topNichos.map((item, index)=>(
+              {carregando ? (<img src={loading} className='loading-top-nichos' />) : (
+                topNichos.map((item, index)=>(
                 <CardMetricas key={index} titulo={item.titulo} metricas={item.metricas}/>
-              ))}           
+              ))
+              )}                         
             </div>    
             <div className='informacoes-gerais'>
               <h3>Infos gerais <IconOlho /></h3>

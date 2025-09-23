@@ -7,7 +7,7 @@ import SelecionarCidades from './Cidades/SelecionarCidades';
 import useNichoPorCidades from '../hooks/useNichosPorCidades';
 import CardMetricaPorCidade from './Cidades/CardMetricaPorCidade';
 import GraficoCidadesProspectadas from './Cidades/GraficoCidadesProspectadas';
-
+import loading from '../assets/loading.gif'
 const Cidades = () => {
   const [cidadeSelecionada, setCidadeSelecionada] = useState('');    
   
@@ -24,9 +24,12 @@ const Cidades = () => {
       setCidadeSelecionada={setCidadeSelecionada}
       />
       <div className='painel-cards-cidades'>          
-        {Object.entries(nichosFiltradosPorCidade).map(([nicho, empresas], index)=>(
+        {carregando ? (<img src={loading} className='carregando-card-nichos' />):(
+          Object.entries(nichosFiltradosPorCidade).map(([nicho, empresas], index)=>(
           <CardCidade key={index} nicho={nicho} empresas={empresas} />
-        ))}                                      
+        ))
+        )}
+        
       </div>
       <div className='metricas-por-cidades'>
         <CardMetricaPorCidade

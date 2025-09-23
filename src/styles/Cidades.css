@@ -21,6 +21,11 @@
   color: var(--text-clr);
 }
 
+.painel-cards-cidades .carregando-card-nichos{  
+  max-width: 80px; /* ajuste o valor para o tamanho desejado */
+  max-height: 80px; /* ajuste o valor para o tamanho desejado */
+}
+
 /* Hover / Focus */
 .selecionar-cidade select:hover {
   border-color: var(--accent-clr);

@@ -6,7 +6,7 @@ import {calcularMetricas} from '../../util/metricas'
 import useEmpresasPorNicho from '../../hooks/useEmpresasPorNicho'
 import useCarregarNichos from '../../hooks/useCarregarNichos'
 import { melhoresNichos } from '../../util/melhoresNichos'
-import { IconFire, IconOlho } from '../../util/Icones'
+import { IconCidade, IconFire, IconOlho } from '../../util/Icones'
 import CardInfoGeral from './CardInfoGeral'
 import CardInfoGeralCidades from './CardInfoGeralCidades'
 import CardInfoGeralNichos from './CardInfoGeralNichos'
@@ -14,6 +14,7 @@ import CardInfoGeralEstado from './CardInfoGeralEstado'
 import CardInfoGeralSites from './CardInfoGeralSites'
 import CardInfoGeralProspec from './CardInfoGeralProspec'
 import loading from '../../assets/loading.gif'
+import CardCidades from './CardCidades'
 
 const Main = () => {
 
@@ -84,8 +85,11 @@ const metricas = useMemo(()=> calcularMetricas(empresas), [empresas]);
             </div>
         </div>
         <div className="container">
-            <h2>Cidades</h2>
-            <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Nisi doloribus aspernatur perspiciatis cum repudiandae quisquam eaque maxime sint earum praesentium numquam exercitationem qui quo sit veritatis repellendus voluptate, architecto sed.</p>
+            <h2>Cidades <IconCidade /></h2>
+            <small>Painel com as principais informações sobre agendamentos, falta de prospecção e presença digital por cidades</small>
+            <CardCidades 
+            metricas={metricas}
+            />
         </div>
         <div className="container">
             <h2>Empresas</h2>

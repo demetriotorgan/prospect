@@ -129,6 +129,11 @@
   background: var(--base-clr);
 }
 
+.grafico-info-gerais svg {
+  width: 100% !important;
+  height: 100% !important;
+}
+
 .grafico-info-gerais canvas,
 .grafico-info-gerais svg {
   width: 100% !important;

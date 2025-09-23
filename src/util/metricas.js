@@ -164,6 +164,75 @@ const getTop3NichosComSite = (empresas) => {
 
  const top3NichosComSite = getTop3NichosComSite(empresas);
 
+ // --- TOP 3 CIDADES COM MAIS AGENDAMENTOS ---
+  const agendamentosPorCidade = empresas
+    .filter(e => e.statusAtual === 'ligou-agendou-reuniao')
+    .reduce((acc, emp) => {
+      const cidade = emp.cidade?.trim() || "Indefinida";
+      acc[cidade] = (acc[cidade] || 0) + 1;
+      return acc;
+    }, {});
+
+  const top3CidadesAgendamentos = Object.entries(agendamentosPorCidade)
+    .sort((a, b) => b[1] - a[1]) // ordena do maior pro menor
+    .slice(0, 3) // pega só os 3 primeiros
+    .map(([cidade, total]) => ({
+      cidade,
+      total
+    }));
+
+  // garante sempre 3 posições (mesmo se não tiver 3 cidades com agendamento)
+  while (top3CidadesAgendamentos.length < 3) {
+    top3CidadesAgendamentos.push({
+      cidade: `Cidade ${top3CidadesAgendamentos.length + 1}`,
+      total: 0
+    });
+  };
+
+function top3CidadesMenosProspectadas(empresas) {
+  const naoProspectadas = empresas.filter(
+    (e) => e.statusAtual === "nao-prospectado"
+  );
+
+  const contagemPorCidade = naoProspectadas.reduce((acc, empresa) => {
+    const cidade = (empresa.cidade || "Indefinida").trim().toLowerCase();
+    acc[cidade] = (acc[cidade] || 0) + 1;
+    return acc;
+  }, {});
+
+  let cidadesOrdenadas = Object.entries(contagemPorCidade)
+    .sort((a, b) => b[1] - a[1])
+    .map(([cidade, quantidade]) => ({ cidade, quantidade }));
+
+  // garante sempre 3 posições
+  while (cidadesOrdenadas.length < 3) {
+    cidadesOrdenadas.push({
+      cidade: `Cidade ${cidadesOrdenadas.length + 1}`,
+      quantidade: 0,
+    });
+  }
+
+  return cidadesOrdenadas.slice(0, 3);
+}
+
+const top3MenosProspec = top3CidadesMenosProspectadas(empresas);
+ 
+
+// --- Top 3 Cidades Sem Site ---
+  const top3CidadesSemSite = (() => {
+    const semSite = empresas.filter((e) => !e.site || e.site.trim() === "");
+    const contagem = semSite.reduce((acc, e) => {
+      const cidade = (e.cidade || "Indefinida").trim().toLowerCase();
+      acc[cidade] = (acc[cidade] || 0) + 1;
+      return acc;
+    }, {});
+    let array = Object.entries(contagem)
+      .sort((a, b) => b[1] - a[1])
+      .map(([cidade, quantidade]) => ({ cidade, quantidade }));
+    while (array.length < 3) array.push({ cidade: `Cidade ${array.length + 1}`, quantidade: 0 });
+    return array.slice(0, 3);
+  })();
+
   return {
     totalEmpresas,
     totalProspectadas,
@@ -188,5 +257,8 @@ const getTop3NichosComSite = (empresas) => {
     porcentagemPorEstado,
     presencaOnline,
      top3NichosComSite,
+     top3CidadesAgendamentos,
+     top3CidadesMenosProspectadas: top3MenosProspec,
+      top3CidadesSemSite,
   };
 };

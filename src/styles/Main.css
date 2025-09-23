@@ -145,6 +145,15 @@
  list-style: none;
 }
 
+.painel-cards-cidades{
+  width: 100%;
+}
+
+.painel-cards-cidades .card-info{
+  padding: 10px;
+  margin: 10px;    
+}
+
 /* --------MEDIA------- */
 
 @media(max-width: 768px){
@@ -182,6 +191,15 @@
     max-width: 300px;
     padding: 5px;
     margin: 0;
+}
+
+.container .painel-cards-cidades{
+  margin: 0;  
+}
+
+.container .painel-cards-cidades .card-info{
+  margin-right: 10px;
+  padding: 10px;
 }
 }
 

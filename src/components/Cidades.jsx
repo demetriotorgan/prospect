@@ -16,7 +16,7 @@ const Cidades = () => {
   const {listaCidades} = useCarregarCidades({empresas});
   const {nichosFiltradosPorCidade,totalEmpresas,totalNichos, prospectados, agendamentos} = useNichoPorCidades({empresas, cidadeSelecionada});
 
-  console.log(nichosFiltradosPorCidade);
+  // console.log(nichosFiltradosPorCidade);
    return (
     <div className='painel-cidades'>
       <SelecionarCidades 

@@ -17,7 +17,7 @@ const NichoForm = () => {
   const {empresasPorNicho} = useEmpresasPorNicho({nichoOptions});  
   
   useEffect(() => {
-  console.log("Empresas por tipo atualizado:", empresasPorNicho);
+  // console.log("Empresas por tipo atualizado:", empresasPorNicho);
 }, [empresasPorNicho]);  
 
   const handleSavarNicho = (nicho)=>{
@@ -60,9 +60,7 @@ const NichoForm = () => {
     />
   ))}
 </div>
-</div>
-
-  
+</div>  
     </>
   );
 };

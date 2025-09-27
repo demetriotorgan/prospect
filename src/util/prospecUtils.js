@@ -12,6 +12,7 @@ function horaStringParaISO(horaStr) {
 export function montarPayload({ empresa, user, resultado, observacao, tempoGasto, nota, dataReuniao, dataTime,prioridade }) {
   return {
     empresaId: empresa?._id || null,
+    nomeEmpresa: empresa.nome || "",
     usuarioId: user?._id || null,
     indicador: resultado || "nao-prospectado",
     nicho: empresa.tipo,
@@ -20,6 +21,8 @@ export function montarPayload({ empresa, user, resultado, observacao, tempoGasto
     interesse: nota || 0,
     retornoAgendado: dataReuniao ? new Date(dataReuniao).toISOString() : null,
      dataTime: horaStringParaISO(dataTime),
+     telefone: empresa.telefone || "",
+     site: empresa.site || "",
     funil: prioridade || "topo",   
   };  
 }

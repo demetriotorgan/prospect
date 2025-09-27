@@ -10,7 +10,7 @@ const ProspectController = ({empresas,onAtualizarEmpresa,setOnProspect,setShowPr
   const {user} = useAuth();
   const {currentIndex, setCurrentIndex, empresaAtual, handleFecharProspec } = useProspectUI({ empresas, setOnProspect, setShowProspectController });
 
-  const {nota, resultado,prioridade,observacao,dataReuniao,tempoGasto,loading,erro,setObservacao, setDataReuniao, setPrioridade, handleNota, handleResultado, handleSalvarProspeccao,erros} = useProspeccao({empresas, currentIndex, setCurrentIndex, user, onAtualizarEmpresa,setShowProspectController});  
+  const {nota, resultado,prioridade,observacao,dataReuniao, dataTime,tempoGasto,loading,erro,setObservacao, setDataReuniao, setDataTime, setPrioridade, handleNota, handleResultado, handleSalvarProspeccao,erros} = useProspeccao({empresas, currentIndex, setCurrentIndex, user, onAtualizarEmpresa,setShowProspectController});  
 
 if (!empresaAtual) {
   return (
@@ -50,7 +50,18 @@ if (!empresaAtual) {
       <div className='info-telefone'>
         <h4>Telefone</h4>
         <p>{empresaAtual.telefone || "Sem Telefone"}</p>
+        <div className='info-site'>
+        <h3>Site:</h3>
+        {empresaAtual.site ? (
+        <a href={empresaAtual.site} target="_blank" rel="noopener noreferrer">
+          {empresaAtual.site}
+        </a>
+      ) : (
+        'Empresa sem site'
+      )}
       </div>
+      </div>
+
       <div className='resultados-prospec'>
         <select value={resultado} onChange={handleResultado}>
           <option value="">--Resultados--</option>
@@ -70,7 +81,12 @@ if (!empresaAtual) {
         type='date'
         value={dataReuniao}
         onChange={(e) => setDataReuniao(e.target.value)}
-        />       
+        />
+        <input
+        type='time'       
+        value={dataTime}
+        onChange={(e)=>setDataTime(e.target.value)}
+        />        
         {erros.dataReuniao && <p className="erro-msg">{erros.observacao}</p>}
         </> 
         )}       

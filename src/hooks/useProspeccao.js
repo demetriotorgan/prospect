@@ -10,6 +10,7 @@ export function useProspeccao({ empresas, currentIndex, setCurrentIndex, user, o
   const [prioridade, setPrioridade] = useState('');
   const [observacao, setObservacao] = useState('');
   const [dataReuniao, setDataReuniao] = useState('');
+  const [dataTime, setDataTime] = useState('');
   const [tempoGasto, setTempoGasto] = useState(0);
   const [loading, setLoading] = useState(false);
   
@@ -19,6 +20,7 @@ export function useProspeccao({ empresas, currentIndex, setCurrentIndex, user, o
     observacao: null,
     nota: null,
     dataReuniao:null,
+    dataTime:null,
     geral:null,
   });
 
@@ -37,7 +39,7 @@ export function useProspeccao({ empresas, currentIndex, setCurrentIndex, user, o
       setObservacao('');
       setDataReuniao('');
       setTempoGasto(0);
-      setErros({ resultado: null, observacao: null, nota: null, dataReuniao:null, geral:null });
+      setErros({ resultado: null, observacao: null, nota: null, dataReuniao:null, dataTime:null, geral:null });
     }
   }, [currentIndex, empresas]);
 
@@ -59,6 +61,7 @@ if (empresas[currentIndex]) {
     setPrioridade('');
     setObservacao('');
     setDataReuniao('');
+    setDataTime('');
     setErros({ resultado: null, observacao: null, nota: null });
   };
 
@@ -93,10 +96,10 @@ if (empresas[currentIndex]) {
       return;
     }
     
-    const payload = montarPayload({ empresa: empresaAtual, user, resultado, observacao, tempoGasto, nota, dataReuniao, prioridade });
+    const payload = montarPayload({ empresa: empresaAtual, user, resultado, observacao, tempoGasto, nota, dataReuniao, dataTime, prioridade });
 
     // 🔎 Log para debug
-// console.log("📦 Payload enviado para API:", payload);
+   console.log("📦 Payload enviado para API:", payload);
 // console.log("➡️ Empresa atual:", empresaAtual);
 
     try {
@@ -139,11 +142,13 @@ if (empresas[currentIndex]) {
     prioridade,
     observacao,
     dataReuniao,
+    dataTime,
     tempoGasto,
     loading,
     erros,
     setObservacao,
     setDataReuniao,
+    setDataTime,
     setPrioridade,
     handleNota,
     handleResultado,

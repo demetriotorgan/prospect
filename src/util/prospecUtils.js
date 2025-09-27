@@ -1,4 +1,15 @@
-export function montarPayload({ empresa, user, resultado, observacao, tempoGasto, nota, dataReuniao, prioridade }) {
+function horaStringParaISO(horaStr) {
+  if (!horaStr) return null;
+  const [h, m] = horaStr.split(":");
+  const date = new Date();
+  date.setHours(Number(h));
+  date.setMinutes(Number(m));
+  date.setSeconds(0);
+  date.setMilliseconds(0);
+  return date.toISOString();
+};
+
+export function montarPayload({ empresa, user, resultado, observacao, tempoGasto, nota, dataReuniao, dataTime,prioridade }) {
   return {
     empresaId: empresa?._id || null,
     usuarioId: user?._id || null,
@@ -8,9 +19,9 @@ export function montarPayload({ empresa, user, resultado, observacao, tempoGasto
     tempoGasto: tempoGasto || 0,
     interesse: nota || 0,
     retornoAgendado: dataReuniao ? new Date(dataReuniao).toISOString() : null,
+     dataTime: horaStringParaISO(dataTime),
     funil: prioridade || "topo",   
-  };
-  
+  };  
 }
 
 
@@ -22,5 +33,5 @@ export const formatarMensagem = (payload, empresa) => (
   Prioridade: ${payload.funil}
   Interesse: ${payload.interesse}
   Observação: ${payload.observacao || "Nenhuma"}
-  ${payload.retornoAgendado ? `Reunião agendada para: ${payload.retornoAgendado}` : "Sem Agendamento"}`
+  ${payload.retornoAgendado ? `Reunião agendada para: ${payload.retornoAgendado} as ${payload.dataTime} h` : "Sem Agendamento"}`
 );

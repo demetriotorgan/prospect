@@ -217,6 +217,16 @@
     margin: 3px;
 }
 
+.atrasada {
+  color: #fff;
+  background-color: #e63946; /* vermelho forte */
+  font-weight: bold;
+  padding: 4px 8px;
+  border-radius: 6px;
+  display: inline-block;
+}
+
+
 
 /* Responsividade */
 @media (max-width: 768px) {
@@ -229,3 +239,4 @@
     max-width: 100%;
   }
 }
+

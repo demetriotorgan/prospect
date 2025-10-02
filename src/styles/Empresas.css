@@ -226,6 +226,87 @@
   display: inline-block;
 }
 
+.carregar-agendamentos{
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 100px; /* ajuste o tamanho */
+  height: 100px; /* ajuste o tamanho */
+}
+
+/* ----------Card Agendamentos Gerais------------- */
+.card {
+  background: var(--base-clr);
+  border: 1px solid var(--line-clr);
+  border-radius: 12px;
+  padding: 16px;
+  margin-bottom: 16px;
+  box-shadow: 0 4px 8px rgba(0,0,0,0.3);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  color: var(--text-clr);
+}
+
+.card:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 6px 12px rgba(0,0,0,0.5);
+}
+
+.card .empresa {
+  font-size: 1.3rem;
+  font-weight: bold;
+  color: var(--accent-clr);
+  margin-bottom: 12px;
+  border-bottom: 2px solid var(--accent-clr);
+  padding-bottom: 4px;
+}
+
+.card .telefone {
+  background: var(--hover-clr);
+  padding: 10px 12px;
+  border-radius: 8px;
+  font-size: 1rem;
+  margin-bottom: 12px;
+  color: var(--text-clr);
+  font-weight: bold;
+  letter-spacing: 0.5px;
+}
+
+.card .agendamento-info {
+  background: var(--line-clr);
+  padding: 10px 12px;
+  border-radius: 8px;
+  margin-bottom: 12px;
+  font-size: 0.95rem;
+  color: var(--secondary-text-clr);
+}
+
+.card .agendamento-info p {
+  margin: 4px 0;
+}
+
+.card .extra-info {
+  display: flex;
+  justify-content: space-between;
+  background: var(--hover-clr);
+  padding: 8px 12px;
+  border-radius: 8px;
+  font-weight: 500;
+  margin-bottom: 12px;
+  color: var(--accent-clr);
+}
+
+.card .tempo-restante {
+  background: var(--accent-clr);
+  color: var(--base-clr);
+  text-align: center;
+  font-weight: bold;
+  padding: 10px;
+  border-radius: 8px;
+  font-size: 1.05rem;
+  letter-spacing: 0.5px;
+}
+
 
 
 /* Responsividade */

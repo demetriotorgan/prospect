@@ -19,7 +19,9 @@ export function montarPayload({ empresa, user, resultado, observacao, tempoGasto
     observacao: observacao?.trim() || "",
     tempoGasto: tempoGasto || 0,
     interesse: nota || 0,
-    retornoAgendado: dataReuniao ? new Date(dataReuniao).toISOString() : null,
+    retornoAgendado: dataReuniao 
+    ? new Date(`${dataReuniao}T12:00:00.000Z`).toISOString() 
+    : null,
      dataTime: horaStringParaISO(dataTime),
      telefone: empresa.telefone || "",
      site: empresa.site || "",

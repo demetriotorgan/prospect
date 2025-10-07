@@ -307,6 +307,39 @@
   letter-spacing: 0.5px;
 }
 
+/* -----PULSE ATRASADO-------- */
+.tempo-restante {
+  margin-top: 8px;
+  font-weight: 600;
+}
+
+.tempo-restante span {
+  padding: 2px 6px;
+  border-radius: 6px;
+}
+
+.tempo-restante.atrasado span {
+  color: #fff;
+  background-color: #ff4d4d;
+}
+
+/* Animação de pulsação */
+.pulse {
+  animation: pulseColor 1s infinite alternate;
+}
+
+@keyframes pulseColor {
+  0% {
+    background-color: #ff4d4d; /* vermelho */
+    box-shadow: 0 0 5px #ff4d4d;
+  }
+  100% {
+    background-color: #ff9900; /* laranja */
+    box-shadow: 0 0 10px #ff9900;
+  }
+}
+  
+
 
 
 /* Responsividade */

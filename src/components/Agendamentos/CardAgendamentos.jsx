@@ -1,6 +1,13 @@
 import React from 'react';
 
 const CardAgendamentos = ({ todosAgendamentos }) => {
+  //Retorna a classe CSS conforme o status
+  const getTempoRestanteClass = (diasRestantes) =>{
+    if(diasRestantes === 'atrasado'){
+      return 'tempo-restante atrasado'
+    }
+    return 'tempo-restante'
+  }
 
   // Formata a data em dd/MM/yyyy considerando apenas UTC
   const formatDataUTC = (isoString) => {
@@ -45,8 +52,8 @@ const CardAgendamentos = ({ todosAgendamentos }) => {
               <p><strong>Vendedor:</strong> {agendamento.usuarioNome || "Não atribuído"}</p>
             </div>
 
-            <div className="tempo-restante">
-              ⏳ Tempo Restante: <span>{agendamento.diasRestantes}</span>
+            <div className={getTempoRestanteClass(agendamento.diasRestantes)}>
+              ⏳ Tempo Restante: <span className={agendamento.diasRestantes === 'atrasado' ? 'pulse' : ''}>{agendamento.diasRestantes}</span>
             </div>
           </div>
         ))

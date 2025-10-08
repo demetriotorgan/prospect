@@ -1,8 +1,17 @@
 import React from 'react'
 import { format } from "date-fns";
 import { ptBR } from "date-fns/locale";
+import useSalvarAgendamento from '../../hooks/agendamento/useSalvarAgendamento';
+import loading from '../../assets/loading.gif'
 
 const CardAgendamento7Dias = ({ agendamentos }) => {
+  // console.log(agendamentos)
+  const {salvarAgendamento, salvando} = useSalvarAgendamento();
+  
+  const handleAgendamento = (reuniao) =>{
+    salvarAgendamento(reuniao);
+  }
+
   return (
     <>
       {agendamentos && agendamentos.length > 0 ? (
@@ -45,7 +54,7 @@ const CardAgendamento7Dias = ({ agendamentos }) => {
                 <textarea rows="5" cols="30" placeholder="Digite seu texto aqui"></textarea>
               </div>
               <div className='agendamento-painel'>
-                <button>Salvar</button>
+                <button onClick={()=>handleAgendamento(reuniao)}>{salvando ? <img className='loading' src={loading} />: 'Salvar'}</button>
                 <button className='btn-excluir'>Excluir</button>
               </div>
               <p className='atencao-agendamento'>Atenção!</p>
@@ -53,7 +62,7 @@ const CardAgendamento7Dias = ({ agendamentos }) => {
           )
         })
       ) : (
-        "Sem Agendamentos"
+        "Sem Agendamentos recentes"
       )}
     </>
   )

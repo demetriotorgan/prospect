@@ -215,6 +215,11 @@
 
 .card-agendamento .agendamento-painel button{
     margin: 3px;
+    width: 100px; /* Defina o tamanho do botão */
+  height: 40px; /* Defina a altura do botão */
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 .atrasada {
@@ -338,6 +343,12 @@
     box-shadow: 0 0 10px #ff9900;
   }
 }
+
+.agendamento-painel button img.loading {
+  width: 20px; /* Defina o tamanho da imagem de loading */
+  height: 20px; /* Defina a altura da imagem de loading */
+}
+
   
 
 

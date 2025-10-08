@@ -1,12 +1,15 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { format } from "date-fns";
 import { ptBR } from "date-fns/locale";
 import useSalvarAgendamento from '../../hooks/agendamento/useSalvarAgendamento';
 import loading from '../../assets/loading.gif'
 
 const CardAgendamento7Dias = ({ agendamentos }) => {
+  const [resultado, setResultado] = useState('');
+  const [texto, setTexto] = useState('');
+  
   // console.log(agendamentos)
-  const {salvarAgendamento, salvando} = useSalvarAgendamento();
+  const {salvarAgendamento, salvando} = useSalvarAgendamento({resultado,setResultado, texto, setTexto});
   
   const handleAgendamento = (reuniao) =>{
     salvarAgendamento(reuniao);
@@ -43,15 +46,26 @@ const CardAgendamento7Dias = ({ agendamentos }) => {
 
               <label>
                 Resultado
-                <select>
-                  <option>Negócio Fechado</option>
-                  <option>Não teve interesse</option>
-                  <option>Remarcar Reunião</option>            
+                <select
+                value={resultado}
+                onChange={(e)=> setResultado(e.target.value)}
+                >
+                  <option value="">Selecione...</option>
+                  <option value="negocio-fechado">Negócio Fechado</option>
+                  <option value="nao-teve-interesse">Não teve interesse</option>
+                  <option value="no-show">NoShow</option>
+                  <option value="remarcar">Remarcar Reunião</option>            
                 </select>
               </label>
 
               <div className='campo-resultado'>
-                <textarea rows="5" cols="30" placeholder="Digite seu texto aqui"></textarea>
+                <textarea 
+                  rows="5" 
+                  cols="30" 
+                  placeholder="Digite seu texto aqui"
+                  value={texto}
+                  onChange={(e)=>setTexto(e.target.value)}
+                  ></textarea>
               </div>
               <div className='agendamento-painel'>
                 <button onClick={()=>handleAgendamento(reuniao)}>{salvando ? <img className='loading' src={loading} />: 'Salvar'}</button>

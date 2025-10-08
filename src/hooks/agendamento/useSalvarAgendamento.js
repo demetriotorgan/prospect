@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import api from '../../util/api';
 
-const useSalvarAgendamento = () => {
+const useSalvarAgendamento = ({resultado,setResultado, texto, setTexto}) => {
   const [salvando, setSalvando] = useState(false);
 
   const salvarAgendamento = async (reuniao) => {
@@ -30,10 +30,14 @@ const useSalvarAgendamento = () => {
         site: reuniao.site || "",
         telefone: reuniao.telefone || "",
         tempoGasto: reuniao.tempoGasto ?? 0,
+        resultado: resultado,
+        texto:texto,
       };
 
       const response = await api.post('/salvar-agendamento', payload);
       console.log("✅ Agendamento salvo:", response.data);
+      setTexto('');
+      setResultado('');
       return response.data;
 
     } catch (error) {

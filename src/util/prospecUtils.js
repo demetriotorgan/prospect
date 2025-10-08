@@ -29,7 +29,6 @@ export function montarPayload({ empresa, user, resultado, observacao, tempoGasto
   };  
 }
 
-
 export const formatarMensagem = (payload, empresa) => (  
   ` ✅ Prospecção salva com sucesso!
   Empresa: ${empresa.nome}

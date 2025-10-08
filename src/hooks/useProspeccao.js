@@ -1,8 +1,11 @@
 import { useEffect, useRef, useState } from 'react';
 import api from '../util/api';
 import { montarPayload, formatarMensagem } from '../util/prospecUtils';
+
 import { useAuth } from '../context/authContext';
 import axios from 'axios';
+import useSalvarAgendamento from './agendamento/useSalvarAgendamento';
+
 
 export function useProspeccao({ empresas, currentIndex, setCurrentIndex, user, onAtualizarEmpresa,setShowProspectController }) {
   const [nota, setNota] = useState(0);
@@ -13,6 +16,10 @@ export function useProspeccao({ empresas, currentIndex, setCurrentIndex, user, o
   const [dataTime, setDataTime] = useState('');
   const [tempoGasto, setTempoGasto] = useState(0);
   const [loading, setLoading] = useState(false);
+
+  //hook
+  const {salvarAgendamento} = useSalvarAgendamento();
+  
   
   // 🔎 objeto de erros por campo
   const [erros, setErros] = useState({
@@ -97,6 +104,7 @@ if (empresas[currentIndex]) {
     }
     
     const payload = montarPayload({ empresa: empresaAtual, user, resultado, observacao, tempoGasto, nota, dataReuniao, dataTime, prioridade });
+    salvarAgendamento({ empresa: empresaAtual, user, resultado, observacao, tempoGasto, nota, dataReuniao, dataTime, prioridade });
 
     // 🔎 Log para debug
    console.log("📦 Payload enviado para API:", payload);

@@ -1,24 +1,28 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { format } from "date-fns";
 import { ptBR } from "date-fns/locale";
-import useSalvarAgendamento from '../../hooks/agendamento/useSalvarAgendamento';
 import loading from '../../assets/loading.gif'
 
-const CardAgendamento7Dias = ({ agendamentos }) => {
+
+const CardAgendamento7Dias = () => {
   const [resultado, setResultado] = useState('');
   const [texto, setTexto] = useState('');
+  const [listaAgendamentos, setListaAgendamentos] = useState([]);
+
+  useEffect(()=>{
+    setListaAgendamentos(agendamentos || []);
+  },[agendamentos]);
   
   // console.log(agendamentos)
-  const {salvarAgendamento, salvando} = useSalvarAgendamento({resultado,setResultado, texto, setTexto});
-  
-  const handleAgendamento = (reuniao) =>{
-    salvarAgendamento(reuniao);
+    
+  const handleEncerrarAgendamento = (reuniao) =>{  
+    setListaAgendamentos((prev)=> prev.filter((item)=> item.empresaId !== reuniao.empresaId));
   }
 
   return (
     <>
-      {agendamentos && agendamentos.length > 0 ? (
-        agendamentos.map((reuniao, index) => {
+      {listaAgendamentos && listaAgendamentos.length > 0 ? (
+        listaAgendamentos.map((reuniao, index) => {
           return (
             <div className='card-agendamento' key={index}>          
               <div className='grupo-principal'>
@@ -68,8 +72,7 @@ const CardAgendamento7Dias = ({ agendamentos }) => {
                   ></textarea>
               </div>
               <div className='agendamento-painel'>
-                <button onClick={()=>handleAgendamento(reuniao)}>{salvando ? <img className='loading' src={loading} />: 'Salvar'}</button>
-                <button className='btn-excluir'>Excluir</button>
+                <button onClick={()=>handleEncerrarAgendamento(reuniao)}>{salvando ? <img className='loading' src={loading} />: 'Encerrar'}</button>                
               </div>
               <p className='atencao-agendamento'>Atenção!</p>
             </div>

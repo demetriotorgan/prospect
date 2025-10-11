@@ -2,21 +2,16 @@ import React, { useEffect, useState } from 'react'
 import { format } from "date-fns";
 import { ptBR } from "date-fns/locale";
 import loading from '../../assets/loading.gif'
+import { calcularTempoHoje, calcularPorcentagemBarra } from '../../hooks/agendamento/utilsAgendamentos';
+import { FaStar } from 'react-icons/fa';
 
-
-const CardAgendamento7Dias = () => {
+const CardAgendamento7Dias = ({listaAgendamentos}) => {
   const [resultado, setResultado] = useState('');
   const [texto, setTexto] = useState('');
-  const [listaAgendamentos, setListaAgendamentos] = useState([]);
-
-  useEffect(()=>{
-    setListaAgendamentos(agendamentos || []);
-  },[agendamentos]);
   
-  // console.log(agendamentos)
-    
+
   const handleEncerrarAgendamento = (reuniao) =>{  
-    setListaAgendamentos((prev)=> prev.filter((item)=> item.empresaId !== reuniao.empresaId));
+    
   }
 
   return (
@@ -37,13 +32,35 @@ const CardAgendamento7Dias = () => {
                   {reuniao.telefone ? reuniao.telefone : "Sem Telefone"}
                 </p>
                 <p className='tempo-restante'>
-                  Tempo Restante: {reuniao.diasRestantes}
+                 ⏳ {calcularTempoHoje(reuniao.dataTime)}
                 </p>
+                {(() => {
+  const porcentagem = calcularPorcentagemBarra(reuniao.dataTime);
+  if (porcentagem < 100 && porcentagem > 0) {
+    return (
+      <div className="barra-tempo-container">
+        <div
+          className="barra-tempo"
+          style={{ width: `${porcentagem}%` }}
+        />
+      </div>
+    );
+  }
+  return null; // barra não aparece
+})()}
+
               </div>
 
               <div className='grupo-secundario'>
-                <p>Realizado por: {reuniao.usuarioNome}</p>
-                <p>Nota de Interesse: {reuniao.interesse}</p>
+                <h4>Dados do Agendamento:</h4>
+                <p>Realizado por: {reuniao.usuarioId.email}</p>
+                <p>
+                  Qualificação: {
+                    [...Array(5)].map((_, i) => (
+                      <FaStar key={i} color={i < reuniao.interesse ? "#FFD700" : "#DDD"} />
+                    ))
+                  }
+                </p>
                 <p>Obs do vendedor: {reuniao.observacao}</p>
                 <p>Possui site?: {reuniao.site ? reuniao.site : "Empresa sem site!"}</p>
               </div>
@@ -72,7 +89,7 @@ const CardAgendamento7Dias = () => {
                   ></textarea>
               </div>
               <div className='agendamento-painel'>
-                <button onClick={()=>handleEncerrarAgendamento(reuniao)}>{salvando ? <img className='loading' src={loading} />: 'Encerrar'}</button>                
+                <button onClick={()=>handleEncerrarAgendamento(reuniao)}><img className='loading' src={loading} /></button>                
               </div>
               <p className='atencao-agendamento'>Atenção!</p>
             </div>

@@ -30,7 +30,7 @@ export const calcularTempoHoje = (isoDataTime) => {
   if (diffMs > 0) {
     return `Reunião em ${horas}h ${minutos}min`;
   } else {
-    return `Reunião Atrasada há ${horas}h ${minutos}min`;
+    return `Aguardando Encerramento há ${horas}h ${minutos}min`;
   }
 };
 
@@ -51,4 +51,20 @@ export const formatHorarioUTC = (isoString) => {
   const hours = String(date.getHours()).padStart(2, "0");
   const minutes = String(date.getMinutes()).padStart(2, "0");
   return `${hours}:${minutes}`;
+};
+
+export const calcularPorcentagemBarra = (isoDataTime) => {
+  if (!isoDataTime) return 0;
+
+  const agora = new Date();
+  const dataReuniao = new Date(isoDataTime);
+
+  const diffMs = dataReuniao - agora;
+  const diffHoras = diffMs / (1000 * 60 * 60);
+
+  if (diffHoras <= 0) return 0;      // reunião já aconteceu
+  if (diffHoras > 2) return 100;     // mais de 2h restante, barra não deve aparecer
+
+  // calcula a porcentagem (2h → 100%, 0h → 0%)
+  return (diffHoras / 2) * 100;
 };

@@ -10,8 +10,19 @@ const Empresas = () => {
 const [agendamentoParaHoje, setAgendamentosParaHoje] = useState([]);
 const {todosAgendamentos, carregandoTodosAgendamentos} = useTodosAgendamentos();
 
+
+const handleRemoverAgendamentoEncerrado = (id) => {
+  setAgendamentosParaHoje((prev) => prev.filter((ag) => ag._id !== id));
+};
+
+const carregarAgendamentosEmAberto = (agendamentos)=>{
+return agendamentos.filter((agendamento)=> (!agendamento.resultado || agendamento.resultado.trim()===""));
+}
+
 useEffect(()=>{
-  const agendaParaHoje = todosAgendamentos.filter((agendamento) => agendamento.tempoRestante === 'Hoje');
+  const agendaParaHoje = todosAgendamentos.filter(
+    (agendamento) => 
+      agendamento.tempoRestante === 'Hoje' && (!agendamento.resultado || agendamento.resultado.trim() === ""));
   setAgendamentosParaHoje(agendaParaHoje);
   console.log(agendamentoParaHoje);
 },[todosAgendamentos])
@@ -23,6 +34,7 @@ useEffect(()=>{
           {carregandoTodosAgendamentos ? <img src={loading} /> :              
           <CardAgendamento7Dias 
           listaAgendamentos={agendamentoParaHoje}
+          onAgendamentoEncerrado={handleRemoverAgendamentoEncerrado}
           />
           }
         </div>
@@ -30,7 +42,7 @@ useEffect(()=>{
         <div className='todos-agendamentos'>                
         {carregandoTodosAgendamentos ? <img src={loading} />:
         <CardAgendamentos 
-        todosAgendamentos={todosAgendamentos}
+        todosAgendamentos={carregarAgendamentosEmAberto(todosAgendamentos)}
         />
         }
         </div>

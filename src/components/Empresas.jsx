@@ -7,17 +7,21 @@ import CardAgendamentos from './Agendamentos/CardAgendamentos';
 import useTodosAgendamentos from '../hooks/agendamento/useTodosAgendamentos';
 
 const Empresas = () => {
-
+const {todosAgendamentos, carregandoTodosAgendamentos} = useTodosAgendamentos();
   return (
     <>    
     <div className='painel-agendamentos'>
       <div className='cards-container'>
         <div className='agendamentos-proximos'>               
-          
+          <h1>Agendamentos Próximos</h1>
         </div>
       
-        <div className='todos-agendamentos'>          
-               
+        <div className='todos-agendamentos'>
+        {carregandoTodosAgendamentos ? <img src={loading} />:
+        <CardAgendamentos 
+        todosAgendamentos={todosAgendamentos}
+        />
+        }
         </div>
       </div>
     </div>

@@ -1,13 +1,22 @@
 function horaStringParaISO(horaStr) {
   if (!horaStr) return null;
   const [h, m] = horaStr.split(":");
-  const date = new Date();
-  date.setHours(Number(h));
-  date.setMinutes(Number(m));
-  date.setSeconds(0);
-  date.setMilliseconds(0);
-  return date.toISOString();
-};
+
+  // Usa o fuso correto (sem deslocar para UTC automaticamente)
+  const dateLocal = new Date();
+  dateLocal.setHours(Number(h));
+  dateLocal.setMinutes(Number(m));
+  dateLocal.setSeconds(0);
+  dateLocal.setMilliseconds(0);
+
+  // Converte explicitamente para UTC, mantendo o horário Brasil como base
+  const dateUTC = new Date(
+    dateLocal.toLocaleString("en-US", { timeZone: "America/Sao_Paulo" })
+  );
+
+  return dateUTC.toISOString();
+}
+
 
 export function montarPayload({ empresa, user, resultado, observacao, tempoGasto, nota, dataReuniao, dataTime,prioridade }) {
   return {

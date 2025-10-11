@@ -3,11 +3,40 @@ import React from 'react';
 const CardAgendamentos = ({ todosAgendamentos }) => {
   //Retorna a classe CSS conforme o status
   const getTempoRestanteClass = (diasRestantes) =>{
-    if(diasRestantes === 'atrasado'){
+    if(diasRestantes === 'Agendamento Expirado'){
       return 'tempo-restante atrasado'
     }
     return 'tempo-restante'
+  };
+
+  // Calcula o tempo restante (ou atraso) em horas/minutos, para reuniões marcadas para "Hoje"
+const calcularTempoHoje = (isoDataTime) => {
+  if (!isoDataTime) return "Horário não informado";
+
+  const dataReuniao = new Date(
+  new Date(isoDataTime).toLocaleString("en-US", { timeZone: "America/Sao_Paulo" })
+);
+const agora = new Date(
+  new Date().toLocaleString("en-US", { timeZone: "America/Sao_Paulo" })
+);
+
+  // diferença em milissegundos
+  const diffMs = dataReuniao - agora;
+
+  // converte para horas e minutos
+  const diffAbs = Math.abs(diffMs);
+  const horas = Math.floor(diffAbs / (1000 * 60 * 60));
+  const minutos = Math.floor((diffAbs / (1000 * 60)) % 60);
+
+  if (diffMs > 0) {
+    // reunião ainda vai acontecer
+    return `Reunião em ${horas}h ${minutos}min`;
+  } else {
+    // reunião já passou
+    return `Reunião Atrasada há ${horas}h ${minutos}min`;
   }
+};
+
 
   // Formata a data em dd/MM/yyyy considerando apenas UTC
   const formatDataUTC = (isoString) => {
@@ -23,8 +52,8 @@ const CardAgendamentos = ({ todosAgendamentos }) => {
   const formatHorarioUTC = (isoString) => {
     if (!isoString) return "Não informado";
     const date = new Date(isoString);
-    const hours = String(date.getUTCHours()).padStart(2, "0");
-    const minutes = String(date.getUTCMinutes()).padStart(2, "0");
+    const hours = String(date.getHours()).padStart(2, "0");
+    const minutes = String(date.getMinutes()).padStart(2, "0");
     return `${hours}:${minutes}`;
   };
 
@@ -49,11 +78,15 @@ const CardAgendamentos = ({ todosAgendamentos }) => {
 
             <div className="extra-info">
               <p><strong>Nicho:</strong> {agendamento.nicho || "Não informado"}</p>
-              <p><strong>Vendedor:</strong> {agendamento.usuarioNome || "Não atribuído"}</p>
+              <p><strong>Vendedor:</strong> {agendamento.emailUsuario || "Não atribuído"}</p>
             </div>
 
-            <div className={getTempoRestanteClass(agendamento.diasRestantes)}>
-              ⏳ Tempo Restante: <span className={agendamento.diasRestantes === 'atrasado' ? 'pulse' : ''}>{agendamento.diasRestantes}</span>
+            <div className={getTempoRestanteClass(agendamento.tempoRestante)}>
+              ⏳ Tempo Restante: <span className={agendamento.tempoRestante === 'atrasado' ? 'pulse' : ''}>
+                {agendamento.tempoRestante === 'Hoje' ?
+                calcularTempoHoje(agendamento.dataTime) :
+                agendamento.tempoRestante
+                }</span>
             </div>
           </div>
         ))

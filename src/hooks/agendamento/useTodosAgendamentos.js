@@ -8,7 +8,7 @@ const useTodosAgendamentos = ()=>{
     const carregarTodosAgendamentos = async()=>{
         setCarregandoTodosAgendamentos(true);
         try {
-            const response = await api.get('/agenda')
+            const response = await api.get('/listar-agendamentos-salvos')
               setTodosAgendamentos(response.data); 
         } catch (error) {
             console.error('Erro ao carregar todos os agendamentos', error);

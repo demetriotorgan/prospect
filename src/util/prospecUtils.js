@@ -1,15 +1,22 @@
-function horaStringParaISO(horaStr) {
-  if (!horaStr) return null;
+// Converte hora local (HH:mm) + data para ISO UTC corretamente
+function horaStringParaISO(dataStr, horaStr) {
+  if (!horaStr || !dataStr) return null;
+
   const [h, m] = horaStr.split(":");
+  const [ano, mes, dia] = dataStr.split("-");
 
-  // Usa o fuso correto (sem deslocar para UTC automaticamente)
-  const dateLocal = new Date();
-  dateLocal.setHours(Number(h));
-  dateLocal.setMinutes(Number(m));
-  dateLocal.setSeconds(0);
-  dateLocal.setMilliseconds(0);
+  // Cria objeto Date no fuso de São Paulo
+  const dateLocal = new Date(
+    Number(ano),
+    Number(mes) - 1,
+    Number(dia),
+    Number(h),
+    Number(m),
+    0,
+    0
+  );
 
-  // Converte explicitamente para UTC, mantendo o horário Brasil como base
+  // Converte para UTC mantendo o horário correto
   const dateUTC = new Date(
     dateLocal.toLocaleString("en-US", { timeZone: "America/Sao_Paulo" })
   );
@@ -17,25 +24,25 @@ function horaStringParaISO(horaStr) {
   return dateUTC.toISOString();
 }
 
-
-export function montarPayload({ empresa, user, resultado, observacao, tempoGasto, nota, dataReuniao, dataTime,prioridade }) {
+export function montarPayload({ empresa, user, resultado, observacao, tempoGasto, nota, dataReuniao, dataTime, prioridade }) {
   return {
     empresaId: empresa?._id || null,
-    nomeEmpresa: empresa.nome || "",
+    nomeEmpresa: empresa?.nome || "",
     usuarioId: user?._id || null,
     indicador: resultado || "nao-prospectado",
-    nicho: empresa.tipo,
+    nicho: empresa?.tipo || "",
     observacao: observacao?.trim() || "",
     tempoGasto: tempoGasto || 0,
     interesse: nota || 0,
-    retornoAgendado: dataReuniao 
-    ? new Date(`${dataReuniao}T12:00:00.000Z`).toISOString() 
-    : null,
-     dataTime: horaStringParaISO(dataTime),
-     telefone: empresa.telefone || "",
-     site: empresa.site || "",
-    funil: prioridade || "topo",   
-  };  
+    // Usa dataReuniao + dataTime para montar retornoAgendado corretamente
+    retornoAgendado: dataReuniao && dataTime
+      ? horaStringParaISO(dataReuniao, dataTime)
+      : null,
+    dataTime: horaStringParaISO(dataReuniao, dataTime),
+    telefone: empresa?.telefone || "",
+    site: empresa?.site || "",
+    funil: prioridade || "topo",
+  };
 }
 
 export const formatarMensagem = (payload, empresa) => (  

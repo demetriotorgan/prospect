@@ -36,9 +36,14 @@
 /* Cards container (flex para lado a lado) */
 .agendamentos-proximos > .cards-container,
 .todos-agendamentos > .cards-container {
-  display: flex;
+  display: flex;  
   flex-wrap: wrap;
   gap: 15px;
+}
+
+.agendamentos-proximos img{
+  width: 60px;
+  height: 60px;
 }
 
 /* Cards */
@@ -358,6 +363,11 @@
   width: 60px; /* Defina o tamanho da imagem de loading */
   height: 60px; /* Defina a altura da imagem de loading */
 }
+
+.botao-encerrar-expirado button img.loading {
+  width: 20px; /* Defina o tamanho da imagem de loading */
+  height: 20px; /* Defina a altura da imagem de loading */ 
+}
   
 .barra-tempo-container {
   width: 100%;
@@ -374,6 +384,120 @@
   transition: width 1s linear; /* animação suave */
 }
 
+.botao-encerrar-expirado{
+  width: 30%;
+  background: #c5303e;
+}
+
+/* ------------Card Agendamento----------- */
+/* ===========================
+   CAMPOS DE RESULTADO / INPUTS
+=========================== */
+
+/* Label */
+.card label {
+  display: block;
+  font-size: 0.9rem;
+  color: var(--secondary-text-clr);
+  margin-top: 12px;
+  margin-bottom: 6px;
+}
+
+/* Select estilizado */
+.card select {
+  width: 100%;
+  padding: 10px 14px;
+  border-radius: 8px;
+  border: 1px solid var(--line-clr);
+  background-color: var(--hover-clr);
+  color: var(--text-clr);
+  font-size: 0.95rem;
+  outline: none;
+  transition: all 0.2s ease-in-out;
+  cursor: pointer;
+}
+
+/* Cor de fundo e borda no hover e focus */
+.card select:hover,
+.card select:focus {
+  background-color: var(--base-clr);
+  border-color: var(--accent-clr);
+}
+
+/* Opções do select */
+.card select option {
+  background-color: var(--base-clr);
+  color: var(--text-clr);
+}
+
+/* Container do textarea */
+.campo-resultado {
+  margin-top: 10px;
+}
+
+/* Textarea estilizado */
+.campo-resultado textarea {
+  width: 100%;
+  min-height: 100px;
+  border-radius: 10px;
+  padding: 12px 16px;
+  border: 1px solid var(--line-clr);
+  background-color: var(--hover-clr);
+  color: var(--text-clr);
+  font-size: 0.95rem;
+  resize: vertical;
+  outline: none;
+  transition: all 0.2s ease-in-out;
+}
+
+/* Efeito de foco */
+.campo-resultado textarea:focus {
+  border-color: var(--accent-clr);
+  background-color: var(--base-clr);
+  box-shadow: 0 0 4px var(--accent-clr);
+}
+
+/* Placeholder mais suave */
+.campo-resultado textarea::placeholder {
+  color: var(--secondary-text-clr);
+  opacity: 0.7;
+}
+
+/* Botão de ação */
+.botao-encerrar-expirado {
+  margin-top: 14px;
+  width: 100%;
+  padding: 10px 16px;
+  border: none;
+  border-radius: 8px;
+  background-color: var(--accent-clr);
+  color: #fff;
+  font-weight: bold;
+  cursor: pointer;
+  transition: transform 0.2s, background-color 0.2s;
+}
+
+.botao-encerrar-expirado:hover {
+  background-color: #06d628;
+  transform: scale(1.02);
+}
+
+/* --------Sem Agendamentos-------- */
+
+.container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;  
+}
+
+.sem-agendamentos {
+  width: 100%;
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  text-align: center;
+}
 
 
 /* Responsividade */
@@ -384,7 +508,7 @@
   }
 
   .card-agendamento {
-    max-width: 100%;
+    max-width: 100%;    
   }
 }
 

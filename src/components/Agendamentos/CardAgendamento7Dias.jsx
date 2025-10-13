@@ -4,8 +4,8 @@ import { ptBR } from "date-fns/locale";
 import loading from '../../assets/loading.gif';
 import { calcularTempoHoje, calcularPorcentagemBarra } from '../../hooks/agendamento/utilsAgendamentos';
 import { FaStar } from 'react-icons/fa';
-import api from '../../util/api';
 import { useEncerrarAgendamento } from '../../hooks/agendamento/useEncerrarAgendamento';
+import { IconAgenda } from '../../util/Icones';
 
 const CardAgendamento7Dias = ({ listaAgendamentos,onAgendamentoEncerrado }) => {
   // Guarda os valores por ID do agendamento
@@ -27,8 +27,7 @@ const CardAgendamento7Dias = ({ listaAgendamentos,onAgendamentoEncerrado }) => {
   };
 
   const handleEncerrarAgendamento = async(reuniao) => {  
-    try {
-    // ✅ Aguarda a requisição da API ser concluída
+    try {    
     const response = await encerrarAgendamento(reuniao, valores);
 
     // Se a API retornou sucesso, então remove o card
@@ -121,7 +120,12 @@ const CardAgendamento7Dias = ({ listaAgendamentos,onAgendamentoEncerrado }) => {
           );
         })
       ) : (
-        "Sem Agendamentos recentes"
+        <div className='container'>
+        <div className='sem-agendamentos'>
+          <p><IconAgenda /> Agendamentos para hoje</p>
+          <small>Todos os agendamentos marcados para hoje estarão mostrados neste painel</small>
+        </div>
+        </div>
       )}
     </>
   );

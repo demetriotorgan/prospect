@@ -8,12 +8,17 @@ import useTodosAgendamentos from '../hooks/agendamento/useTodosAgendamentos';
 
 const Empresas = () => {
 const [agendamentoParaHoje, setAgendamentosParaHoje] = useState([]);
+const [agendamentosExpirados, setAgendamentosExpirados] = useState([]);
 const {todosAgendamentos, carregandoTodosAgendamentos} = useTodosAgendamentos();
 
 
 const handleRemoverAgendamentoEncerrado = (id) => {
   setAgendamentosParaHoje((prev) => prev.filter((ag) => ag._id !== id));
 };
+
+const handleRemoverAgendamentosExpirados = (id)=>{
+  setAgendamentosExpirados((prev) => prev.filter((ag)=>ag._id !== id));
+}
 
 const carregarAgendamentosEmAberto = (agendamentos)=>{
 return agendamentos.filter((agendamento)=> (!agendamento.resultado || agendamento.resultado.trim()===""));
@@ -24,6 +29,7 @@ useEffect(()=>{
     (agendamento) => 
       agendamento.tempoRestante === 'Hoje' && (!agendamento.resultado || agendamento.resultado.trim() === ""));
   setAgendamentosParaHoje(agendaParaHoje);
+  setAgendamentosExpirados(carregarAgendamentosEmAberto(todosAgendamentos));
   console.log(agendamentoParaHoje);
 },[todosAgendamentos])
   return (
@@ -42,7 +48,8 @@ useEffect(()=>{
         <div className='todos-agendamentos'>                
         {carregandoTodosAgendamentos ? <img src={loading} />:
         <CardAgendamentos 
-        todosAgendamentos={carregarAgendamentosEmAberto(todosAgendamentos)}
+        todosAgendamentos={agendamentosExpirados}
+        onAgendamentoEncerrado={handleRemoverAgendamentosExpirados}
         />
         }
         </div>

@@ -37,9 +37,13 @@ const CardAgendamentos = ({ todosAgendamentos,onAgendamentoEncerrado }) => {
   
   return (
     <>
-
       {todosAgendamentos.length === 0 ? (
-        <p>Nenhum agendamento encontrado</p>
+        <div className='container-agendamentos'>
+                <div className='sem-agendamentos'>
+                  <p><IconAgenda /> Agendamentos para hoje</p>
+                  <small>Todos os agendamentos marcados para hoje estarão mostrados neste painel</small>
+                </div>
+                </div>
       ) : (        
            todosAgendamentos.map((agendamento) => {
           const valoresAtuais = valores[agendamento._id] || {

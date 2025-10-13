@@ -442,8 +442,8 @@
   border-radius: 10px;
   padding: 12px 16px;
   border: 1px solid var(--line-clr);
-  background-color: var(--hover-clr);
-  color: var(--text-clr);
+  background-color: #fff;
+  color: #000;
   font-size: 0.95rem;
   resize: vertical;
   outline: none;
@@ -453,7 +453,7 @@
 /* Efeito de foco */
 .campo-resultado textarea:focus {
   border-color: var(--accent-clr);
-  background-color: var(--base-clr);
+  background-color: #fff;
   box-shadow: 0 0 4px var(--accent-clr);
 }
 
@@ -484,19 +484,20 @@
 
 /* --------Sem Agendamentos-------- */
 
-.container {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  width: 100%;  
+.painel-agendamentos .agendamentos-proximos .container-agendamentos{
+border: 1px solid #fff;
+padding: 20px;
+border-radius: 10px;
+text-align: center;
+margin: 1em;
 }
 
-.sem-agendamentos {
-  width: 100%;
-  padding: 20px;
-  border-radius: 10px;
-  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-  text-align: center;
+.todos-agendamentos .container-agendamentos{
+ border: 1px solid #fff;
+padding: 20px;
+border-radius: 10px;
+text-align: center;
+margin: 1em;
 }
 
 

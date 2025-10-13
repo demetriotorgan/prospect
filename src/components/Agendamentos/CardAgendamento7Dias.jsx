@@ -120,7 +120,7 @@ const CardAgendamento7Dias = ({ listaAgendamentos,onAgendamentoEncerrado }) => {
           );
         })
       ) : (
-        <div className='container'>
+        <div className='container-agendamentos'>
         <div className='sem-agendamentos'>
           <p><IconAgenda /> Agendamentos para hoje</p>
           <small>Todos os agendamentos marcados para hoje estarão mostrados neste painel</small>

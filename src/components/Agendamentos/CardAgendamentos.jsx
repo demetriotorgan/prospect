@@ -4,7 +4,7 @@ import { useEncerrarAgendamento } from '../../hooks/agendamento/useEncerrarAgend
 import loading  from '../../assets/loading.gif'
 import { IconAgenda } from '../../util/Icones';
 
-const CardAgendamentos = ({ todosAgendamentos,onAgendamentoEncerrado }) => {
+const CardAgendamentos = ({ todosAgendamentos,onAgendamentoEncerradoExpirado,onAgendamentoEncerradoProximo }) => {
   const [valores, setValores] = useState({});
   const { encerrarAgendamento, loadingIds, isLoading,} = useEncerrarAgendamento();
 
@@ -27,8 +27,9 @@ const CardAgendamentos = ({ todosAgendamentos,onAgendamentoEncerrado }) => {
     console.log('Encerrando agendamento: ', reuniao._id, dados);
     try {
       const response = await encerrarAgendamento(reuniao, valores);
-      if(response && onAgendamentoEncerrado){
-        onAgendamentoEncerrado(reuniao._id);
+      if(response && onAgendamentoEncerradoExpirado){
+        onAgendamentoEncerradoExpirado(reuniao._id);
+        onAgendamentoEncerradoProximo(reuniao._id);
       }
     } catch (error) {
        console.error("❌ Erro ao encerrar agendamento:", error);

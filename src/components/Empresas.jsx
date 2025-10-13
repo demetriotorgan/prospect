@@ -40,7 +40,8 @@ useEffect(()=>{
           {carregandoTodosAgendamentos ? <img src={loading} /> :              
           <CardAgendamento7Dias 
           listaAgendamentos={agendamentoParaHoje}
-          onAgendamentoEncerrado={handleRemoverAgendamentoEncerrado}
+          onAgendamentoEncerradoProximo={handleRemoverAgendamentoEncerrado}
+          onAgendamentoEncerradoExpirado={handleRemoverAgendamentosExpirados}
           />
           }
         </div>
@@ -49,7 +50,8 @@ useEffect(()=>{
         {carregandoTodosAgendamentos ? <img src={loading} />:
         <CardAgendamentos 
         todosAgendamentos={agendamentosExpirados}
-        onAgendamentoEncerrado={handleRemoverAgendamentosExpirados}
+        onAgendamentoEncerradoExpirado={handleRemoverAgendamentosExpirados}
+        onAgendamentoEncerradoProximo={handleRemoverAgendamentoEncerrado}
         />
         }
         </div>

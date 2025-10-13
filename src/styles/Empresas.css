@@ -364,10 +364,11 @@
   height: 60px; /* Defina a altura da imagem de loading */
 }
 
-.botao-encerrar-expirado button img.loading {
+button.botao-encerrar-expirado img.loading {
   width: 20px; /* Defina o tamanho da imagem de loading */
-  height: 20px; /* Defina a altura da imagem de loading */ 
+  height: 20px; /* Defina a altura da imagem de loading */
 }
+
   
 .barra-tempo-container {
   width: 100%;

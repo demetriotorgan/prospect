@@ -7,7 +7,7 @@ import { FaStar } from 'react-icons/fa';
 import { useEncerrarAgendamento } from '../../hooks/agendamento/useEncerrarAgendamento';
 import { IconAgenda } from '../../util/Icones';
 
-const CardAgendamento7Dias = ({ listaAgendamentos,onAgendamentoEncerrado }) => {
+const CardAgendamento7Dias = ({ listaAgendamentos,onAgendamentoEncerradoProximo,onAgendamentoEncerradoExpirado }) => {
   // Guarda os valores por ID do agendamento
   const [valores, setValores] = useState({});    
   const {encerrarAgendamento, isLoading} = useEncerrarAgendamento();
@@ -31,8 +31,9 @@ const CardAgendamento7Dias = ({ listaAgendamentos,onAgendamentoEncerrado }) => {
     const response = await encerrarAgendamento(reuniao, valores);
 
     // Se a API retornou sucesso, então remove o card
-    if (response && onAgendamentoEncerrado) {
-      onAgendamentoEncerrado(reuniao._id);
+    if (response && onAgendamentoEncerradoProximo) {
+      onAgendamentoEncerradoProximo(reuniao._id);
+      onAgendamentoEncerradoExpirado(reuniao._id);
     }
   } catch (error) {
     console.error("❌ Erro ao encerrar agendamento:", error);

@@ -3,46 +3,66 @@ import api from "../../util/api";
 
 export function useEncerrarAgendamento() {
   const [loadingIds, setLoadingIds] = useState([]);
-  
 
   const encerrarAgendamento = async (reuniao, valores) => {
-    const { resultado, texto } = valores[reuniao._id] || {};
+    const valoresAtuais = valores[reuniao._id] || {};
+    const { resultado, texto, dataRetorno, horaRetorno, onRetorno } = valoresAtuais;
 
+    // Validação básica (mantendo compatibilidade)
     if (!resultado || !texto) {
       alert("Preencha todos os dados de encerramento");
       return;
     }
 
-    const payload = { resultado, texto };
+    // Detecta se é remarcação ANTES de limpar resultado
+    const deveRemarcar = onRetorno === true || resultado === "remarcar";
 
-    // Marca este agendamento como carregando
+    let payload = { resultado, texto };
+
+    if (deveRemarcar) {
+      if (!dataRetorno || !horaRetorno) {
+        alert("Para remarcar, informe data e hora de retorno");
+        return;
+      }
+
+      // Gera o ISO
+      const isoDatetime = new Date(`${dataRetorno}T${horaRetorno}`).toISOString();
+
+      payload = {
+        ...payload,
+        retornoAgendado: isoDatetime,
+        dataTime: isoDatetime,
+        indicador: "ligou-agendou-reuniao",
+        resultado: "" // conforme solicitado
+      };
+    }
+
+    // Marca como carregando
     setLoadingIds((prev) => [...prev, reuniao._id]);
 
     try {
+      console.log('Payload enviado: ', payload);
       const response = await api.put(
         `encerrar-agendamento/${reuniao._id}`,
         payload
       );
+      // Retorna o objeto correto, seja ele `response.data.agendamento` ou `response.data`
+      const agendamentoAtualizado = response.data.agendamento || response.data;
 
-      console.log("✅ Agendamento atualizado:", response.data);
+      console.log("✅ Agendamento atualizado:", agendamentoAtualizado);
       alert("Agendamento encerrado com sucesso!");
 
-      return response.data;
+      return { sucesso: true, agendamento: agendamentoAtualizado };
     } catch (error) {
       console.error("❌ Erro ao encerrar agendamento:", error);
       alert("Erro ao encerrar o agendamento. Tente novamente.");
       throw error;
     } finally {
-      // Remove o ID do loading ao finalizar
       setLoadingIds((prev) => prev.filter((id) => id !== reuniao._id));
     }
   };
 
   const isLoading = (id) => loadingIds.includes(id);
 
-  return {
-    encerrarAgendamento,
-    loadingIds,
-    isLoading,
-  };
+  return { encerrarAgendamento, loadingIds, isLoading };
 }

@@ -7,31 +7,26 @@ import CardAgendamentos from './Agendamentos/CardAgendamentos';
 import useTodosAgendamentos from '../hooks/agendamento/useTodosAgendamentos';
 
 const Empresas = () => {
-const [agendamentoParaHoje, setAgendamentosParaHoje] = useState([]);
-const [agendamentosExpirados, setAgendamentosExpirados] = useState([]);
-const {todosAgendamentos, carregandoTodosAgendamentos} = useTodosAgendamentos();
+const {todosAgendamentos, carregandoTodosAgendamentos, setTodosAgendamentos} = useTodosAgendamentos();
 
+ // 🔁 Atualiza o agendamento específico no state global
+  const handleAtualizarAgendamento = (agendamentoAtualizado) => {
+    setTodosAgendamentos((prev) =>
+      prev.map((ag) =>
+        ag._id === agendamentoAtualizado._id ? agendamentoAtualizado : ag
+      )
+    );
+  };
 
-const handleRemoverAgendamentoEncerrado = (id) => {
-  setAgendamentosParaHoje((prev) => prev.filter((ag) => ag._id !== id));
-};
+   // 🔍 Filtra apenas agendamentos com resultado vazio ou null
+  // const agendamentosEmAberto = todosAgendamentos.filter(
+  //   (ag) => !ag.resultado || ag.resultado.trim() === ""
+  // );
 
-const handleRemoverAgendamentosExpirados = (id)=>{
-  setAgendamentosExpirados((prev) => prev.filter((ag)=>ag._id !== id));
-}
+  const agendamentosEmAberto = todosAgendamentos.filter(
+    (ag) => ag.tempoRestante === 'Hoje'
+  );
 
-const carregarAgendamentosEmAberto = (agendamentos)=>{
-return agendamentos.filter((agendamento)=> (!agendamento.resultado || agendamento.resultado.trim()===""));
-}
-
-useEffect(()=>{
-  const agendaParaHoje = todosAgendamentos.filter(
-    (agendamento) => 
-      agendamento.tempoRestante === 'Hoje' && (!agendamento.resultado || agendamento.resultado.trim() === ""));
-  setAgendamentosParaHoje(agendaParaHoje);
-  setAgendamentosExpirados(carregarAgendamentosEmAberto(todosAgendamentos));
-  console.log(agendamentoParaHoje);
-},[todosAgendamentos])
   return (
     <>    
     <div className='painel-agendamentos'>
@@ -39,21 +34,14 @@ useEffect(()=>{
         <div className='agendamentos-proximos'>  
           {carregandoTodosAgendamentos ? <img src={loading} /> :              
           <CardAgendamento7Dias 
-          listaAgendamentos={agendamentoParaHoje}
-          onAgendamentoEncerradoProximo={handleRemoverAgendamentoEncerrado}
-          onAgendamentoEncerradoExpirado={handleRemoverAgendamentosExpirados}
+          listaAgendamentos={agendamentosEmAberto} 
+          onAgendamentoAtualizado={handleAtualizarAgendamento} // ✅ passa o callback          
           />
           }
         </div>
         
         <div className='todos-agendamentos'>                
-        {carregandoTodosAgendamentos ? <img src={loading} />:
-        <CardAgendamentos 
-        todosAgendamentos={agendamentosExpirados}
-        onAgendamentoEncerradoExpirado={handleRemoverAgendamentosExpirados}
-        onAgendamentoEncerradoProximo={handleRemoverAgendamentoEncerrado}
-        />
-        }
+        
         </div>
       </div>
     </div>

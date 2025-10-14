@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { format } from "date-fns";
 import { ptBR } from "date-fns/locale";
 import loading from '../../assets/loading.gif';
@@ -7,15 +7,54 @@ import { FaStar } from 'react-icons/fa';
 import { useEncerrarAgendamento } from '../../hooks/agendamento/useEncerrarAgendamento';
 import { IconAgenda } from '../../util/Icones';
 
-const CardAgendamento7Dias = ({ listaAgendamentos,onAgendamentoEncerradoProximo,onAgendamentoEncerradoExpirado }) => {
+const CardAgendamento7Dias = ({listaAgendamentos,onAgendamentoAtualizado}) => {
   // Guarda os valores por ID do agendamento
-  const [valores, setValores] = useState({});    
+  const [valores, setValores] = useState({});  
+  
   const {encerrarAgendamento, isLoading} = useEncerrarAgendamento();
+
+    useEffect(() => {
+    if (listaAgendamentos && listaAgendamentos.length > 0) {
+      const novosValores = {};
+      listaAgendamentos.forEach((ag) => {
+        novosValores[ag._id] = {          
+          texto: ag.texto || '',          
+          onRetorno: false
+        };
+      });
+      setValores(novosValores);
+    }
+  }, [listaAgendamentos]);
+
 
   const handleSelectChange = (id, value) => {
     setValores(prev => ({
       ...prev,
-      [id]: { ...prev[id], resultado: value }
+      [id]: { 
+        ...prev[id], 
+        resultado: value,
+        onRetorno: value === 'remarcar'
+      }
+    }));
+  };
+
+  const handleDataRetorno = (id, value)=>{
+    setValores(prev => ({
+      ...prev,
+      [id]: {
+        ...prev[id],
+        dataRetorno: value
+      }
+    }));    
+  };
+
+  const handleHoraRetorno = (id, value)=>{
+    setValores(prev => ({
+      ...prev,
+      [id]: {
+        ...prev[id],
+        horaRetorno:value
+      }
     }));
   };
 
@@ -29,12 +68,21 @@ const CardAgendamento7Dias = ({ listaAgendamentos,onAgendamentoEncerradoProximo,
   const handleEncerrarAgendamento = async(reuniao) => {  
     try {    
     const response = await encerrarAgendamento(reuniao, valores);
+    console.log('Encerramento: ', response);
 
-    // Se a API retornou sucesso, então remove o card
-    if (response && onAgendamentoEncerradoProximo) {
-      onAgendamentoEncerradoProximo(reuniao._id);
-      onAgendamentoEncerradoExpirado(reuniao._id);
-    }
+     const agendamentoAtualizado = response?.agendamento || response;    
+    if (response?.sucesso && agendamentoAtualizado) {
+        // 🔁 Notifica o pai para atualizar o state local
+        if (onAgendamentoAtualizado) {
+          onAgendamentoAtualizado(response.agendamento);
+        }
+      // 🧹 Limpa os valores locais desse ID
+      setValores(prev => {
+        const novo = { ...prev };
+        delete novo[reuniao._id];
+        return novo;
+        });
+      }
   } catch (error) {
     console.error("❌ Erro ao encerrar agendamento:", error);
     // A função do hook já exibe alerta, então aqui não precisa repetir
@@ -100,6 +148,24 @@ const CardAgendamento7Dias = ({ listaAgendamentos,onAgendamentoEncerradoProximo,
                   <option value="remarcar">Remarcar Reunião</option>            
                 </select>
               </label>
+              {valoresAtuais.onRetorno ? (
+              <div className='remarcar-data'>
+              <label>
+                <input 
+                type='date'
+                value={valoresAtuais.dataRetorno || ''}
+                onChange={(e)=>handleDataRetorno(reuniao._id, e.target.value)}
+                />
+              </label>                
+              <label>
+                <input 
+                type='time'
+                value={valoresAtuais.horaRetorno || ''}
+                onChange={(e)=>handleHoraRetorno(reuniao._id, e.target.value)}
+                />
+              </label>
+              </div>
+              ): null}
 
               <div className='campo-resultado'>
                 <textarea 

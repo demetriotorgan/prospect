@@ -18,13 +18,17 @@ const {todosAgendamentos, carregandoTodosAgendamentos, setTodosAgendamentos} = u
     );
   };
 
-   // 🔍 Filtra apenas agendamentos com resultado vazio ou null
-  // const agendamentosEmAberto = todosAgendamentos.filter(
-  //   (ag) => !ag.resultado || ag.resultado.trim() === ""
-  // );
-
+  
   const agendamentosEmAberto = todosAgendamentos.filter(
-    (ag) => ag.tempoRestante === 'Hoje'
+    (ag) => 
+      ag.tempoRestante === 'Hoje' &&
+     (!ag.resultado || ag.resultado.trim() === "")
+  );
+
+  const agendamentosExpirados = todosAgendamentos.filter(
+    (ag) => 
+      ag.tempoRestante === 'Agendamento Expirado' &&
+    (!ag.resultado || ag.resultado.trim() === "")
   );
 
   return (
@@ -41,7 +45,12 @@ const {todosAgendamentos, carregandoTodosAgendamentos, setTodosAgendamentos} = u
         </div>
         
         <div className='todos-agendamentos'>                
-        
+        {carregandoTodosAgendamentos ? <img src={loading} /> :
+        <CardAgendamentos 
+        listaAgendamentos = {agendamentosExpirados}        
+        onAgendamentoAtualizado={handleAtualizarAgendamento}
+        />
+        }
         </div>
       </div>
     </div>

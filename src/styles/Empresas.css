@@ -334,7 +334,7 @@
 }
 
 .tempo-restante.atrasado span {
-  color: #fff;
+  color: #000;
   background-color: #ff4d4d;
 }
 
@@ -345,11 +345,11 @@
 
 @keyframes pulseColor {
   0% {
-    background-color: #ff4d4d; /* vermelho */
+    background-color: #02e12b; /* vermelho */
     box-shadow: 0 0 5px #ff4d4d;
   }
   100% {
-    background-color: #ff9900; /* laranja */
+    background-color: #dfd800; /* laranja */
     box-shadow: 0 0 10px #ff9900;
   }
 }

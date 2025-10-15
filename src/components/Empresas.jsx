@@ -31,6 +31,12 @@ const {todosAgendamentos, carregandoTodosAgendamentos, setTodosAgendamentos} = u
     (!ag.resultado || ag.resultado.trim() === "")
   );
 
+  const agendamentosFuturos = todosAgendamentos.filter(
+    (ag) =>
+      ag.tempoRestante !== 'Agendamento Expirado' && 
+      ag.tempoRestante !== 'Hoje'
+  );
+
   return (
     <>    
     <div className='painel-agendamentos'>
@@ -43,12 +49,21 @@ const {todosAgendamentos, carregandoTodosAgendamentos, setTodosAgendamentos} = u
           />
           }
         </div>
-        
+        <div className='todos-agendamentos'>
+          {carregandoTodosAgendamentos ? <img src={loading} /> : 
+          <CardAgendamentos 
+          listaAgendamentos={agendamentosFuturos}
+          onAgendamentoAtualizado={handleAtualizarAgendamento}
+          tipoAgendamento='Agendamentos Futuros'
+          />
+          }
+        </div>
         <div className='todos-agendamentos'>                
         {carregandoTodosAgendamentos ? <img src={loading} /> :
         <CardAgendamentos 
         listaAgendamentos = {agendamentosExpirados}        
         onAgendamentoAtualizado={handleAtualizarAgendamento}
+        tipoAgendamento='Agendamentos Expirados'
         />
         }
         </div>

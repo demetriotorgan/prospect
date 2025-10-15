@@ -4,7 +4,7 @@ import { useEncerrarAgendamento } from '../../hooks/agendamento/useEncerrarAgend
 import loading  from '../../assets/loading.gif'
 import { IconAgenda } from '../../util/Icones';
 
-const CardAgendamentos = ({listaAgendamentos,onAgendamentoAtualizado}) => {
+const CardAgendamentos = ({listaAgendamentos,onAgendamentoAtualizado,tipoAgendamento}) => {
   const [valores, setValores] = useState({});
   
   const { encerrarAgendamento, loadingIds, isLoading,} = useEncerrarAgendamento();
@@ -92,7 +92,7 @@ const handleHoraRetorno = (id, value)=>{
       {listaAgendamentos.length === 0 ? (
         <div className='container-agendamentos'>
                 <div className='sem-agendamentos'>
-                  <p><IconAgenda /> Agendamentos Expirados</p>
+                  <p><IconAgenda /> {tipoAgendamento}</p>
                   <small>Todos os agendamentos marcados como expirados serão mostrados neste painel</small>
                 </div>
                 </div>

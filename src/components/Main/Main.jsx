@@ -1,4 +1,4 @@
-import React, { useMemo } from 'react'
+import React, { useEffect, useMemo, useState } from 'react'
 import '../../styles/Main.css'
 import useCarregarEmpresas from '../../hooks/useCarregarEmpresas'
 import CardMetricas from './CardMetricas'
@@ -15,6 +15,10 @@ import CardInfoGeralSites from './CardInfoGeralSites'
 import CardInfoGeralProspec from './CardInfoGeralProspec'
 import loading from '../../assets/loading.gif'
 import CardCidades from './CardCidades'
+import { FaStar } from 'react-icons/fa';
+import axios from 'axios';
+import api from '../../util/api'
+import { useAuth } from '../../context/authContext'
 
 const Main = () => {
 
@@ -22,6 +26,9 @@ const Main = () => {
 const {nichoOptions} = useCarregarNichos();
 const {empresas, carregando, erro} = useCarregarEmpresas();
 const {empresasPorNicho} = useEmpresasPorNicho({nichoOptions});
+const {user} = useAuth();
+
+const [prospecs, setProspecs] = useState([]);
 
 //Memoriza as métricas para não recalcular toda renderização
 const metricas = useMemo(()=> calcularMetricas(empresas), [empresas]);
@@ -29,9 +36,51 @@ const metricas = useMemo(()=> calcularMetricas(empresas), [empresas]);
 // Top 4 nichos
   const topNichos = useMemo(() => melhoresNichos(empresasPorNicho, 4), [empresasPorNicho]);
 
+  //Carregar Prospecções
+useEffect(()=>{ 
+  const carregarProspec = async()=>{
+    try {
+    const response = await api.get('listar-prospec');
+    const todasProspecs = response.data;
+
+    const minhasProspecs = todasProspecs.filter(
+      (item) => item.usuarioId === user?._id
+    );
+    console.log('Prospecs do usuario atual: ', minhasProspecs);
+    setProspecs(minhasProspecs);
+    } catch (error) {
+      console.error('Erro ao carregar prospecções', error);
+    }    
+  }    
+  if(user?._id){
+  carregarProspec();
+  }  
+},[])
 
   return (
     <div className='main-dashboard'>
+      <h2>Empresas Prospectadas <IconEstado /></h2>
+      <div className="container-card">
+            {prospecs.length > 0 ? prospecs.map((prospec, index)=>(
+            <div className='card-empresas-prospectadas' key={index}>              
+                <div className='card-prospec'>
+              <h4>Nome da Empresa: {prospec.nomeEmpresa}</h4>
+              <p>Resultado: {prospec.indicador}</p>
+              <h3>Telefone: {prospec.telefone} </h3>                                          
+              <p>
+                Qualificação: {
+                [...Array(5)].map((_, i) => (
+                <FaStar key={i} color={i < prospec.interesse ? "#FFD700" : "#DDD"} />
+                ))
+                }
+              </p> 
+              <small>Obs: {prospec.observacao}</small>
+              <button>Editar</button>
+              <button className='excluir-prospec'>Excluir</button>
+              </div>                           
+            </div>
+            )): ('Sem Prospecções')}              
+        </div>
         <div className="container">
             <h2>Top + Nichos <IconFire/></h2>
             <small>Aqui estão os quatro nichos mais aquecidos até o momento</small>
@@ -89,12 +138,7 @@ const metricas = useMemo(()=> calcularMetricas(empresas), [empresas]);
             <CardCidades 
             metricas={metricas}
             />
-        </div>
-        <div className="container">
-            <h2>Empresas <IconEstado /></h2>
-            <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Illum facere distinctio ipsam incidunt ut aut ducimus cumque voluptatibus voluptate alias temporibus eveniet, optio iste veniam placeat voluptates suscipit, debitis odit.</p>
-            <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Quasi maxime libero sint facilis fugit neque repellendus aut quisquam officiis saepe dolorem, velit culpa aspernatur omnis soluta fuga voluptatibus, laudantium quam!</p>
-        </div>
+        </div>        
     </div>
   )
 }

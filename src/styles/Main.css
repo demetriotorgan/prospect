@@ -154,6 +154,80 @@
   margin: 10px;    
 }
 
+/* -------Card Empresa Prospectada ----------- */
+.container-card{
+display: flex;  
+flex-wrap: wrap;
+gap: 2%;
+justify-content: center;
+}
+.card-empresas-prospectadas {  
+  width: 30%;
+  background-color: var(--hover-clr);
+  border: 1px solid var(--line-clr);
+  border-radius: 16px;
+  padding: 1.2rem 1.5rem;
+  margin: 1rem 0;
+  color: var(--text-clr);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.25);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.card-empresas-prospectadas:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 6px 14px rgba(0, 0, 0, 0.35);
+  border-color: var(--accent-clr);
+}
+
+.card-empresas-prospectadas h4 {
+  font-size: 1.2rem;
+  color: var(--accent-clr);
+  margin-bottom: 0.4rem;
+  font-weight: 600;
+}
+
+.card-empresas-prospectadas h3 {
+  font-size: 1rem;
+  color: var(--text-clr);
+  margin: 0.5rem 0;
+}
+
+.card-empresas-prospectadas p {
+  margin: 0.3rem 0;
+  color: var(--secondary-text-clr);
+  font-size: 0.95rem;
+}
+
+.card-empresas-prospectadas small {
+  display: block;
+  color: var(--secondary-text-clr);
+  font-size: 0.8rem;
+  margin-top: 0.5rem;
+  opacity: 0.8;
+}
+
+/* ✨ Efeito visual para as estrelas de interesse (quando ativar o trecho comentado) */
+.card-empresas-prospectadas .stars {
+  margin-top: 0.6rem;
+}
+
+.card-empresas-prospectadas .stars svg {
+  transition: transform 0.2s ease;
+}
+
+.card-empresas-prospectadas .stars svg:hover {
+  transform: scale(1.2);
+}
+
+.card-empresas-prospectadas button{
+  margin-left: 5px;
+}
+
+.card-empresas-prospectadas button.excluir-prospec{
+  background: red;
+}
+
+
 /* --------MEDIA------- */
 
 @media(max-width: 768px){

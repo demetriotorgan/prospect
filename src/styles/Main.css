@@ -155,76 +155,111 @@
 }
 
 /* -------Card Empresa Prospectada ----------- */
-.container-card{
-display: flex;  
-flex-wrap: wrap;
-gap: 2%;
-justify-content: center;
-}
-.card-empresas-prospectadas {  
-  width: 30%;
-  background-color: var(--hover-clr);
+.container-card {
+  width: 100%;
+  max-width: 90vw;
+  margin-top: 1em;
+  margin-bottom: 2em;
+  background: var(--base-clr);  
+  border-radius: 1em;
   border: 1px solid var(--line-clr);
-  border-radius: 16px;
-  padding: 1.2rem 1.5rem;
-  margin: 1rem 0;
-  color: var(--text-clr);
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.25);
+  padding: 1em;
+  box-sizing: border-box;
+
+  display: flex;
+  flex-wrap: nowrap;
+  gap: 1rem;
+
+  /* scroll horizontal */
+  overflow-x: auto;
+  overflow-y: hidden;
+  scroll-behavior: smooth;
+}
+
+/* Mostra sempre a barra de rolagem horizontal */
+.container-card::-webkit-scrollbar {
+  height: 10px;
+}
+.container-card::-webkit-scrollbar-track {
+  background: var(--hover-clr);
+  border-radius: 4px;
+}
+.container-card::-webkit-scrollbar-thumb {
+  background: var(--accent-clr);
+  border-radius: 4px;
+}
+.container-card::-webkit-scrollbar-thumb:hover {
+  background: #07d029;
+}
+
+/* Cada card individual */
+.card-empresas-prospectadas {
+  flex: 0 0 300px; /* largura fixa p/ rolagem horizontal */
+  background: var(--line-clr);
+  border-radius: 12px;
+  box-shadow: 0 3px 8px rgba(0, 0, 0, 0.25);
+  padding: 1rem;
+  box-sizing: border-box;
+
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
   transition: transform 0.2s ease, box-shadow 0.2s ease;
 }
-
 .card-empresas-prospectadas:hover {
   transform: translateY(-4px);
-  box-shadow: 0 6px 14px rgba(0, 0, 0, 0.35);
-  border-color: var(--accent-clr);
+  box-shadow: 0 6px 14px rgba(0, 0, 0, 0.4);
+  background: var(--hover-clr);
 }
 
-.card-empresas-prospectadas h4 {
-  font-size: 1.2rem;
-  color: var(--accent-clr);
-  margin-bottom: 0.4rem;
-  font-weight: 600;
+/* Conteúdo interno */
+.card-prospec {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
 }
 
-.card-empresas-prospectadas h3 {
+.card-prospec h4 {
   font-size: 1rem;
-  color: var(--text-clr);
-  margin: 0.5rem 0;
+  color: var(--accent-clr);
 }
-
-.card-empresas-prospectadas p {
-  margin: 0.3rem 0;
-  color: var(--secondary-text-clr);
+.card-prospec h3 {
   font-size: 0.95rem;
+  color: var(--text-clr);
 }
-
-.card-empresas-prospectadas small {
-  display: block;
+.card-prospec p,
+.card-prospec small {
+  font-size: 0.85rem;
   color: var(--secondary-text-clr);
+}
+
+/* Estilo das estrelas */
+.card-prospec svg {
+  margin-right: 2px;
+}
+
+/* Botões */
+.card-prospec button {
+  background: var(--accent-clr);
+  color: var(--base-clr);
+  border: none;
+  padding: 0.4rem 0.8rem;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: background 0.2s ease;
   font-size: 0.8rem;
-  margin-top: 0.5rem;
-  opacity: 0.8;
+  font-weight: 600;
+  margin-top: 0.4rem;
 }
-
-/* ✨ Efeito visual para as estrelas de interesse (quando ativar o trecho comentado) */
-.card-empresas-prospectadas .stars {
-  margin-top: 0.6rem;
+.card-prospec button:hover {
+  background: #07d029;
 }
-
-.card-empresas-prospectadas .stars svg {
-  transition: transform 0.2s ease;
+.card-prospec .excluir-prospec {
+  background: #e74c3c;
+  color: #fff;
 }
-
-.card-empresas-prospectadas .stars svg:hover {
-  transform: scale(1.2);
-}
-
-.card-empresas-prospectadas button{
-  margin-left: 5px;
-}
-
-.card-empresas-prospectadas button.excluir-prospec{
-  background: red;
+.card-prospec .excluir-prospec:hover {
+  background: #c0392b;
 }
 
 
@@ -275,5 +310,14 @@ justify-content: center;
   margin-right: 10px;
   padding: 10px;
 }
+  .prospec-wrapper {
+    padding: 1em;
+  }
+  .scroll-btn {
+    display: none; /* remove setas no mobile */
+  }
+  .container-card {
+    overflow-x: auto; /* no mobile usa rolagem natural */
+  }
 }
 

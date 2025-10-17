@@ -30,5 +30,5 @@ export default function useListarMinhasProspecs() {
     carregarProspecs();
   }, [user?._id]);
 
-  return { prospecs, carregando, erro };
+  return { prospecs, setProspecs, carregando, erro };
 }

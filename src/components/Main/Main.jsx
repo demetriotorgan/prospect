@@ -17,23 +17,52 @@ import loading from '../../assets/loading.gif'
 import CardCidades from './CardCidades'
 import { FaStar } from 'react-icons/fa';
 import useListarMinhasProspecs from '../../hooks/useListarMinhasProspecs'
+import ModalEditarProspec from './ModalEditarProspec'
+import { format } from "date-fns";
+import { ptBR } from "date-fns/locale";
 
 const Main = () => {
-
+  const [onModal, setOnModal] = useState(false);
+  const [prospecAtual, setProspecAtual] = useState({});
+  const [dataFormatada, setDataFormatada] = useState('');
+  const [listaProspecs, setListaProspecs] = useState([]);
 //hook's
 const {nichoOptions} = useCarregarNichos();
 const {empresas, carregando, erro} = useCarregarEmpresas();
 const {empresasPorNicho} = useEmpresasPorNicho({nichoOptions});
-const { prospecs, carregando: carregandoProspecs, erro: erroProspecs } = useListarMinhasProspecs();
+const { prospecs,setProspecs, carregando: carregandoProspecs, erro: erroProspecs } = useListarMinhasProspecs();
 
 //Memoriza as métricas para não recalcular toda renderização
 const metricas = useMemo(()=> calcularMetricas(empresas), [empresas]);
 // Top 4 nichos
   const topNichos = useMemo(() => melhoresNichos(empresasPorNicho, 4), [empresasPorNicho]);
 
+  const handleEditarProspec = (prospec)=>{
+    setProspecAtual(prospec);
+    setOnModal(true);
+  }
 
+  const handleAtualizarProspec = (prospecAtualizada) => {
+  setProspecs((prev) =>
+    prev.map((item) =>
+      item._id === prospecAtualizada._id ? prospecAtualizada : item
+    )
+  );
+};
+
+  const formatarData = (data)=>{
+    const dataLegivel = format(new Date(data), "dd/MM/yyyy", { locale: ptBR });
+    return dataLegivel
+  }
+    
   return (
     <div className='main-dashboard'>
+      <ModalEditarProspec 
+      onModal={onModal}
+      setOnModal={setOnModal}
+      prospec={prospecAtual}
+      onAtualizarProspec={handleAtualizarProspec}
+      />
       <h2>Empresas Prospectadas <IconEstado /></h2>
       <div className="container-card">
       {carregandoProspecs ? (
@@ -46,6 +75,7 @@ const metricas = useMemo(()=> calcularMetricas(empresas), [empresas]);
         <div className='card-prospec'>
           <h4>Nome da Empresa: {prospec.nomeEmpresa}</h4>
           <p>Resultado: {prospec.indicador}</p>
+          <p>Retorno Agendado: {prospec.retornoAgendado ? formatarData(prospec.retornoAgendado) : 'Sem Agendamento'}</p>
           <h3>Telefone: {prospec.telefone} </h3>                                          
           <p>
             Qualificação:{' '}
@@ -54,7 +84,7 @@ const metricas = useMemo(()=> calcularMetricas(empresas), [empresas]);
             ))}
           </p> 
           <small>Obs: {prospec.observacao}</small>
-          <button>Editar</button>
+          <button onClick={()=>handleEditarProspec(prospec)}>Editar</button>
           <button className='excluir-prospec'>Excluir</button>
         </div>                           
       </div>

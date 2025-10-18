@@ -2,7 +2,7 @@ import React, { useEffect, useMemo, useState } from 'react'
 import '../../styles/Main.css'
 import useCarregarEmpresas from '../../hooks/useCarregarEmpresas'
 import CardMetricas from './CardMetricas'
-import {calcularMetricas} from '../../util/metricas'
+import { calcularMetricas } from '../../util/metricas'
 import useEmpresasPorNicho from '../../hooks/useEmpresasPorNicho'
 import useCarregarNichos from '../../hooks/useCarregarNichos'
 import { melhoresNichos } from '../../util/melhoresNichos'
@@ -26,131 +26,141 @@ const Main = () => {
   const [prospecAtual, setProspecAtual] = useState({});
   const [dataFormatada, setDataFormatada] = useState('');
   const [listaProspecs, setListaProspecs] = useState([]);
-//hook's
-const {nichoOptions} = useCarregarNichos();
-const {empresas, carregando, erro} = useCarregarEmpresas();
-const {empresasPorNicho} = useEmpresasPorNicho({nichoOptions});
-const { prospecs,setProspecs, carregando: carregandoProspecs, erro: erroProspecs } = useListarMinhasProspecs();
+  //hook's
+  const { nichoOptions } = useCarregarNichos();
+  const { empresas, carregando, erro } = useCarregarEmpresas();
+  const { empresasPorNicho } = useEmpresasPorNicho({ nichoOptions });
+  const { prospecs, setProspecs, carregando: carregandoProspecs, erro: erroProspecs } = useListarMinhasProspecs();
 
-//Memoriza as métricas para não recalcular toda renderização
-const metricas = useMemo(()=> calcularMetricas(empresas), [empresas]);
-// Top 4 nichos
+  //Memoriza as métricas para não recalcular toda renderização
+  const metricas = useMemo(() => calcularMetricas(empresas), [empresas]);
+  // Top 4 nichos
   const topNichos = useMemo(() => melhoresNichos(empresasPorNicho, 4), [empresasPorNicho]);
 
-  const handleEditarProspec = (prospec)=>{
+  const handleEditarProspec = (prospec) => {
     setProspecAtual(prospec);
     setOnModal(true);
   }
 
   const handleAtualizarProspec = (prospecAtualizada) => {
-  setProspecs((prev) =>
-    prev.map((item) =>
-      item._id === prospecAtualizada._id ? prospecAtualizada : item
-    )
-  );
-};
+    setProspecs((prev) =>
+      prev.map((item) =>
+        item._id === prospecAtualizada._id ? prospecAtualizada : item
+      )
+    );
+  };
 
-  const formatarData = (data)=>{
+  const formatarData = (data) => {
     const dataLegivel = format(new Date(data), "dd/MM/yyyy", { locale: ptBR });
     return dataLegivel
   }
-    
+
+  const formatarHora = (dataISO) =>{
+    if(!dataISO) return "";
+    try {
+      return format(new Date(dataISO), "HH:mm", { locale: ptBR });
+    } catch (error) {
+      return "";
+    }
+  }
+
   return (
     <div className='main-dashboard'>
-      <ModalEditarProspec 
-      onModal={onModal}
-      setOnModal={setOnModal}
-      prospec={prospecAtual}
-      onAtualizarProspec={handleAtualizarProspec}
+      <ModalEditarProspec
+        onModal={onModal}
+        setOnModal={setOnModal}
+        prospec={prospecAtual}
+        onAtualizarProspec={handleAtualizarProspec}
       />
       <h2>Empresas Prospectadas <IconEstado /></h2>
       <div className="container-card">
-      {carregandoProspecs ? (
-    <img src={loading} className='loading-top-nichos' alt="Carregando prospecções..." />
-  ) : erroProspecs ? (
-    <p>Erro ao carregar prospecções.</p>
-  ) : prospecs.length > 0 ? (
-    prospecs.map((prospec, index) => (
-      <div className='card-empresas-prospectadas' key={index}>              
-        <div className='card-prospec'>
-          <h4>Nome da Empresa: {prospec.nomeEmpresa}</h4>
-          <p>Resultado: {prospec.indicador}</p>
-          <p>Retorno Agendado: {prospec.retornoAgendado ? formatarData(prospec.retornoAgendado) : 'Sem Agendamento'}</p>
-          <h3>Telefone: {prospec.telefone} </h3>                                          
-          <p>
-            Qualificação:{' '}
-            {[...Array(5)].map((_, i) => (
-              <FaStar key={i} color={i < prospec.interesse ? "#FFD700" : "#DDD"} />
-            ))}
-          </p> 
-          <small>Obs: {prospec.observacao}</small>
-          <button onClick={()=>handleEditarProspec(prospec)}>Editar</button>
-          <button className='excluir-prospec'>Excluir</button>
-        </div>                           
-      </div>
-    ))
-  ) : (
-    'Sem Prospecções'
-  )}        
-  </div>
-        <div className="container">
-            <h2>Top + Nichos <IconFire/></h2>
-            <small>Aqui estão os quatro nichos mais aquecidos até o momento</small>
-            <div className='nichos'>
-              {carregando ? (<img src={loading} className='loading-top-nichos' />) : (
-                topNichos.map((item, index)=>(
-                <CardMetricas key={index} titulo={item.titulo} metricas={item.metricas}/>
-              ))
-              )}                         
-            </div>    
-            <div className='informacoes-gerais'>
-              <h3>Infos gerais <IconOlho /></h3>
-              <small>Aqui você encontra todas as informações mais importates das empresas cadastradas</small>
-              <div className='painel-infos-gerais'>
-                <CardInfoGeral
-                  titulo="Agendamentos x Retorno"
-                  labels={["Reuniões Agendadas", "Pedidos de Retorno"]}
-                  valores={[metricas.agendamentos, metricas.retorno]}
-                  total={metricas.totalEmpresas}
-                />
-                <CardInfoGeralCidades
-                  cidades={metricas.cidadesMaiorConcentracao} // top 3 cidades
-                  total={metricas.totalEmpresas}
-                />
-                <CardInfoGeralNichos
-                totalDeNichos={metricas.totalDeNichos}
-                top3Nichos={metricas.top3Nichos}
-                contagemPorTipo={metricas.contagemPorTipo}
-                />
-                <CardInfoGeralEstado
-                totalEstados={metricas.totalDeEstados}
-                top3Estados={metricas.top3Estados}
-                porcentagemPorEstado={metricas.porcentagemPorEstado}
-                />
-
-                <CardInfoGeralSites
-                presencaOnline={metricas.presencaOnline}
-                top3NichosComSite={metricas.top3NichosComSite}
-                />
-
-                <CardInfoGeralProspec 
-                totalEmpresas={metricas.totalEmpresas}
-                naoProspectadas={metricas.naoProspec}
-                semResposta={metricas.semResposta}
-                indefinidos={metricas.indefinidos}
-                semInteresse={metricas.semInteresse}
-                agendamentos={metricas.agendamentos}
-                />
-
+        {carregandoProspecs ? (
+          <img src={loading} className='loading-top-nichos' alt="Carregando prospecções..." />
+        ) : erroProspecs ? (
+          <p>Erro ao carregar prospecções.</p>
+        ) : prospecs.length > 0 ? (
+          prospecs.map((prospec, index) => (
+            <div className='card-empresas-prospectadas' key={index}>
+              <div className='card-prospec'>
+                <h4>Nome da Empresa: {prospec.nomeEmpresa}</h4>
+                <p>Resultado: {prospec.indicador}</p>
+                <p>Retorno Agendado: {prospec.retornoAgendado ? formatarData(prospec.retornoAgendado) : 'Sem Agendamento'}</p>
+                <p>Horário: Agendado: {prospec.dataTime ? formatarHora(prospec.dataTime) : ''}</p>
+                <h3>Telefone: {prospec.telefone} </h3>
+                <p>
+                  Qualificação:{' '}
+                  {[...Array(5)].map((_, i) => (
+                    <FaStar key={i} color={i < prospec.interesse ? "#FFD700" : "#DDD"} />
+                  ))}
+                </p>
+                <small>Obs: {prospec.observacao}</small>
+                <button onClick={() => handleEditarProspec(prospec)}>Editar</button>
+                <button className='excluir-prospec'>Excluir</button>
               </div>
             </div>
+          ))
+        ) : (
+          'Sem Prospecções'
+        )}
+      </div>
+      <div className="container">
+        <h2>Top + Nichos <IconFire /></h2>
+        <small>Aqui estão os quatro nichos mais aquecidos até o momento</small>
+        <div className='nichos'>
+          {carregando ? (<img src={loading} className='loading-top-nichos' />) : (
+            topNichos.map((item, index) => (
+              <CardMetricas key={index} titulo={item.titulo} metricas={item.metricas} />
+            ))
+          )}
         </div>
-        <div className="container">
-            <h2>Cidades <IconCidade /></h2>            
-            <CardCidades 
-            metricas={metricas}
+        <div className='informacoes-gerais'>
+          <h3>Infos gerais <IconOlho /></h3>
+          <small>Aqui você encontra todas as informações mais importates das empresas cadastradas</small>
+          <div className='painel-infos-gerais'>
+            <CardInfoGeral
+              titulo="Agendamentos x Retorno"
+              labels={["Reuniões Agendadas", "Pedidos de Retorno"]}
+              valores={[metricas.agendamentos, metricas.retorno]}
+              total={metricas.totalEmpresas}
             />
-        </div>        
+            <CardInfoGeralCidades
+              cidades={metricas.cidadesMaiorConcentracao} // top 3 cidades
+              total={metricas.totalEmpresas}
+            />
+            <CardInfoGeralNichos
+              totalDeNichos={metricas.totalDeNichos}
+              top3Nichos={metricas.top3Nichos}
+              contagemPorTipo={metricas.contagemPorTipo}
+            />
+            <CardInfoGeralEstado
+              totalEstados={metricas.totalDeEstados}
+              top3Estados={metricas.top3Estados}
+              porcentagemPorEstado={metricas.porcentagemPorEstado}
+            />
+
+            <CardInfoGeralSites
+              presencaOnline={metricas.presencaOnline}
+              top3NichosComSite={metricas.top3NichosComSite}
+            />
+
+            <CardInfoGeralProspec
+              totalEmpresas={metricas.totalEmpresas}
+              naoProspectadas={metricas.naoProspec}
+              semResposta={metricas.semResposta}
+              indefinidos={metricas.indefinidos}
+              semInteresse={metricas.semInteresse}
+              agendamentos={metricas.agendamentos}
+            />
+
+          </div>
+        </div>
+      </div>
+      <div className="container">
+        <h2>Cidades <IconCidade /></h2>
+        <CardCidades
+          metricas={metricas}
+        />
+      </div>
     </div>
   )
 }

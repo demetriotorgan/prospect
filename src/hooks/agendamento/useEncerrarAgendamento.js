@@ -4,9 +4,10 @@ import api from "../../util/api";
 export function useEncerrarAgendamento() {
   const [loadingIds, setLoadingIds] = useState([]);
 
-  const encerrarAgendamento = async (reuniao, valores) => {
+  const encerrarAgendamento = async (reuniao, valores) => {    
     const valoresAtuais = valores[reuniao._id] || {};
     const { resultado, texto, dataRetorno, horaRetorno, onRetorno } = valoresAtuais;
+    const empresaId = reuniao.empresaId;
 
     // Validação básica (mantendo compatibilidade)
     if (!resultado || !texto) {
@@ -17,7 +18,7 @@ export function useEncerrarAgendamento() {
     // Detecta se é remarcação ANTES de limpar resultado
     const deveRemarcar = onRetorno === true || resultado === "remarcar";
 
-    let payload = { resultado, texto };
+    let payload = { resultado, texto, empresaId };    
 
     if (deveRemarcar) {
       if (!dataRetorno || !horaRetorno) {

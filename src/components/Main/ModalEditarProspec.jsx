@@ -3,7 +3,7 @@ import { format } from "date-fns";
 import { ptBR } from "date-fns/locale";
 import './ModalEditarProspec.css';
 import api from '../../util/api';
-import useSalvarAgendamento from '../../hooks/agendamento/useSalvarAgendamento'
+
 
 const ModalEditarProspec = ({ onModal, setOnModal, prospec, onAtualizarProspec  }) => {
   const [notaAtual, setNotaAtual] = useState(prospec?.interesse || 0);
@@ -13,9 +13,7 @@ const ModalEditarProspec = ({ onModal, setOnModal, prospec, onAtualizarProspec  
   const [hora, setHora] = useState('');
   const [funil, setFunil] = useState('topo');
   const [onAgendou, setOnAgendou] = useState(false);
-  const [loading, setLoading] = useState(false);
-  
-  const {salvarAgendamento} = useSalvarAgendamento();
+  const [loading, setLoading] = useState(false); 
 
   const handleNota = (nota) => setNotaAtual(nota);
 
@@ -46,31 +44,78 @@ const ModalEditarProspec = ({ onModal, setOnModal, prospec, onAtualizarProspec  
 
     const handleSalvar = async() =>{
         try {
-            setLoading(true);
+    setLoading(true);
+
+    let retornoAgendado = "";
+let dataTime = "";
+
+if (onAgendou && data && hora) {
+  const [ano, mes, dia] = data.split("-");
+  const [h, m] = hora.split(":");
+
+  // Cria Date local em SP
+  const dateLocal = new Date(
+    Number(ano),
+    Number(mes) - 1,
+    Number(dia),
+    Number(h),
+    Number(m),
+    0,
+    0
+  );
+
+  // Converte para UTC mantendo a hora correta em SP
+  const dateUTC = new Date(
+    dateLocal.toLocaleString("en-US", { timeZone: "America/Sao_Paulo" })
+  );
+
+  retornoAgendado = dateUTC.toISOString();
+  dataTime = dateUTC.toISOString();
+}
+
+    if(retornoAgendado && dataTime){
+      const confirmar = window.confirm(
+        "⚠️ Você definiu data e hora de retorno.\nUm novo agendamento será criado. Deseja continuar?"
+      );
+      if(!confirmar){
+        setLoading(false);
+        return;
+      }
+    }else if (!retornoAgendado && !dataTime){
+ const confirmar = window.confirm(
+        "⚠️ Nenhuma data e hora de retorno foram definidas.\nO agendamento existente para esta empresa será removido. Deseja continuar?"
+      );
+      if (!confirmar) {
+        setLoading(false);
+        return;
+      }
+    }
         const payload = {
         empresaId: prospec.empresaId,
         indicador: resultado,
         observacao,
         interesse: notaAtual,
         funil,
-        retornoAgendado: onAgendou && data && hora ? `${data}T${hora}:00.000Z` : "",
-        dataTime: onAgendou && hora ? `${data}T${hora}:00.000Z` : ""
+        retornoAgendado, 
+        dataTime
       };
 
     console.log('📦 Payload enviado:', payload);
     const response = await api.put(`atualizar-prospec/${prospec._id}`, payload);
-     console.log('✅ Atualização concluída:', response.data);
+     //console.log('✅ Atualização concluída:', response.data);
       alert('Prospecção atualizada com sucesso!');
-        if (onAtualizarProspec) {
+    
+      if (onAtualizarProspec) {
         onAtualizarProspec(response.data.prospecAtualizada);
       }      
       setOnModal(false);
+
       } catch (error) {
         console.error('❌ Erro ao atualizar prospecção:', error);
       alert('Erro ao salvar. Verifique o console.');
-        }finally{
+      }finally{
              setLoading(false);
-        }
+      }
     }
 
   if (!onModal) return null;

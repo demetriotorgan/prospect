@@ -1,8 +1,6 @@
 import React, { useEffect, useState } from 'react';
-import { format } from "date-fns";
-import { ptBR } from "date-fns/locale";
 import './ModalEditarProspec.css';
-import api from '../../util/api';
+import useSalvarProspec from '../../hooks/useEditarProspec';
 
 
 const ModalEditarProspec = ({ onModal, setOnModal, prospec, onAtualizarProspec  }) => {
@@ -13,10 +11,10 @@ const ModalEditarProspec = ({ onModal, setOnModal, prospec, onAtualizarProspec  
   const [hora, setHora] = useState('');
   const [funil, setFunil] = useState('topo');
   const [onAgendou, setOnAgendou] = useState(false);
-  const [loading, setLoading] = useState(false); 
-
-  const handleNota = (nota) => setNotaAtual(nota);
-
+  
+//hook's
+ const { handleSalvar, loading } = useSalvarProspec({ prospec, onAtualizarProspec, setOnModal });
+  
    const handleResultadoChange = (valor) => {
     setResultado(valor);
     setOnAgendou(valor === "ligou-agendou-reuniao");
@@ -40,83 +38,7 @@ const ModalEditarProspec = ({ onModal, setOnModal, prospec, onAtualizarProspec  
     const horaFormatada = dataHora.toISOString().slice(11, 16); // HH:mm
     setHora(horaFormatada);            
     }
-  }, [prospec]);
-
-    const handleSalvar = async() =>{
-        try {
-    setLoading(true);
-
-    let retornoAgendado = "";
-let dataTime = "";
-
-if (onAgendou && data && hora) {
-  const [ano, mes, dia] = data.split("-");
-  const [h, m] = hora.split(":");
-
-  // Cria Date local em SP
-  const dateLocal = new Date(
-    Number(ano),
-    Number(mes) - 1,
-    Number(dia),
-    Number(h),
-    Number(m),
-    0,
-    0
-  );
-
-  // Converte para UTC mantendo a hora correta em SP
-  const dateUTC = new Date(
-    dateLocal.toLocaleString("en-US", { timeZone: "America/Sao_Paulo" })
-  );
-
-  retornoAgendado = dateUTC.toISOString();
-  dataTime = dateUTC.toISOString();
-}
-
-    if(retornoAgendado && dataTime){
-      const confirmar = window.confirm(
-        "⚠️ Você definiu data e hora de retorno.\nUm novo agendamento será criado. Deseja continuar?"
-      );
-      if(!confirmar){
-        setLoading(false);
-        return;
-      }
-    }else if (!retornoAgendado && !dataTime){
- const confirmar = window.confirm(
-        "⚠️ Nenhuma data e hora de retorno foram definidas.\nO agendamento existente para esta empresa será removido. Deseja continuar?"
-      );
-      if (!confirmar) {
-        setLoading(false);
-        return;
-      }
-    }
-        const payload = {
-        empresaId: prospec.empresaId,
-        indicador: resultado,
-        observacao,
-        interesse: notaAtual,
-        funil,
-        retornoAgendado, 
-        dataTime
-      };
-
-    console.log('📦 Payload enviado:', payload);
-    const response = await api.put(`atualizar-prospec/${prospec._id}`, payload);
-     //console.log('✅ Atualização concluída:', response.data);
-      alert('Prospecção atualizada com sucesso!');
-    
-      if (onAtualizarProspec) {
-        onAtualizarProspec(response.data.prospecAtualizada);
-      }      
-      setOnModal(false);
-
-      } catch (error) {
-        console.error('❌ Erro ao atualizar prospecção:', error);
-      alert('Erro ao salvar. Verifique o console.');
-      }finally{
-             setLoading(false);
-      }
-    }
+  }, [prospec]);    
 
   if (!onModal) return null;
 
@@ -155,7 +77,7 @@ if (onAgendou && data && hora) {
             <button
               type="button"
               key={nota}
-              onClick={() => handleNota(nota)}
+              onClick={() => setNotaAtual(nota)}
               className={`nota-button ${notaAtual === nota ? 'selected' : ''}`}
             >
               {nota}
@@ -163,6 +85,7 @@ if (onAgendou && data && hora) {
           ))}
         </div>
         </label>
+
         {onAgendou ? 
         <div>
         <label>
@@ -195,7 +118,11 @@ if (onAgendou && data && hora) {
         </select>
         </label>
 
-        <button className="btn-salvar" onClick={handleSalvar} disabled={loading}>Salvar</button>
+        <button className="btn-salvar" 
+        onClick={()=>handleSalvar({ resultado, observacao, notaAtual, funil, data, hora, onAgendou })} 
+        disabled={loading}>
+          Salvar
+        </button>
         <button className="btn-fechar" onClick={() => setOnModal(false)}>
           Fechar
         </button>

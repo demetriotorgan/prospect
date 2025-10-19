@@ -17,21 +17,20 @@ import loading from '../../assets/loading.gif'
 import CardCidades from './CardCidades'
 import useListarMinhasProspecs from '../../hooks/useListarMinhasProspecs'
 import ModalEditarProspec from './ModalEditarProspec'
-import { format } from "date-fns";
-import { ptBR } from "date-fns/locale";
 import CardAgendamentoResultado from './CardAgendamentoResultado'
 import CardProspecs from './CardProspecs'
+import useTodosAgendamentos from '../../hooks/agendamento/useTodosAgendamentos'
 
 const Main = () => {
   const [onModal, setOnModal] = useState(false);
-  const [prospecAtual, setProspecAtual] = useState({});
-  const [dataFormatada, setDataFormatada] = useState('');
-  const [listaProspecs, setListaProspecs] = useState([]);
+  const [prospecAtual, setProspecAtual] = useState({});  
+
   //hook's
   const { nichoOptions } = useCarregarNichos();
   const { empresas, carregando, erro } = useCarregarEmpresas();
   const { empresasPorNicho } = useEmpresasPorNicho({ nichoOptions });
   const { prospecs, setProspecs, carregando: carregandoProspecs, erro: erroProspecs } = useListarMinhasProspecs();
+  const {todosAgendamentos, carregandoTodosAgendamentos,} = useTodosAgendamentos();
 
   //Memoriza as métricas para não recalcular toda renderização
   const metricas = useMemo(() => calcularMetricas(empresas), [empresas]);
@@ -51,6 +50,8 @@ const Main = () => {
     );
   };
 
+
+
   return (
     <div className='main-dashboard'>
       <ModalEditarProspec
@@ -60,9 +61,25 @@ const Main = () => {
         onAtualizarProspec={handleAtualizarProspec}
       />
       <h2>Resultados de Agendamentos: <IconAgenda /></h2>
-      <div className='container-card'>
-        <CardAgendamentoResultado />
-      </div>
+      <div className="container-card">
+  {carregandoTodosAgendamentos ? (    
+    <img
+      src={loading}
+      className="loading-top-nichos"
+      alt="Carregando agendamentos"
+    />
+  ) : todosAgendamentos.length > 0 ? (    
+    todosAgendamentos.map((ag, index) => (
+      <CardAgendamentoResultado
+        key={ag._id || index}
+        agendamento={ag}
+      />
+    ))
+  ) : (    
+    <p>Sem Agendamentos</p>
+  )}
+</div>
+
       <h2>Empresas Prospectadas <IconEstado /></h2>
       <div className="container-card">
         {carregandoProspecs ? (

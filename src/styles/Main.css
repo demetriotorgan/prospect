@@ -262,6 +262,100 @@
   background: #c0392b;
 }
 
+/* -------Card Resultados de Agendamentos------ */
+.card-agendamento-resultado {
+  background: #ffffff;
+  border-radius: 16px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+  padding: 1.5em 2em;
+  margin: 1em auto;
+  max-width: 300px;
+  transition: all 0.3s ease;
+  font-family: "Inter", sans-serif;
+}
+
+.card-agendamento-resultado:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 6px 16px rgba(24, 119, 242, 0.25);
+}
+
+/* Título */
+.card-agendamento-resultado h4 {
+  color: var(--accent-clr);
+  font-size: 1.3rem;
+  font-weight: 700;
+  margin-bottom: 0.6em;
+  border-bottom: 2px solid #e3f0ff;
+  padding-bottom: 0.3em;
+}
+
+/* Estrutura visual */
+.card-agendamento-resultado p {
+  color: #333;
+  font-size: 1rem;
+  margin: 0.4em 0;
+  line-height: 1.5;
+}
+
+/* Seção de destaque visual */
+.card-agendamento-resultado p strong {
+  color: var(--accent-clr);
+}
+
+/* --- Qualificação com estrelas --- */
+.card-agendamento-resultado .qualificacao {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  margin-top: 4px;
+}
+
+.card-agendamento-resultado .qualificacao .estrela {
+  font-size: 1.3rem;
+  transition: transform 0.2s ease;
+}
+
+.card-agendamento-resultado .qualificacao .estrela:hover {
+  transform: scale(1.2);
+}
+
+/* --- Divisão de seções --- */
+.card-agendamento-resultado .secao-info {
+  background-color: #f9faff;
+  border: 1px solid #e5ecf8;
+  border-radius: 12px;
+  padding: 0.8em 1em;
+  margin-top: 0.8em;
+}
+
+.card-agendamento-resultado .secao-info p {
+  margin: 0.3em 0;
+  font-size: 0.95rem;
+}
+
+/* --- Resultado destacado --- */
+.card-agendamento-resultado .resultado {
+  background: linear-gradient(90deg, var(--accent-clr) 0%, #57f374 100%);
+  color: white;
+  font-weight: bold;
+  border-radius: 8px;
+  padding: 0.6em 1em;
+  margin-top: 1em;
+  text-align: center;
+  letter-spacing: 0.5px;
+}
+
+/* --- Anotações ou observações --- */
+.card-agendamento-resultado .obs {
+  font-style: italic;
+  color: #555;
+  background-color: #f6f8ff;
+  padding: 0.5em 0.8em;
+  border-left: 4px solid var(--accent-clr);
+  border-radius: 6px;
+  margin-top: 0.8em;
+}
+
 
 /* --------MEDIA------- */
 

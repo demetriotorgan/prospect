@@ -18,7 +18,10 @@ export default function useListarMinhasProspecs() {
         const minhasProspecs = todasProspecs.filter(
           (item) => item.usuarioId === user._id
         );
-        setProspecs(minhasProspecs);
+        const prospecAbertas = minhasProspecs.filter(
+          (item) => item.resultado === ""
+        );
+        setProspecs(prospecAbertas);
       } catch (error) {
         console.error('Erro ao carregar prospecções', error);
         setErro(error);
